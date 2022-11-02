@@ -11,13 +11,12 @@
 		3F15BCC729096F2500351530 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F15BCC629096F2500351530 /* ContentView.swift */; };
 		3F15BCC929096F2600351530 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F15BCC829096F2600351530 /* Assets.xcassets */; };
 		3F15BCCC29096F2600351530 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F15BCCB29096F2600351530 /* Preview Assets.xcassets */; };
+		B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */; };
 		B28AF16029121A5C004BC481 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF15F29121A5C004BC481 /* CustomTabBar.swift */; };
-		B28AF16229122552004BC481 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF16129122552004BC481 /* NotificationView.swift */; };
 		B28AF16429122573004BC481 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF16329122573004BC481 /* TaskView.swift */; };
 		B28AF16629122665004BC481 /* TabCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF16529122665004BC481 /* TabCurve.swift */; };
 		B297E6FF2911514900248982 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297E6FE2911514900248982 /* BoardView.swift */; };
 		B297E701291154F600248982 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297E700291154F600248982 /* ProfileView.swift */; };
-		B2C5EC662909712200672E71 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC652909712200672E71 /* Login.swift */; };
 		B2C5EC662909712200672E71 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC652909712200672E71 /* LoginView.swift */; };
 		B2C5EC682909713600672E71 /* Signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC672909713600672E71 /* Signup.swift */; };
 /* End PBXBuildFile section */
@@ -28,13 +27,12 @@
 		3F15BCC629096F2500351530 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3F15BCC829096F2600351530 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F15BCCB29096F2600351530 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B28AF15F29121A5C004BC481 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
-		B28AF16129122552004BC481 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B28AF16329122573004BC481 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		B28AF16529122665004BC481 /* TabCurve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCurve.swift; sourceTree = "<group>"; };
 		B297E6FE2911514900248982 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		B297E700291154F600248982 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		B2C5EC652909712200672E71 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		B2C5EC652909712200672E71 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B2C5EC672909713600672E71 /* Signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,13 +69,12 @@
 			children = (
 				B28AF16729124812004BC481 /* unuse */,
 				B28AF16529122665004BC481 /* TabCurve.swift */,
+				B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */,
 				B28AF16329122573004BC481 /* TaskView.swift */,
-				B28AF16129122552004BC481 /* NotificationView.swift */,
 				3F15BCC429096F2500351530 /* Thesis_ConnexApp.swift */,
 				3F15BCC629096F2500351530 /* ContentView.swift */,
 				B297E700291154F600248982 /* ProfileView.swift */,
 				B297E6FE2911514900248982 /* BoardView.swift */,
-				B2C5EC652909712200672E71 /* Login.swift */,
 				B2C5EC652909712200672E71 /* LoginView.swift */,
 				B2C5EC672909713600672E71 /* Signup.swift */,
 				3F15BCC829096F2600351530 /* Assets.xcassets */,
@@ -173,11 +170,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B28AF16429122573004BC481 /* TaskView.swift in Sources */,
-				B2C5EC662909712200672E71 /* Login.swift in Sources */,
 				B2C5EC662909712200672E71 /* LoginView.swift in Sources */,
+				B2C5EC662909712200672E71 /* LoginView.swift in Sources */,
+				B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */,
 				B2C5EC682909713600672E71 /* Signup.swift in Sources */,
 				B28AF16029121A5C004BC481 /* CustomTabBar.swift in Sources */,
-				B28AF16229122552004BC481 /* NotificationView.swift in Sources */,
 				B297E6FF2911514900248982 /* BoardView.swift in Sources */,
 				3F15BCC729096F2500351530 /* ContentView.swift in Sources */,
 				B297E701291154F600248982 /* ProfileView.swift in Sources */,
