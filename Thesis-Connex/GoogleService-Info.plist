@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>346766265339-sdd76u378fre6ql456c3l3g0ohlqgik7.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.346766265339-sdd76u378fre6ql456c3l3g0ohlqgik7</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCbGbw6mn_dyNHAxORe2hPuOXo88P3i0D8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>346766265339</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.sdhasjim.Thesis-Connex</string>
+	<key>PROJECT_ID</key>
+	<string>thesis-connex</string>
+	<key>STORAGE_BUCKET</key>
+	<string>thesis-connex.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:346766265339:ios:a7c480ba555faec9ab195e</string>
+</dict>
+</plist>
