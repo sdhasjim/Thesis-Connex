@@ -7,11 +7,41 @@
 
 import SwiftUI
 
+
+struct NetworkConnection: View{
+    @ObservedObject var monitor = NetworkMonitorConnex()
+    @State private var showAlertSheet = false
+    
+    var body: some View{
+        ZStack{
+            Color("green_tone").ignoresSafeArea()
+            VStack{
+                Image("inet2")
+                
+                Button(action: {self.showAlertSheet = true}) {
+                    Image("inet_button")
+                        .frame(width: 115, height: 150)
+                }.offset(y: -30)
+            }
+            .alert(isPresented: $showAlertSheet, content: {
+                if monitor.isConnected{
+                    return Alert(title: Text("Success!"), message: Text("The network request was successful"), dismissButton: .default(Text("Ok")))
+                }
+                return Alert(title: Text("No Internet Connection!"), message: Text("Please Enable Wifi or Celular Data"), dismissButton: .default(Text("Cancel")))
+            })
+        }
+    }
+}
+
+
+
 struct BoardView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var searchText = ""
     @State var selectedTab = "board"
+    @ObservedObject var monitor = NetworkMonitorConnex()
+    @State private var showAlertSheet = false
     
     var mainNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -36,37 +66,42 @@ struct BoardView: View {
         NavigationView{
             ZStack(alignment: .bottom, content: {
                 Color("yellow_tone").ignoresSafeArea()
-                VStack{
-                    Text("\(searchText)")
-                        .searchable(text: $searchText)
-                        .navigationBarBackButtonHidden(true)
-                        .navigationBarItems(leading: mainNavBar)
-                    ScrollView(){
-                        VStack{
-                            NavigationLink(destination: ProfileView(), label: {
-                                ZStack{
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .foregroundColor(.white)
-                                        .shadow(radius: 1.5)
-                                        .frame(width: 350, height: 150)
-                                        .foregroundColor(.black)
-                                    VStack{
-                                        Text("Board 1")
-                                            .font(.system(size: 15, weight: .bold))
-                                            .frame(width: 300, height: 0, alignment: .leading)
-                                        Text("The board's key purpose “is to ensure the company's prosperity by collectively directing the company's affairs” ")
-                                            .font(.system(size: 15, weight: .light))
-                                            .multilineTextAlignment(.leading)
-                                            .frame(width: 300, height: 80, alignment: .leading)
+                
+                if monitor.isConnected{
+                    VStack{
+                        Text("\(searchText)")
+                            .searchable(text: $searchText)
+                            .navigationBarBackButtonHidden(true)
+                            .navigationBarItems(leading: mainNavBar)
+                        ScrollView(){
+                            VStack{
+                                NavigationLink(destination: InsideBoardView(), label: {
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .foregroundColor(.white)
+                                            .shadow(radius: 1.5)
+                                            .frame(width: 350, height: 150)
+                                            .foregroundColor(.black)
+                                        VStack{
+                                            Text("Board 1")
+                                                .font(.system(size: 15, weight: .bold))
+                                                .frame(width: 300, height: 0, alignment: .leading)
+                                            Text("The board's key purpose “is to ensure the company's prosperity by collectively directing the company's affairs” ")
+                                                .font(.system(size: 15, weight: .light))
+                                                .multilineTextAlignment(.leading)
+                                                .frame(width: 300, height: 80, alignment: .leading)
+                                        }
                                     }
-                                }
-                            })
-                            .frame(width: 450, height: 170)
-                            .foregroundColor(.black)
+                                })
+                                .frame(width: 450, height: 170)
+                                .foregroundColor(.black)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 180)
                         }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 180)
                     }
+                }else{
+                    NetworkConnection()
                 }
                 
 //                CustomTabBar(selectedTab: $selectedTab)
