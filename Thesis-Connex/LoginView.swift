@@ -32,6 +32,7 @@ struct LoginView: View {
     @State var passwordValidator = ""
     @State var email = ""
     @State var password = ""
+    @State var shouldShowImagePicker = false
     
     var body: some View {
         NavigationView {
@@ -45,15 +46,28 @@ struct LoginView: View {
                             .tag(false)
                     }.pickerStyle(SegmentedPickerStyle())
                     
-//                    if !isLoginMode {
-//                        Button {
-//
-//                        } label: {
-//                            Image(systemName: "person.fill")
-//                                .font(.system(size: 64))
-//                                .padding()
-//                        }
-//                    }
+                    if !isLoginMode {
+                        Button {
+                            shouldShowImagePicker.toggle()
+                        } label: {
+                            VStack {
+                                if let image = self.image {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .frame(width: 128, height: 128)
+                                        .scaledToFill()
+                                        .cornerRadius(64)
+                                } else {
+                                    
+                                    Image(systemName: "person.fill")
+                                        .font(.system(size: 64))
+                                        .padding()
+                                        .foregroundColor(Color(.label))
+                                }
+                            }
+                            .overlay(RoundedRectangle(cornerRadius: 64).stroke(Color.black, lineWidth: 3))
+                        }
+                    }
                     
                     Group {
                         if isLoginMode {
@@ -106,7 +120,13 @@ struct LoginView: View {
             .background(Color("yellow_tone")
                 .ignoresSafeArea())
         }
+        
+        .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil) {
+            ImagePicker(image: $image)
+        }
     }
+    
+    @State var image: UIImage?
     
     private func handleAction() {
         if isLoginMode {
