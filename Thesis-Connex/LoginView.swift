@@ -8,11 +8,13 @@
 import SwiftUI
 import Firebase
 import FirebaseStorage
+import FirebaseFirestore
 
 class FirebaseManager: NSObject {
     
     let auth: Auth
     let storage: Storage
+    let firestore: Firestore
     
     static let shared = FirebaseManager()
     
@@ -21,6 +23,7 @@ class FirebaseManager: NSObject {
         
         self.auth = Auth.auth()
         self.storage = Storage.storage()
+        self.firestore = Firestore.firestore()
         
         super.init()
     }
@@ -80,15 +83,11 @@ struct LoginView: View {
 
                             SecureInputView("Password", text: $password)
                         } else {
-                            TextField("Name", text: $createName)
-                                .autocapitalization(.none)
-                            
                             TextField("Email", text: $createEmail)
                                 .keyboardType(.emailAddress)
                                 .autocapitalization(.none)
 
                             SecureField("Password", text: $createPassword)
-                            SecureField("Confirm Password", text: $passwordValidator)
                         }
 
                         
@@ -135,7 +134,11 @@ struct LoginView: View {
         if isLoginMode {
             loginUser()
         } else {
-            createNewAccount()
+            if image == nil {
+                self.loginStatusMessage = "Image is empty"
+            } else {
+                createNewAccount()
+            }
         }
     }
     
@@ -192,12 +195,34 @@ struct LoginView: View {
                 self.loginStatusMessage = "Successfully stored image with url: \(url?.absoluteString ?? "")"
                 print(url?.absoluteString)
                 
+                guard let url = url else { return }
+                self.storeUserInformation(imageProfileUrl: url)
 
             }
         }
         
     }
     
+    private func storeUserInformation(imageProfileUrl: URL) {
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        let email = self.createEmail
+        let index = email.firstIndex(of: "@") ?? email.endIndex
+        let username = email[..<index]
+
+        let usernameUser = String(username)
+        
+        let userData = ["email": self.createEmail, "username": usernameUser, "uid": uid, "profileImageUrl": imageProfileUrl.absoluteString]
+        FirebaseManager.shared.firestore.collection("users")
+            .document(uid).setData(userData) { err in
+                if let err = err {
+                    print(err)
+                    self.loginStatusMessage = "\(err)"
+                    return
+                }
+                
+                print("Success")
+            }
+    }
     
 }
 
