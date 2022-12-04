@@ -15,6 +15,7 @@
 		3F15BCC929096F2600351530 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F15BCC829096F2600351530 /* Assets.xcassets */; };
 		3F15BCCC29096F2600351530 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F15BCCB29096F2600351530 /* Preview Assets.xcassets */; };
 		3F6EA25E292CE72000AE4007 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EA25D292CE72000AE4007 /* ImagePicker.swift */; };
+		3F7610D3293CE4ED00665A75 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7610D2293CE4ED00665A75 /* FirebaseManager.swift */; };
 		3F9EFB4529195E0600E8DF17 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F9EFB4429195E0600E8DF17 /* GoogleService-Info.plist */; };
 		B20C90B6291A509E0037B929 /* NetworkMonitorConnex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */; };
 		B20C90B8291A52C00037B929 /* InsideBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B7291A52C00037B929 /* InsideBoardView.swift */; };
@@ -35,6 +36,7 @@
 		3F15BCC829096F2600351530 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F15BCCB29096F2600351530 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3F6EA25D292CE72000AE4007 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		3F7610D2293CE4ED00665A75 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		3F9EFB4429195E0600E8DF17 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorConnex.swift; sourceTree = "<group>"; };
 		B20C90B7291A52C00037B929 /* InsideBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsideBoardView.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		3F15BCC329096F2500351530 /* Thesis-Connex */ = {
 			isa = PBXGroup;
 			children = (
+				3F7610D1293CE4DA00665A75 /* Utils */,
 				B20C90B2291A4F4A0037B929 /* Network */,
 				B28AF16729124812004BC481 /* unuse */,
 				B28AF16529122665004BC481 /* TabCurve.swift */,
@@ -107,6 +110,14 @@
 				3F15BCCB29096F2600351530 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3F7610D1293CE4DA00665A75 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3F7610D2293CE4ED00665A75 /* FirebaseManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		B20C90B2291A4F4A0037B929 /* Network */ = {
@@ -216,6 +227,7 @@
 				3F15BCC729096F2500351530 /* ContentView.swift in Sources */,
 				B297E701291154F600248982 /* ProfileView.swift in Sources */,
 				B20C90B6291A509E0037B929 /* NetworkMonitorConnex.swift in Sources */,
+				3F7610D3293CE4ED00665A75 /* FirebaseManager.swift in Sources */,
 				3F15BCC529096F2500351530 /* Thesis_ConnexApp.swift in Sources */,
 				B28AF16629122665004BC481 /* TabCurve.swift in Sources */,
 			);
