@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var selectedTab = "profile"
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     var body: some View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
@@ -16,7 +18,9 @@ struct ProfileView: View {
                 Text("hai hola amigo")
             }
 //            CustomTabBar(selectedTab: $selectedTab)
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .preferredColorScheme(.light)
     }
 }
 

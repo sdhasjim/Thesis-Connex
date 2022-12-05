@@ -21,6 +21,8 @@
 		B297E701291154F600248982 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297E700291154F600248982 /* ProfileView.swift */; };
 		B2C5EC662909712200672E71 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC652909712200672E71 /* LoginView.swift */; };
 		B2C5EC682909713600672E71 /* Signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC672909713600672E71 /* Signup.swift */; };
+		B2D8CDBC293DDE4900C5F459 /* ProjectModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2D8CDBB293DDE4900C5F459 /* ProjectModelView.swift */; };
+		B2FCCEF9293A002E007D221C /* NewProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FCCEF8293A002E007D221C /* NewProject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		B297E700291154F600248982 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		B2C5EC652909712200672E71 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B2C5EC672909713600672E71 /* Signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup.swift; sourceTree = "<group>"; };
+		B2D8CDBB293DDE4900C5F459 /* ProjectModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModelView.swift; sourceTree = "<group>"; };
+		B2FCCEF8293A002E007D221C /* NewProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 				B20C90B7291A52C00037B929 /* InsideBoardView.swift */,
 				B2C5EC652909712200672E71 /* LoginView.swift */,
 				B2C5EC672909713600672E71 /* Signup.swift */,
+				B2FCCEF8293A002E007D221C /* NewProject.swift */,
+				B2D8CDBB293DDE4900C5F459 /* ProjectModelView.swift */,
 				3F15BCC829096F2600351530 /* Assets.xcassets */,
 				3F15BCCA29096F2600351530 /* Preview Content */,
 			);
@@ -185,6 +191,7 @@
 			files = (
 				B28AF16429122573004BC481 /* TaskView.swift in Sources */,
 				B2C5EC662909712200672E71 /* LoginView.swift in Sources */,
+				B2FCCEF9293A002E007D221C /* NewProject.swift in Sources */,
 				B2C5EC662909712200672E71 /* LoginView.swift in Sources */,
 				B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */,
 				B2C5EC682909713600672E71 /* Signup.swift in Sources */,
@@ -192,6 +199,7 @@
 				B297E6FF2911514900248982 /* BoardView.swift in Sources */,
 				B20C90B8291A52C00037B929 /* InsideBoardView.swift in Sources */,
 				3F15BCC729096F2500351530 /* ContentView.swift in Sources */,
+				B2D8CDBC293DDE4900C5F459 /* ProjectModelView.swift in Sources */,
 				B297E701291154F600248982 /* ProfileView.swift in Sources */,
 				B20C90B6291A509E0037B929 /* NetworkMonitorConnex.swift in Sources */,
 				3F15BCC529096F2500351530 /* Thesis_ConnexApp.swift in Sources */,
@@ -324,7 +332,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Thesis-Connex/Preview Content\"";
-				DEVELOPMENT_TEAM = 757ZMHMM6D;
+				DEVELOPMENT_TEAM = QUPYT94598;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -337,7 +345,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "sdhasjim.Thesis-Connex";
+				PRODUCT_BUNDLE_IDENTIFIER = "jlauw.Thesis-Connex";
 				PRODUCT_NAME = Connex;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -353,7 +361,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Thesis-Connex/Preview Content\"";
-				DEVELOPMENT_TEAM = 757ZMHMM6D;
+				DEVELOPMENT_TEAM = QUPYT94598;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -366,7 +374,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "sdhasjim.Thesis-Connex";
+				PRODUCT_BUNDLE_IDENTIFIER = "jlauw.Thesis-Connex";
 				PRODUCT_NAME = Connex;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -13,7 +13,7 @@ struct NotificationView: View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             VStack{
-                Text("task")
+                Text("notif")
             }
         }
     }
