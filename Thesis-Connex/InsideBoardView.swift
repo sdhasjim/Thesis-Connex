@@ -22,7 +22,7 @@ struct AppBar: View{
                 }) {
                     VStack(spacing: 8){
                         HStack(spacing: 12){
-                            Text("Todo")
+                            Text("To Do")
                                 .font(.system(size: 15, weight: .bold))
                                 .foregroundColor(self.index == 1 ? Color("brown_tone") : Color("brown_tone").opacity(0.7))
                         }
@@ -77,6 +77,7 @@ struct InsideBoardView: View {
     @State var selectedTab = "profile"
     @State var index = 1
     @State var offset: CGFloat = 0
+    @State var taskName = ""
     var width = UIScreen.main.bounds.width
 //    @State private var selectedSide: kanbanChoices = .done
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -99,23 +100,56 @@ struct InsideBoardView: View {
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(Color("brown_tone"))
                         .frame(alignment: .topLeading)
-                }.offset(x: 20)
-            }
+                    
+                    Button(action: {
+                        newTaskView()
+                    }, label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(Color("brown_tone"))
+                            .frame(width: 185, alignment: .trailing)
+                    })
+                }
             }
         }
+        
+    }
+    
+    func newTaskView(){
+        let alert = UIAlertController(title: "Create New Task", message: "Let's create your task name", preferredStyle: .alert)
+        
+        
+        alert.addTextField{(name) in
+            name.isSecureTextEntry = false
+            name.placeholder = "Task Name"
+        }
+        
+        let create = UIAlertAction(title: "Create", style: .default){(_) in
+            //do yiur own stuff
+            
+            //retrieving password
+            taskName = alert.textFields![0].text!
+        }
+        
+        let cancel = UIAlertAction(title: "cancel", style: .destructive){(_) in
+            //same
+        }
+        
+        //adding into alertview
+        alert.addAction(cancel)
+        
+        alert.addAction(create)
+        
+        //presenting alertView
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
+            //do your own
+        })
+    }
 
     var body: some View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             VStack{
-//                Picker("choose", selection: $selectedSide){
-//
-//                ForEach(kanbanChoices.allCases, id: \.self){
-//                    Text($0.rawValue)
-//                    }
-//                }.pickerStyle(SegmentedPickerStyle())
-//                    .frame(width: 320)
-//                    .offset(y: 20)
                 
                 AppBar(index: self.$index, offset: self.$offset).offset(y: -50)
                 
@@ -136,11 +170,11 @@ struct InsideBoardView: View {
                     .highPriorityGesture(DragGesture().onEnded({
                         (value) in
                         
-                        if value.translation.width > 20{
+                        if value.translation.width > 10{
                             print("left")
                             self.changeView(left: false)
                         }
-                        if -value.translation.width > 20{
+                        if -value.translation.width > 10{
                             print("right")
                             self.changeView(left: true)
                         }
@@ -170,7 +204,7 @@ struct InsideBoardView: View {
                 self.index += 1
             }
         }else{
-            if self.index != 0{
+            if self.index != 1{
                 self.index -= 1
             }
         }
@@ -180,64 +214,234 @@ struct InsideBoardView: View {
         }else if self.index == 2{
             self.offset = -self.width
         }else{
-            self.offset = -self.width-self.width
+            self.offset = (-self.width-self.width)
         }
     }
 }
 
-//enum kanbanChoices: String, CaseIterable{
-//    case todo = "To Do"
-//    case progress = "Progress"
-//    case done = "Done"
-//}
-//
-//struct ChoosenBoardView: View{
-//    var selectedSide: kanbanChoices
-//
-//    var body: some View{
-//        switch selectedSide{
-//            case .todo:
-//                TodoView()
-//
-//            case .progress:
-//                ProgressingView()
-//
-//            case .done:
-//                DoneView()
-//        }
-//    }
-//}
-
 struct TodoView: View{
-    
+    @State private var showModel = false
+    @State var customAlert = false
+    @State var HUD = false
+    @State var projectName = ""
     var body: some View{
-        ScrollView(){
-            VStack{
-                Text("asu koeaaaaaaagklagbabrjlbalrbglabgljbalgrbgljablrgbalgrajgagalgrbjagbrjlgalbrgaj;bkgkjabrgkjabjkbgkajbglabrgkbalkgrbakljbgrjkabgjkabgkjbakjbgjkabgjklabrgkjlbakjlbgjkabgjkabjrkgbkajlbgjkabgkjrbakjgkabgjklabrgjkbajkgbjkabgjkabgjkabgjkbajgkbalgbaasu koeaaaaaaagklagbabrjlbalrbglabgljbalgrbgljablrgbalgrajgagalgrbjagbrjlgalbrgaj;bkgkjabrgkjabjkbgkajbglabrgkbalkgrbakljbgrjkabgjkabgkjbakjbgjkabgjklabrgkjlbakjlbgjkabgjkabjrkgbkajlbgjkabgkjrbakjgkabgjklabrgjkbajkgbjkabgjkabgjkabgjkbajgkbalgbaasu koeaaaaaaagklagbabrjlbalrbglabgljbalgrbgljablrgbalgrajgagalgrbjagbrjlgalbrgaj;bkgkjabrgkjabjkbgkajbglabrgkbalkgrbakljbgrjkabgjkabgkjbakjbgjkabgjklabrgkjlbakjlbgjkabgjkabjrkgbkajlbgjkabgkjrbakjgkabgjklabrgjkbajkgbjkabgjkabgjkabgjkbajgkbalgbaasu koeaaaaaaagklagbabrjlbalrbglabgljbalgrbgljablrgbalgrajgagalgrbjagbrjlgalbrgaj;bkgkjabrgkjabjkbgkajbglabrgkbalkgrbakljbgrjkabgjkabgkjbakjbgjkabgjklabrgkjlbakjlbgjkabgjkabjrkgbkajlbgjkabgkjrbakjgkabgjklabrgjkbajkgbjkabgjkabgjkabgjkbajgkbalgbaasu koeaaaaaaagklagbabrjlbalrbglabgljbalgrbgljablrgbalgrajgagalgrbjagbrjlgalbrgaj;bkgkjabrgkjabjkbgkajbglabrgkbalkgrbakljbgrjkabgjkabgkjbakjbgjkabgjklabrgkjlbakjlbgjkabgjkabjrkgbkajlbgjkabgkjrbakjgkabgjklabrgjkbajkgbjkabgjkabgjkabgjkbajgkbalgba").multilineTextAlignment(.leading).frame(alignment: .leading)
-            }
-        }
+        ZStack{
+            RoundedRectangle(cornerRadius: 25)
+                .foregroundColor(.white)
+                .shadow(radius: 1.5)
+                .foregroundColor(.black)
+            ScrollView(){
+                VStack{
+                    Button(action: {
+                        editTaskView()
+                    }, label: {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 15)
+                                .foregroundColor(Color("red_tone"))
+                                .shadow(radius: 1.5)
+                            VStack{
+                                HStack{
+                                    Text("Make a prototype")
+                                        .font(.system(size: 18, weight: .bold))
+                                        .foregroundColor(.white)
+                                    
+                                    Button(action: {
+                                        showModel = true
+                                    }){
+                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
+                                            .foregroundColor(.white)
+                                    }.offset(x: 90)
+                                }
+                            }.frame(width: 280, height: 50, alignment: .topLeading)
+                            
+                            VStack{
+                                Text("Assigne: Annie")
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundColor(.white)
+                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                        }.frame(width: 300, height: 80)
+                    }).frame(width: 320, height: 520, alignment: .top)
+                }
+            }.frame(width: 320, height: 520)
+        }.frame(width: 340, height: 570).offset(y: -40)
     }
+    func editTaskView(){
+        let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
+        
+        let todo = UIAlertAction(title: "To Do", style: .default){(_) in
+            //do yiur own stuff
+            
+        }
+        
+        let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
+            //do yiur own stuff
+            
+        }
+        
+        let done = UIAlertAction(title: "Done", style: .default){(_) in
+            //do yiur own stuff
+            
+        }
+        
+        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
+            //same
+        }
+        
+        //adding into alertview
+        alert.addAction(todo)
+        alert.addAction(progressing)
+        alert.addAction(done)
+        alert.addAction(delete)
+        
+        //presenting alertView
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
+            //do your own
+        })
+    }
+    
 }
 
 struct ProgressingView: View{
-    
+    @State private var showModel = false
+    @State var customAlert = false
+    @State var HUD = false
+    @State var projectName = ""
     var body: some View{
-        ScrollView(){
-            VStack{
-                Text("asevenya")
-            }
+        ZStack{
+            RoundedRectangle(cornerRadius: 25)
+                .foregroundColor(.white)
+                .shadow(radius: 1.5)
+                .foregroundColor(.black)
+            ScrollView(){
+                VStack{
+                    Button(action: {
+                        editTaskView()
+                    }, label: {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 15)
+                                .foregroundColor(Color("progressing_tone"))
+                                .shadow(radius: 1.5)
+                            VStack{
+                                Text("Make a prototype")
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(.white)
+                            }.frame(width: 280, height: 50, alignment: .topLeading)
+                            
+                            VStack{
+                                Text("Assigne: Annie")
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundColor(.white)
+                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                        }.frame(width: 300, height: 80)
+                    }).frame(width: 320, height: 520, alignment: .top)
+                }
+            }.frame(width: 320, height: 520)
+        }.frame(width: 340, height: 570).offset(y: -40)
+    }
+    func editTaskView(){
+        let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
+        
+        let todo = UIAlertAction(title: "To Do", style: .default){(_) in
+            //do yiur own stuff
+            
         }
+        
+        let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
+            //do yiur own stuff
+            
+        }
+        
+        let done = UIAlertAction(title: "Done", style: .default){(_) in
+            //do yiur own stuff
+            
+        }
+        
+        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
+            //same
+        }
+        
+        //adding into alertview
+        alert.addAction(todo)
+        alert.addAction(progressing)
+        alert.addAction(done)
+        alert.addAction(delete)
+        
+        //presenting alertView
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
+            //do your own
+        })
     }
 }
 
 struct DoneView: View{
-    
+    @State private var showModel = false
+    @State var customAlert = false
+    @State var HUD = false
+    @State var projectName = ""
     var body: some View{
-        ScrollView(){
-            VStack{
-                Text("aidis ababa")
-            }
+        ZStack{
+            RoundedRectangle(cornerRadius: 25)
+                .foregroundColor(.white)
+                .shadow(radius: 1.5)
+                .foregroundColor(.black)
+            ScrollView(){
+                VStack{
+                    Button(action: {
+                        editTaskView()
+                    }, label: {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 15)
+                                .foregroundColor(Color("green_tone"))
+                                .shadow(radius: 1.5)
+                            VStack{
+                                Text("Make a prototype")
+                                    .font(.system(size: 18, weight: .regular))
+                                    .foregroundColor(.white)
+                            }.frame(width: 280, height: 50, alignment: .topLeading)
+                            
+                            VStack{
+                                Text("Assigne: Annie")
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundColor(.white)
+                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                        }.frame(width: 300, height: 80)
+                    }).frame(width: 320, height: 520, alignment: .top)
+                }
+            }.frame(width: 320, height: 520)
+        }.frame(width: 340, height: 570).offset(y: -40)
+    }
+    func editTaskView(){
+        let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
+        
+        let todo = UIAlertAction(title: "To Do", style: .default){(_) in
+            //do yiur own stuff
+            
         }
+        
+        let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
+            //do yiur own stuff
+            
+        }
+        
+        let done = UIAlertAction(title: "Done", style: .default){(_) in
+            //do yiur own stuff
+            
+        }
+        
+        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
+            //same
+        }
+        
+        //adding into alertview
+        alert.addAction(todo)
+        alert.addAction(progressing)
+        alert.addAction(done)
+        alert.addAction(delete)
+        
+        //presenting alertView
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
+            //do your own
+        })
     }
 }
 
