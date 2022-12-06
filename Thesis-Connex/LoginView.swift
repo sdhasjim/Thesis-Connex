@@ -12,13 +12,13 @@ import FirebaseFirestore
 
 struct LoginView: View {
     @State var isLoginMode = true
-    @State var createName = ""
     @State var createEmail = ""
     @State var createPassword = ""
-    @State var passwordValidator = ""
     @State var email = ""
     @State var password = ""
     @State var shouldShowImagePicker = false
+    
+    let didCompleteLoginProcess: () -> ()
     
     var body: some View {
         NavigationView {
@@ -115,7 +115,7 @@ struct LoginView: View {
             loginUser()
         } else {
             if image == nil {
-                self.loginStatusMessage = "Image is empty"
+                self.loginStatusMessage = "You must select an image"
             } else {
                 createNewAccount()
             }
@@ -133,6 +133,8 @@ struct LoginView: View {
             print("Successfully logged in as user: \(result?.user.uid ?? "")")
             
             self.loginStatusMessage = "Successfully logged in as user: \(result?.user.uid ?? "")"
+            
+            self.didCompleteLoginProcess()
         }
     }
     
@@ -201,6 +203,8 @@ struct LoginView: View {
                 }
                 
                 print("Success")
+                
+//                self.didCompleteLoginProcess()    
             }
     }
     
@@ -239,6 +243,8 @@ struct SecureInputView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(didCompleteLoginProcess: {
+            
+        })
     }
 }
