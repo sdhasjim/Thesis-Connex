@@ -245,12 +245,16 @@ struct TodoView: View{
                                         .font(.system(size: 18, weight: .bold))
                                         .foregroundColor(.white)
                                     
-                                    Button(action: {
-                                        showModel = true
-                                    }){
-                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-                                            .foregroundColor(.white)
-                                    }.offset(x: 90)
+                                    NavigationLink(destination: LoginView(), label: {
+                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
+                                    }).offset(x: 90)
+                                    
+//                                    Button(action: {
+//
+//                                    }){
+//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
+//                                            .foregroundColor(.white)
+//                                    }.offset(x: 90)
                                 }
                             }.frame(width: 280, height: 50, alignment: .topLeading)
                             
@@ -322,9 +326,22 @@ struct ProgressingView: View{
                                 .foregroundColor(Color("progressing_tone"))
                                 .shadow(radius: 1.5)
                             VStack{
-                                Text("Make a prototype")
-                                    .font(.system(size: 18, weight: .bold))
-                                    .foregroundColor(.white)
+                                HStack{
+                                    Text("Make a prototype")
+                                        .font(.system(size: 18, weight: .bold))
+                                        .foregroundColor(.white)
+                                    
+                                    NavigationLink(destination: LoginView(), label: {
+                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
+                                    }).offset(x: 90)
+                                    
+//                                    Button(action: {
+//
+//                                    }){
+//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
+//                                            .foregroundColor(.white)
+//                                    }.offset(x: 90)
+                                }
                             }.frame(width: 280, height: 50, alignment: .topLeading)
                             
                             VStack{
@@ -394,9 +411,22 @@ struct DoneView: View{
                                 .foregroundColor(Color("green_tone"))
                                 .shadow(radius: 1.5)
                             VStack{
-                                Text("Make a prototype")
-                                    .font(.system(size: 18, weight: .regular))
-                                    .foregroundColor(.white)
+                                HStack{
+                                    Text("Make a prototype")
+                                        .font(.system(size: 18, weight: .bold))
+                                        .foregroundColor(.white)
+                                    
+                                    NavigationLink(destination: LoginView(), label: {
+                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
+                                    }).offset(x: 90)
+                                    
+//                                    Button(action: {
+//
+//                                    }){
+//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
+//                                            .foregroundColor(.white)
+//                                    }.offset(x: 90)
+                                }
                             }.frame(width: 280, height: 50, alignment: .topLeading)
                             
                             VStack{
