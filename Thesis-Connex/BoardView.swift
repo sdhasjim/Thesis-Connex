@@ -127,7 +127,9 @@ struct BoardView: View {
                                                 .font(.system(size: 15, weight: .bold))
                                                 .frame(width: 300, height: 0, alignment: .leading)
                                             
-                                            NavigationLink(destination: LoginView(), label: {
+                                            NavigationLink(destination: LoginView(didCompleteLoginProcess: {
+                                                
+                                            }), label: {
                                                 Image(systemName: "square.and.pencil").font(.system(size: 20))
                                             }).offset(x: 140, y: -15)
                                             

@@ -245,7 +245,9 @@ struct TodoView: View{
                                         .font(.system(size: 18, weight: .bold))
                                         .foregroundColor(.white)
                                     
-                                    NavigationLink(destination: LoginView(), label: {
+                                    NavigationLink(destination: LoginView(didCompleteLoginProcess: {
+                                        
+                                    }), label: {
                                         Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
                                     }).offset(x: 90)
                                     
@@ -331,7 +333,9 @@ struct ProgressingView: View{
                                         .font(.system(size: 18, weight: .bold))
                                         .foregroundColor(.white)
                                     
-                                    NavigationLink(destination: LoginView(), label: {
+                                    NavigationLink(destination: LoginView(didCompleteLoginProcess: {
+                                        
+                                    }), label: {
                                         Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
                                     }).offset(x: 90)
                                     
@@ -416,7 +420,9 @@ struct DoneView: View{
                                         .font(.system(size: 18, weight: .bold))
                                         .foregroundColor(.white)
                                     
-                                    NavigationLink(destination: LoginView(), label: {
+                                    NavigationLink(destination: LoginView(didCompleteLoginProcess: {
+                                        
+                                    }), label: {
                                         Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
                                     }).offset(x: 90)
                                     
