@@ -60,6 +60,7 @@ struct WalkthroughScreen: View{
         
         //for slide animation
         
+        
         ZStack{
             
             //changing between views
