@@ -8,19 +8,19 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct UserProfile {
-    let uid, username, email, profileImageUrl: String
-}
-
 class profileViewModel: ObservableObject {
     @Published var errorMessage = ""
-    @Published var userProfile: UserProfile?
+    @Published var profileUser: ProfileUser?
     
     init() {
+        
+        DispatchQueue.main.async {
+            self.isCurrentlyLoggedOut = FirebaseManager.shared.auth.currentUser?.uid == nil
+        }
         fetchCurrentUser()
     }
     
-    private func fetchCurrentUser() {
+    func fetchCurrentUser() {
         
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {
             self.errorMessage = "Could not find firebase uid"
@@ -34,22 +34,20 @@ class profileViewModel: ObservableObject {
                 return
             }
             
-//            self.errorMessage = "123"
-            
             guard let data = snapshot?.data() else {
                 self.errorMessage = "No data found"
                 return
             }
             
-//            self.errorMessage = "Data: \(data.description)"
-            let uid = data["uid"] as? String ?? ""
-            let email = data["email"] as? String ?? ""
-            let profileImageUrl = data["profileImageUrl"] as? String ?? ""
-            let username = data["username"] as? String ?? ""
-            self.userProfile = UserProfile(uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
-            
-//            self.errorMessage = chatUser.profileImageUrl
+            self.profileUser = .init(data: data)
         }
+    }
+    
+    @Published var isCurrentlyLoggedOut = false
+    
+    func handleSignOut() {
+        isCurrentlyLoggedOut.toggle()
+        try? FirebaseManager.shared.auth.signOut()
     }
 
 }
@@ -82,13 +80,13 @@ struct ProfileView: View {
 //                                    .font(.system(size: 64))
 //                                    .padding()
 //                                    .foregroundColor(Color(.label))
-                                WebImage(url: URL(string: vm.userProfile?.profileImageUrl ?? ""))
+                                WebImage(url: URL(string: vm.profileUser?.profileImageUrl ?? ""))
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 100, height: 100)
                                     .clipped()
-                                    .cornerRadius(50)
-                                    .overlay(RoundedRectangle(cornerRadius: 44)
+                                    .cornerRadius(100)
+                                    .overlay(RoundedRectangle(cornerRadius: 100)
                                         .stroke(Color(.label), lineWidth: 1)
                                     )
                                     .shadow(radius: 5)
@@ -97,12 +95,12 @@ struct ProfileView: View {
                         }
                         .overlay(RoundedRectangle(cornerRadius: 64).stroke(Color.black, lineWidth: 3))
                     }
-                    Text(vm.userProfile?.username ?? "")
-                    Text(vm.userProfile?.email ?? "")
+                    Text(vm.profileUser?.username ?? "")
+                    Text(vm.profileUser?.email ?? "")
                 }
                 
                 Button {
-//                    handleAction()
+                    vm.handleSignOut()
                 } label: {
                     HStack {
                         Spacer()
@@ -124,9 +122,13 @@ struct ProfileView: View {
                 .ignoresSafeArea())
         }
         
-        .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil) {
-            ImagePicker(image: $image)
+        .fullScreenCover(isPresented: $vm.isCurrentlyLoggedOut, onDismiss: nil) {
+            LoginView(didCompleteLoginProcess: {
+                self.vm.isCurrentlyLoggedOut = false
+                self.vm.fetchCurrentUser()
+            })
         }
+
     }
 
 
