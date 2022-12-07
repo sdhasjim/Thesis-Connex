@@ -157,7 +157,6 @@ struct LoginView: View {
     }
     
     private func persistImageToStorage() {
-        //        let filename = UUID().uuidString
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid
         else { return }
         let ref = FirebaseManager.shared.storage.reference(withPath: uid)
@@ -175,7 +174,7 @@ struct LoginView: View {
                 }
                 
                 self.loginStatusMessage = "Successfully stored image with url: \(url?.absoluteString ?? "")"
-                print(url?.absoluteString)
+                print(url?.absoluteString ?? "")
                 
                 guard let url = url else { return }
                 self.storeUserInformation(imageProfileUrl: url)
@@ -203,8 +202,6 @@ struct LoginView: View {
                 }
                 
                 print("Success")
-                
-//                self.didCompleteLoginProcess()    
             }
     }
     

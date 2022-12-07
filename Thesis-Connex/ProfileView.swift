@@ -34,8 +34,6 @@ class profileViewModel: ObservableObject {
                 return
             }
             
-//            self.errorMessage = "123"
-            
             guard let data = snapshot?.data() else {
                 self.errorMessage = "No data found"
                 return
