@@ -45,15 +45,17 @@ struct BoardView: View {
     @State var customAlert = false
     @State var HUD = false
     @State var projectName = ""
+    @State var projectDesc = ""
     
     var mainNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
     }){
         HStack{
-            Text("  Your Workspace")
+            Text("  Your Project")
                 .font(.system(size: 25, weight: .bold))
                 .foregroundColor(Color("brown_tone"))
                 .frame(width: 300, alignment: .leading)
+            
             Button(action: {
                 newProjectView()
             }, label: {
@@ -62,6 +64,7 @@ struct BoardView: View {
                     .foregroundColor(Color("brown_tone"))
                     .frame(width: 55, alignment: .trailing)
             })
+            
             }
         }
     }
@@ -76,14 +79,20 @@ struct BoardView: View {
             name.placeholder = "Project Name"
         }
         
+        alert.addTextField {(desc) in
+            desc.isSecureTextEntry = false
+            desc.placeholder = "Project Description (optional)"
+        }
+        
         let create = UIAlertAction(title: "Create", style: .default){(_) in
             //do yiur own stuff
             
             //retrieving password
             projectName = alert.textFields![0].text!
+            projectDesc = alert.textFields![0].text!
         }
         
-        let cancel = UIAlertAction(title: "cancel", style: .destructive){(_) in
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive){(_) in
             //same
         }
         
@@ -94,9 +103,11 @@ struct BoardView: View {
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
-            //do your own
+            print("Added Board")
         })
     }
+    
+    @State var shouldShowEditBoard = false
     
     var body: some View {
         
@@ -120,25 +131,27 @@ struct BoardView: View {
                                             .frame(width: 350, height: 150)
                                             .foregroundColor(.black)
                                         
-                                        
-                                        
                                         VStack{
-                                            Text("Board 1")
-                                                .font(.system(size: 15, weight: .bold))
-                                                .frame(width: 300, height: 0, alignment: .leading)
-                                            
-                                            NavigationLink(destination: LoginView(didCompleteLoginProcess: {
+                                            HStack(spacing: -20) {
+                                                Text("Board 1")
+                                                    .font(.system(size: 15, weight: .bold))
+                                                    .frame(width: 300, height: 0, alignment: .leading)
                                                 
-                                            }), label: {
-                                                Image(systemName: "square.and.pencil").font(.system(size: 20))
-                                            }).offset(x: 140, y: -15)
-                                            
-//                                            Button(action: {
-//                                                //ini isi den
-//                                            }){
-//                                                Image(systemName: "square.and.pencil").font(.system(size: 20))
-//                                            }.offset(x: 140, y: -15)
-                                            
+                                                NavigationLink(destination: BoardDetailView(), label: {
+                                                    Image(systemName: "square.and.pencil")
+                                                        .font(.system(size: 20))
+                                                })
+//                                                Button {
+//                                                    shouldShowEditBoard.toggle()
+//                                                } label: {
+//                                                    Image(systemName: "square.and.pencil")
+//                                                        .font(.system(size: 20))
+//                                                }
+//                                                .fullScreenCover(isPresented: $shouldShowEditBoard) {
+//                                                    BoardDetailView()
+//                                                }
+                                            }.padding(.horizontal, 20)
+
                                             
                                             Text("The board's key purpose “is to ensure the company's prosperity by collectively directing the company's affairs” ")
                                                 .font(.system(size: 15, weight: .light))

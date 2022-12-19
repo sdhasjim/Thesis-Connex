@@ -109,6 +109,12 @@ struct InsideBoardView: View {
                             .foregroundColor(Color("brown_tone"))
                             .frame(width: 185, alignment: .trailing)
                     })
+//                    NavigationLink(destination: TaskDetailView(), label: {
+//                        Image(systemName: "plus.circle.fill")
+//                            .font(.system(size: 20))
+//                            .foregroundColor(Color("brown_tone"))
+//                            .frame(width: 185, alignment: .trailing)
+//                    })
                 }
             }
         }
@@ -245,9 +251,7 @@ struct TodoView: View{
                                         .font(.system(size: 18, weight: .bold))
                                         .foregroundColor(.white)
                                     
-                                    NavigationLink(destination: LoginView(didCompleteLoginProcess: {
-                                        
-                                    }), label: {
+                                    NavigationLink(destination: TaskDetailView(), label: {
                                         Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
                                     }).offset(x: 90)
                                     
@@ -333,9 +337,7 @@ struct ProgressingView: View{
                                         .font(.system(size: 18, weight: .bold))
                                         .foregroundColor(.white)
                                     
-                                    NavigationLink(destination: LoginView(didCompleteLoginProcess: {
-                                        
-                                    }), label: {
+                                    NavigationLink(destination: TaskDetailView(), label: {
                                         Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
                                     }).offset(x: 90)
                                     
@@ -420,9 +422,7 @@ struct DoneView: View{
                                         .font(.system(size: 18, weight: .bold))
                                         .foregroundColor(.white)
                                     
-                                    NavigationLink(destination: LoginView(didCompleteLoginProcess: {
-                                        
-                                    }), label: {
+                                    NavigationLink(destination: TaskDetailView(), label: {
                                         Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
                                     }).offset(x: 90)
                                     
