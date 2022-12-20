@@ -12,19 +12,9 @@ class ProjectViewModel: ObservableObject {
     @Published var projects = [Project]()
     @Published var profileUser: ProfileUser?
     
-//    let project: Project?
-//    
     init() {
         getDataFromUser()
     }
-    
-//    let profileUser: ProfileUser?
-    
-//    init(profileUser: ProfileUser?) {
-//        self.profileUser = profileUser
-//        
-//        getDataFromUser()
-//    }
     
     func updateData(projectToUpdate: Project) {
         
@@ -54,9 +44,11 @@ class ProjectViewModel: ObservableObject {
 //        db.collection("projects").document(projectToUpdate.id).setData(["name": "updated project name"], merge: true)
 //        db.collection("projects").document(projectToUpdate.id).setData(["name": "Updated: \(projectToUpdate.name)"], merge: true) { error in
             
-            if error == nil {
-                // Get the new data
-                self.getDataFromUser()
+            if error == nil,
+               let index = self.projects.firstIndex(of: projectToUpdate){
+                
+                self.projects[index].name = name
+                self.projects[index].desc = desc
             }
         }
         
