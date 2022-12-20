@@ -47,6 +47,15 @@ struct BoardView: View {
     @State var projectName = ""
     @State var projectDesc = ""
     
+//    let profileUser: ProfileUser?
+//
+//    init(profileUser: ProfileUser?) {
+//        self.profileUser = profileUser
+//        self.vm = .init(profileUser: profileUser)
+//    }
+    
+    @ObservedObject var vm = ProjectViewModel()
+    
     var mainNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
     }){
@@ -70,41 +79,60 @@ struct BoardView: View {
     }
     
     func newProjectView(){
-        //ini alert uy
+
         let alert = UIAlertController(title: "Create New Project", message: "Let's create your project name", preferredStyle: .alert)
         
+        let errorAlert = UIAlertController(title: "Failed to Add New Project", message: "Project Name should be filled", preferredStyle: .alert)
         
-        alert.addTextField{(name) in
-            name.isSecureTextEntry = false
-            name.placeholder = "Project Name"
-        }
+        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            print("Ok tapped")
+        }))
         
-        alert.addTextField {(desc) in
-            desc.isSecureTextEntry = false
-            desc.placeholder = "Project Description (optional)"
-        }
-        
-        let create = UIAlertAction(title: "Create", style: .default){(_) in
-            //do yiur own stuff
+        let confirmAction = UIAlertAction(title: "Save", style: .default) { _ in
+            if let textField = alert.textFields?.first, let text = textField.text {
+                projectName = text
+                print("Final text: \(projectName)")
+            }
+            if let textField = alert.textFields?.last, let text = textField.text {
+                projectDesc = text
+                print("Last text: \(projectDesc)")
+            }
             
-            //retrieving password
-            projectName = alert.textFields![0].text!
-            projectDesc = alert.textFields![0].text!
+            if projectName == "" {
+                UIApplication.shared.windows.first?.rootViewController?.present(errorAlert, animated: true, completion: {
+
+                })
+            }
+            else {
+//                guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+                
+                vm.addData(name: projectName, desc: projectDesc)
+            }
         }
         
+        alert.addTextField { textField in
+            textField.placeholder = "Project Name (Required)"
+        }
+        
+        alert.addTextField { textField in
+            textField.placeholder = "Project Desc (Optional)"
+        }
+
         let cancel = UIAlertAction(title: "Cancel", style: .destructive){(_) in
             //same
         }
-        
+
         //adding into alertview
         alert.addAction(cancel)
-        
-        alert.addAction(create)
-        
+
+        alert.addAction(confirmAction)
+
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
-            print("Added Board")
+
         })
+        
+        
     }
     
     @State var shouldShowEditBoard = false
@@ -123,6 +151,46 @@ struct BoardView: View {
                             .navigationBarItems(leading: mainNavBar)
                         ScrollView(){
                             VStack{
+                                ForEach (vm.projects) { item in
+                                    VStack{
+                                        HStack(spacing: -20) {
+                                            Text(item.name)
+                                                .font(.system(size: 15, weight: .bold))
+                                                .frame(width: 300, height: 0, alignment: .leading)
+                                            
+                                            Button {
+                                                vm.deleteData(projectToDelete: item)
+                                            } label: {
+                                                Image(systemName: "minus.circle")
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                            Button {
+                                                vm.updateData(projectToUpdate: item)
+                                            } label: {
+                                                Image(systemName: "pencil")
+                                            }
+
+
+                                            Spacer()
+                                            
+                                            NavigationLink(destination: BoardDetailView(), label: {
+                                                Image(systemName: "square.and.pencil")
+                                                    .font(.system(size: 20))
+                                            })
+                                        }.padding(.horizontal, 20)
+                                        
+                                        Text("The board's key purpose “is to ensure the company's prosperity by collectively directing the company's affairs” ")
+                                            .font(.system(size: 15, weight: .light))
+                                            .multilineTextAlignment(.leading)
+                                            .frame(width: 300, height: 80, alignment: .leading)
+                                    }.listRowBackground(Color.red)
+                                }
+                                
+                                .frame(height: 100)
+                                .background(Color(.white))
+                                
                                 NavigationLink(destination: InsideBoardView(), label: {
                                     ZStack{
                                         RoundedRectangle(cornerRadius: 25)
@@ -130,42 +198,14 @@ struct BoardView: View {
                                             .shadow(radius: 1.5)
                                             .frame(width: 350, height: 150)
                                             .foregroundColor(.black)
-                                        
-                                        VStack{
-                                            HStack(spacing: -20) {
-                                                Text("Board 1")
-                                                    .font(.system(size: 15, weight: .bold))
-                                                    .frame(width: 300, height: 0, alignment: .leading)
-                                                
-                                                NavigationLink(destination: BoardDetailView(), label: {
-                                                    Image(systemName: "square.and.pencil")
-                                                        .font(.system(size: 20))
-                                                })
-//                                                Button {
-//                                                    shouldShowEditBoard.toggle()
-//                                                } label: {
-//                                                    Image(systemName: "square.and.pencil")
-//                                                        .font(.system(size: 20))
-//                                                }
-//                                                .fullScreenCover(isPresented: $shouldShowEditBoard) {
-//                                                    BoardDetailView()
-//                                                }
-                                            }.padding(.horizontal, 20)
-
-                                            
-                                            Text("The board's key purpose “is to ensure the company's prosperity by collectively directing the company's affairs” ")
-                                                .font(.system(size: 15, weight: .light))
-                                                .multilineTextAlignment(.leading)
-                                                .frame(width: 300, height: 80, alignment: .leading)
-                                        }
                                     }
                                     
                                 })
-                                .frame(width: 450, height: 170)
-                                .foregroundColor(.black)
+//                                .frame(width: 450, height: 170)
+//                                .foregroundColor(.black)
                             }
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 180)
+//                            .frame(maxWidth: .infinity)
+//                            .frame(height: 180)
                         }
                     }
                 }else{
@@ -181,6 +221,10 @@ struct BoardView: View {
             for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .preferredColorScheme(.light)
+    }
+    
+    init() {
+        vm.getDataFromUser()
     }
 }
 

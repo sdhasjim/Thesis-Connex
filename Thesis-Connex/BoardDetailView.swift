@@ -9,6 +9,15 @@ import SwiftUI
 
 struct BoardDetailView: View {
     
+//    let project: Project?
+    
+//    init(project: Project?) {
+//        self.project = project
+//        self.vm = .init(project: project)
+//    }
+    
+    @ObservedObject var vm = ProjectViewModel()
+    
     @Environment(\.presentationMode) var presentationMode
     
     @State var projectName = ""
@@ -69,6 +78,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView()
+        ProfileView()
     }
 }
