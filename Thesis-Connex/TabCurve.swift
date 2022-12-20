@@ -43,6 +43,6 @@ struct TabCurve: Shape{
 
 struct TabCurve_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView()
+        BoardView(vm: ProjectViewModel())
     }
 }

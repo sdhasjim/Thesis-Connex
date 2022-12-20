@@ -10,10 +10,13 @@ import SwiftUI
 struct ContentView: View {
     @AppStorage("currentPage") var currentPage = 1
     
+    @StateObject var profileVM = ProfileViewModel()
+    @StateObject var boardVM = ProjectViewModel()
+    
     var body: some View {
         if currentPage > totalPages{
             TabView{
-                Board()
+                BoardView(vm: boardVM)
                     .tabItem{
                         Label("Board", systemImage: "doc.circle")
                     }
@@ -28,13 +31,22 @@ struct ContentView: View {
                         Label("Notif", systemImage: "bell.circle")
                     }
                 
-                ProfileView()
+                ProfileView(vm: profileVM)
                     .tabItem{
                         Label("Profile", systemImage: "person.circle")
                     }
             }.accentColor(Color("brown_tone"))
+                .fullScreenCover(isPresented: $profileVM.isCurrentlyLoggedOut, onDismiss: nil) {
+                    LoginView(didCompleteLoginProcess: {
+                        self.profileVM.isCurrentlyLoggedOut = false
+                        self.profileVM.fetchCurrentUser()
+                        self.boardVM.getDataFromUser()
+                    })
+                }
+
             
-        }else{
+        }
+        else{
             WalkthroughScreen()
         }
     }
@@ -43,12 +55,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-    }
-}
-
-struct Board: View{
-    var body: some View{
-        BoardView()
     }
 }
 
