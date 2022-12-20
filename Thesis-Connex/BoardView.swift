@@ -155,7 +155,7 @@ struct BoardView: View {
                                             VStack {
                                                 HStack {
                                                     Text(item.name)
-                                                        .font(.system(size: 15, weight: .bold))
+                                                        .font(.system(size: 15, weight: .bold)).offset(x:5)
 
                                                     Spacer()
                                                     NavigationLink {
@@ -168,13 +168,11 @@ struct BoardView: View {
                                                 }
                                                 
                                                 Text(item.desc)
-                                                    .frame(width: 300, alignment: .leading)
+                                                    .frame(width: 320, height: 80, alignment: .topLeading)
                                                     .multilineTextAlignment(.leading)
                                                 
                                             }
                                             .padding()
-//                                            .background(Color.yellow)
-//                                            .frame(maxWidth: .infinity)
                                         }
                                         .padding()
                                         
@@ -183,20 +181,14 @@ struct BoardView: View {
 
                                 }
                                 
-                                .frame(height: 150)
-//                                .background(Color(.white))
-//                                .frame(width: 450, height: 170)
-//                                .foregroundColor(.black)
+                                .frame(height: 160)
                             }
-//                            .frame(maxWidth: .infinity)
-//                            .frame(height: 180)
                         }
                     }
                 } else {
                     NetworkConnection()
                 }
                 
-//                CustomTabBar(selectedTab: $selectedTab)
             }).frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .toolbarColorScheme(.dark, for: .navigationBar)
