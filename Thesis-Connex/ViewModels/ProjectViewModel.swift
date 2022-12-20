@@ -14,11 +14,9 @@ class ProjectViewModel: ObservableObject {
     
 //    let project: Project?
 //    
-//    init(project: Project?) {
-//        self.project = project
-//        
-//        getDataFromUser()
-//    }
+    init() {
+        getDataFromUser()
+    }
     
 //    let profileUser: ProfileUser?
     

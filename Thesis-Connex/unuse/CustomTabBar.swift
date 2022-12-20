@@ -58,7 +58,7 @@ struct CustomTabBar: View{
 
 struct CustomTabBar_Previews: PreviewProvider{
     static var previews: some View{
-        BoardView()
+        BoardView(vm: ProjectViewModel())
     }
 }
 

@@ -47,14 +47,7 @@ struct BoardView: View {
     @State var projectName = ""
     @State var projectDesc = ""
     
-//    let profileUser: ProfileUser?
-//
-//    init(profileUser: ProfileUser?) {
-//        self.profileUser = profileUser
-//        self.vm = .init(profileUser: profileUser)
-//    }
-    
-    @ObservedObject var vm = ProjectViewModel()
+    @ObservedObject var vm: ProjectViewModel
     
     var mainNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -104,8 +97,6 @@ struct BoardView: View {
                 })
             }
             else {
-//                guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
-                
                 vm.addData(name: projectName, desc: projectDesc)
             }
         }
@@ -175,13 +166,13 @@ struct BoardView: View {
 
                                             Spacer()
                                             
-                                            NavigationLink(destination: BoardDetailView(), label: {
+                                            NavigationLink(destination: BoardDetailView(projectName: item.name, projectDesc: item.desc), label: {
                                                 Image(systemName: "square.and.pencil")
                                                     .font(.system(size: 20))
                                             })
                                         }.padding(.horizontal, 20)
                                         
-                                        Text("The board's key purpose “is to ensure the company's prosperity by collectively directing the company's affairs” ")
+                                        Text(item.desc)
                                             .font(.system(size: 15, weight: .light))
                                             .multilineTextAlignment(.leading)
                                             .frame(width: 300, height: 80, alignment: .leading)
@@ -222,15 +213,11 @@ struct BoardView: View {
         .toolbarBackground(.visible, for: .navigationBar)
         .preferredColorScheme(.light)
     }
-    
-    init() {
-        vm.getDataFromUser()
-    }
 }
 
 struct BoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView()
+        BoardView(vm: ProjectViewModel())
     }
 }
 

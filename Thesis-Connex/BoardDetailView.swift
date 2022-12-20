@@ -18,9 +18,11 @@ struct BoardDetailView: View {
     
     @ObservedObject var vm = ProjectViewModel()
     
+    
     @Environment(\.presentationMode) var presentationMode
     
     @State var projectName = ""
+    @State var projectDesc = ""
     @State var date = Date()
     
     var body: some View {
@@ -34,7 +36,7 @@ struct BoardDetailView: View {
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
                     Text(" Project Description")
-                    TextField("Project Description", text: $projectName)
+                    TextField("Project Description", text: $projectDesc)
                         .padding(9)
                         .foregroundColor(.black)
                         .background(Color.gray.opacity(0.2))
@@ -54,7 +56,7 @@ struct BoardDetailView: View {
                 
             }
             .navigationTitle("Project Detail").navigationBarTitleDisplayMode(.inline)
-//                .toolbar {
+                .toolbar {
 //                    ToolbarItemGroup(placement: .navigationBarLeading) {
 //                        Button {
 //                            presentationMode.wrappedValue.dismiss()
@@ -63,21 +65,22 @@ struct BoardDetailView: View {
 //                                .foregroundColor(.blue)
 //                        }
 //                    }
-//                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-//                        Button {
-//                            presentationMode.wrappedValue.dismiss()
-//                        } label: {
-//                            Text("Save")
-//                                .foregroundColor(.black)
-//                        }
-//                    }
-//                }
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        Button {
+//                            vm.updateData(projectToUpdate: <#T##Project#>)
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Text("Save")
+                                .foregroundColor(.black)
+                        }
+                    }
+                }
         }
     }
 }
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        BoardDetailView()
     }
 }

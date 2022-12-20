@@ -12,7 +12,7 @@ struct ProfileView: View {
     @State var selectedTab = "profile"
     @State var shouldShowImagePicker = false
     
-    @ObservedObject var vm = ProfileViewModel()
+    @ObservedObject var vm: ProfileViewModel
 
     var body: some View {
         NavigationView {
@@ -76,13 +76,6 @@ struct ProfileView: View {
             .background(Color("yellow_tone")
                 .ignoresSafeArea())
         }
-        
-        .fullScreenCover(isPresented: $vm.isCurrentlyLoggedOut, onDismiss: nil) {
-            LoginView(didCompleteLoginProcess: {
-                self.vm.isCurrentlyLoggedOut = false
-                self.vm.fetchCurrentUser()
-            })
-        }
 
     }
 
@@ -93,7 +86,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(vm: ProfileViewModel())
     }
 }
 

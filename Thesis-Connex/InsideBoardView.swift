@@ -484,7 +484,7 @@ struct DoneView: View{
 
 struct InsideBoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView()
+        BoardView(vm: ProjectViewModel())
     }
 }
 
