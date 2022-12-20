@@ -16,8 +16,7 @@ struct BoardDetailView: View {
 //        self.vm = .init(project: project)
 //    }
     
-    @ObservedObject var vm = ProjectViewModel()
-    
+    @ObservedObject var vm: ProjectViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
