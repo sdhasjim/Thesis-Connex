@@ -27,7 +27,6 @@
 		B20C90B6291A509E0037B929 /* NetworkMonitorConnex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */; };
 		B20C90B8291A52C00037B929 /* InsideBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B7291A52C00037B929 /* InsideBoardView.swift */; };
 		B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */; };
-		B28AF16029121A5C004BC481 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF15F29121A5C004BC481 /* CustomTabBar.swift */; };
 		B28AF16429122573004BC481 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF16329122573004BC481 /* TaskView.swift */; };
 		B28AF16629122665004BC481 /* TabCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF16529122665004BC481 /* TabCurve.swift */; };
 		B297E6FF2911514900248982 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297E6FE2911514900248982 /* BoardView.swift */; };
@@ -54,7 +53,6 @@
 		B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorConnex.swift; sourceTree = "<group>"; };
 		B20C90B7291A52C00037B929 /* InsideBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsideBoardView.swift; sourceTree = "<group>"; };
 		B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
-		B28AF15F29121A5C004BC481 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		B28AF16329122573004BC481 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		B28AF16529122665004BC481 /* TabCurve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCurve.swift; sourceTree = "<group>"; };
 		B297E6FE2911514900248982 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
@@ -110,7 +108,6 @@
 				3FDA08B4293F8B4C003DF219 /* Models */,
 				3F7610D1293CE4DA00665A75 /* Utils */,
 				B20C90B2291A4F4A0037B929 /* Network */,
-				B28AF16729124812004BC481 /* unuse */,
 				B28AF16529122665004BC481 /* TabCurve.swift */,
 				B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */,
 				B28AF16329122573004BC481 /* TaskView.swift */,
@@ -162,14 +159,6 @@
 				B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */,
 			);
 			path = Network;
-			sourceTree = "<group>";
-		};
-		B28AF16729124812004BC481 /* unuse */ = {
-			isa = PBXGroup;
-			children = (
-				B28AF15F29121A5C004BC481 /* CustomTabBar.swift */,
-			);
-			path = unuse;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,7 +250,6 @@
 				B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */,
 				3F1611A62951A9A400B38E9C /* ProfileViewModel.swift in Sources */,
 				B2C5EC682909713600672E71 /* Signup.swift in Sources */,
-				B28AF16029121A5C004BC481 /* CustomTabBar.swift in Sources */,
 				3F0292A62950BBDD006B82FB /* Project.swift in Sources */,
 				B297E6FF2911514900248982 /* BoardView.swift in Sources */,
 				3F0633462946EC020046D7F3 /* TaskDetailView.swift in Sources */,

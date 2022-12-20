@@ -52,12 +52,26 @@ struct BoardDetailView: View {
                          selection: $date,
                          displayedComponents: [.date, .hourAndMinute]
                     )
-                    Button {
-                        vm.deleteData(projectToDelete: project!)
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Text("Delete item")
+                    Divider()
+                    HStack {
+                        Button {
+                            vm.deleteData(projectToDelete: project!)
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Text("Delete project")
+                                .foregroundColor(.red)
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            print("Finish")
+                        } label: {
+                            Text("Finish Project")
+                                .font(.system(size: 20, weight: .bold))
+                        }
                     }
+
 
                 }.padding()
                 
