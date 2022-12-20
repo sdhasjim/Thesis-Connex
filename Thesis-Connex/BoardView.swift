@@ -143,55 +143,48 @@ struct BoardView: View {
                         ScrollView(){
                             VStack{
                                 ForEach (vm.projects) { item in
-                                    VStack{
-                                        HStack(spacing: -20) {
-                                            Text(item.name)
-                                                .font(.system(size: 15, weight: .bold))
-                                                .frame(width: 300, height: 0, alignment: .leading)
-                                            
-                                            Button {
-                                                vm.deleteData(projectToDelete: item)
-                                            } label: {
-                                                Image(systemName: "minus.circle")
-                                            }
-                                            
-                                            Spacer()
-                                            
-                                            Button {
-                                                vm.updateData(projectToUpdate: item)
-                                            } label: {
-                                                Image(systemName: "pencil")
-                                            }
+                                    NavigationLink  {
+                                        InsideBoardView()
+                                    } label: {
+                                        ZStack{
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .foregroundColor(.white)
+                                                .shadow(radius: 1.5)
+                                                .frame(width: 350, height: 150)
+                                                .foregroundColor(.black)
+                                            VStack {
+                                                HStack {
+                                                    Text(item.name)
+                                                        .font(.system(size: 15, weight: .bold))
 
+                                                    Spacer()
+                                                    NavigationLink {
+                                                        BoardDetailView(project: item, projectName: item.name, projectDesc: item.desc)
+                                                    } label: {
+                                                        Image(systemName: "square.and.pencil")
+                                                            .font(.system(size: 20))
+                                                    }
 
-                                            Spacer()
-                                            
-                                            NavigationLink(destination: BoardDetailView(projectName: item.name, projectDesc: item.desc), label: {
-                                                Image(systemName: "square.and.pencil")
-                                                    .font(.system(size: 20))
-                                            })
-                                        }.padding(.horizontal, 20)
+                                                }
+                                                
+                                                Text(item.desc)
+                                                    .frame(width: 300, alignment: .leading)
+                                                    .multilineTextAlignment(.leading)
+                                                
+                                            }
+                                            .padding()
+//                                            .background(Color.yellow)
+//                                            .frame(maxWidth: .infinity)
+                                        }
+                                        .padding()
                                         
-                                        Text(item.desc)
-                                            .font(.system(size: 15, weight: .light))
-                                            .multilineTextAlignment(.leading)
-                                            .frame(width: 300, height: 80, alignment: .leading)
-                                    }.listRowBackground(Color.red)
+                                    }
+
+
                                 }
                                 
-                                .frame(height: 100)
-                                .background(Color(.white))
-                                
-                                NavigationLink(destination: InsideBoardView(), label: {
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 25)
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 1.5)
-                                            .frame(width: 350, height: 150)
-                                            .foregroundColor(.black)
-                                    }
-                                    
-                                })
+                                .frame(height: 150)
+//                                .background(Color(.white))
 //                                .frame(width: 450, height: 170)
 //                                .foregroundColor(.black)
                             }
@@ -199,7 +192,7 @@ struct BoardView: View {
 //                            .frame(height: 180)
                         }
                     }
-                }else{
+                } else {
                     NetworkConnection()
                 }
                 

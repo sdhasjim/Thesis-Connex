@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BoardDetailView: View {
     
-//    let project: Project?
+    let project: Project?
     
 //    init(project: Project?) {
 //        self.project = project
@@ -52,22 +52,21 @@ struct BoardDetailView: View {
                          selection: $date,
                          displayedComponents: [.date, .hourAndMinute]
                     )
+                    Button {
+                        vm.deleteData(projectToDelete: project!)
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text("Delete item")
+                    }
+
                 }.padding()
                 
             }
             .navigationTitle("Project Detail").navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-//                    ToolbarItemGroup(placement: .navigationBarLeading) {
-//                        Button {
-//                            presentationMode.wrappedValue.dismiss()
-//                        } label: {
-//                            Text("Cancel")
-//                                .foregroundColor(.blue)
-//                        }
-//                    }
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                         Button {
-//                            vm.updateData(projectToUpdate: <#T##Project#>)
+                            vm.updateExistingData(projectToUpdate: project!, name: projectName, desc: projectDesc)
                             presentationMode.wrappedValue.dismiss()
                         } label: {
                             Text("Save")
@@ -81,6 +80,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView()
+        BoardView(vm: ProjectViewModel())
     }
 }

@@ -43,6 +43,25 @@ class ProjectViewModel: ObservableObject {
         
     }
     
+    func updateExistingData(projectToUpdate: Project, name: String, desc: String) {
+        
+        let db = FirebaseManager.shared.firestore
+        
+        // Set the data to update
+        db.collection("projects").document(projectToUpdate.id).setData(["name": name, "desc": desc], merge: true) { error in
+            
+//        }
+//        db.collection("projects").document(projectToUpdate.id).setData(["name": "updated project name"], merge: true)
+//        db.collection("projects").document(projectToUpdate.id).setData(["name": "Updated: \(projectToUpdate.name)"], merge: true) { error in
+            
+            if error == nil {
+                // Get the new data
+                self.getDataFromUser()
+            }
+        }
+        
+    }
+    
     func deleteData(projectToDelete: Project) {
         // Get a reference to the database
         let db = FirebaseManager.shared.firestore
