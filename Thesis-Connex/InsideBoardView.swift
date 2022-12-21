@@ -121,6 +121,10 @@ struct InsideBoardView: View {
                     })
                 }
             }
+            .onAppear(perform: {
+                taskVM.getDataFromProjectID(projectID: project!.id)
+//                taskVM.getDataFromStatus(status: "todo")
+            })
         }
         
     }
@@ -187,7 +191,7 @@ struct InsideBoardView: View {
                     
                     HStack(spacing: 0){
                         
-                        TodoView(taskVM: taskVM, task: nil)
+                        TodoView(taskVM: taskVM, projectID: project!.id, task: nil)
                             .frame(width: g.frame(in: .global).width)
 
                         ProgressingView(taskVM: taskVM, task: nil)
@@ -213,6 +217,7 @@ struct InsideBoardView: View {
             }
             .animation(.default)
         }
+
         .navigationBarTitleDisplayMode(.inline)
         
         //ini headernya
@@ -253,6 +258,7 @@ struct TodoView: View{
     
     @ObservedObject var taskVM: TaskViewModel
     
+    let projectID: String
     let task: Task?
     
     @State private var showModel = false
@@ -306,6 +312,10 @@ struct TodoView: View{
 
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
+//            .onAppear(perform: {
+//                taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+//            })
+
     }
     func editTaskView(taskToEdit: Task?){
         
@@ -395,6 +405,9 @@ struct ProgressingView: View{
 
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
+//                    .onAppear(perform: {
+//                        taskVM.getDataFromStatus(status: "progressing")
+//                    })
     }
     func editTaskView(taskToEdit: Task?){
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
