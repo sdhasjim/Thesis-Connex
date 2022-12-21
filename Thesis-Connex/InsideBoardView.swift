@@ -361,7 +361,7 @@ struct ProgressingView: View{
                 ForEach(taskVM.tasks) { item in
                     VStack{
                         Button(action: {
-                            editTaskView()
+                            editTaskView(taskToEdit: item)
                         }, label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)
@@ -399,22 +399,24 @@ struct ProgressingView: View{
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
     }
-    func editTaskView(){
+    func editTaskView(taskToEdit: Task?){
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            print("DONE")
         }
         
         
@@ -450,7 +452,7 @@ struct DoneView: View{
                 ForEach(taskVM.tasks) { item in
                     VStack{
                         Button(action: {
-                            editTaskView()
+                            editTaskView(taskToEdit: item)
                         }, label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)
@@ -487,22 +489,24 @@ struct DoneView: View{
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
     }
-    func editTaskView(){
+    func editTaskView(taskToEdit: Task?){
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            print("DONE")
         }
         
         //adding into alertview
