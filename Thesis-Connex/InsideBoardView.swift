@@ -74,6 +74,15 @@ struct AppBar: View{
 }
 
 struct InsideBoardView: View {
+    
+    let project: Project?
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
+    @State var projectName = ""
+    @State var projectDesc = ""
+    
+    
     @State var selectedTab = "profile"
     @State var index = 1
     @State var offset: CGFloat = 0
@@ -96,10 +105,13 @@ struct InsideBoardView: View {
                         .clipShape(Circle())
                         .frame(alignment: .topLeading)
                     
-                    Text("  Board 1")
+                    Text("  \(projectName)")
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(Color("brown_tone"))
                         .frame(alignment: .topLeading)
+                    Text(project!.id)
+                        .foregroundColor(.black)
+//                    Text(projectName)
                     
                     Button(action: {
                         newTaskView()
@@ -109,12 +121,6 @@ struct InsideBoardView: View {
                             .foregroundColor(Color("brown_tone"))
                             .frame(width: 185, alignment: .trailing)
                     })
-//                    NavigationLink(destination: TaskDetailView(), label: {
-//                        Image(systemName: "plus.circle.fill")
-//                            .font(.system(size: 20))
-//                            .foregroundColor(Color("brown_tone"))
-//                            .frame(width: 185, alignment: .trailing)
-//                    })
                 }
             }
         }
@@ -124,17 +130,36 @@ struct InsideBoardView: View {
     func newTaskView(){
         let alert = UIAlertController(title: "Create New Task", message: "Let's create your task name", preferredStyle: .alert)
         
+        let errorAlert = UIAlertController(title: "Failed to Add New Project", message: "Project Name should be filled", preferredStyle: .alert)
+        
+        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            print("Ok tapped")
+        }))
+        
         
         alert.addTextField{(name) in
             name.isSecureTextEntry = false
             name.placeholder = "Task Name"
         }
         
-        let create = UIAlertAction(title: "Create", style: .default){(_) in
-            //do yiur own stuff
+        let confirmAction = UIAlertAction(title: "Save", style: .default) { _ in
+            if let textField = alert.textFields?.first, let text = textField.text {
+                projectName = text
+                print("Final text: \(projectName)")
+            }
+            if let textField = alert.textFields?.last, let text = textField.text {
+                projectDesc = text
+                print("Last text: \(projectDesc)")
+            }
             
-            //retrieving password
-            taskName = alert.textFields![0].text!
+            if projectName == "" {
+                UIApplication.shared.windows.first?.rootViewController?.present(errorAlert, animated: true, completion: {
+
+                })
+            }
+            else {
+                taskVM.addData(projectID: project!.id, name: projectName)
+            }
         }
         
         let cancel = UIAlertAction(title: "cancel", style: .destructive){(_) in
@@ -144,7 +169,7 @@ struct InsideBoardView: View {
         //adding into alertview
         alert.addAction(cancel)
         
-        alert.addAction(create)
+        alert.addAction(confirmAction)
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
@@ -163,7 +188,7 @@ struct InsideBoardView: View {
                     
                     HStack(spacing: 0){
                         
-                        TodoView()
+                        TodoView(taskVM: TaskViewModel())
                             .frame(width: g.frame(in: .global).width)
                         
                         ProgressingView()
@@ -226,52 +251,54 @@ struct InsideBoardView: View {
 }
 
 struct TodoView: View{
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
     @State private var showModel = false
     @State var customAlert = false
     @State var HUD = false
     @State var projectName = ""
     var body: some View{
+
         ZStack{
             RoundedRectangle(cornerRadius: 25)
                 .foregroundColor(.white)
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                VStack{
-                    Button(action: {
-                        editTaskView()
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 15)
-                                .foregroundColor(Color("red_tone"))
-                                .shadow(radius: 1.5)
-                            VStack{
-                                HStack{
-                                    Text("Make a prototype")
-                                        .font(.system(size: 18, weight: .bold))
+                ForEach(taskVM.tasks) { item in
+                    VStack{
+                        Button(action: {
+                            editTaskView()
+                        }, label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(Color("red_tone"))
+                                    .shadow(radius: 1.5)
+                                VStack{
+                                    HStack{
+                                        Text(item.name)
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.white)
+                                        
+                                        Spacer()
+                                        
+                                        NavigationLink(destination: TaskDetailView(), label: {
+                                            Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
+                                        })
+                                    }
+                                }.frame(width: 280, height: 50, alignment: .topLeading)
+                                
+                                VStack{
+                                    Text("Assigne: ")
+                                        .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
-                                    
-                                    NavigationLink(destination: TaskDetailView(), label: {
-                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                    }).offset(x: 90)
-                                    
-//                                    Button(action: {
-//
-//                                    }){
-//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-//                                            .foregroundColor(.white)
-//                                    }.offset(x: 90)
-                                }
-                            }.frame(width: 280, height: 50, alignment: .topLeading)
-                            
-                            VStack{
-                                Text("Assigne: Annie")
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.white)
-                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
-                        }.frame(width: 300, height: 80)
-                    }).frame(width: 320, height: 520, alignment: .top)
+                                }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                            }.frame(width: 300, height: 80)
+                        })
+                    }
                 }
+
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
     }
@@ -484,7 +511,7 @@ struct DoneView: View{
 
 struct InsideBoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(vm: ProjectViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
     }
 }
 

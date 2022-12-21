@@ -149,6 +149,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(vm: ProjectViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
     }
 }

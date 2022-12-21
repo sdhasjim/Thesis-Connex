@@ -10,7 +10,6 @@ import Foundation
 class ProjectViewModel: ObservableObject {
     
     @Published var projects = [Project]()
-    @Published var profileUser: ProfileUser?
     
     init() {
         getDataFromUser()

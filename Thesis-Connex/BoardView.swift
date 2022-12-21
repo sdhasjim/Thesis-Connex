@@ -47,7 +47,8 @@ struct BoardView: View {
     @State var projectName = ""
     @State var projectDesc = ""
     
-    @ObservedObject var vm: ProjectViewModel
+    @ObservedObject var projectVM: ProjectViewModel
+    @ObservedObject var taskVM: TaskViewModel
     
     var mainNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -97,7 +98,7 @@ struct BoardView: View {
                 })
             }
             else {
-                vm.addData(name: projectName, desc: projectDesc)
+                projectVM.addData(name: projectName, desc: projectDesc)
             }
         }
         
@@ -110,7 +111,7 @@ struct BoardView: View {
         }
 
         let cancel = UIAlertAction(title: "Cancel", style: .destructive){(_) in
-            //same
+            
         }
 
         //adding into alertview
@@ -142,9 +143,9 @@ struct BoardView: View {
                             .navigationBarItems(leading: mainNavBar)
                         ScrollView(){
                             VStack{
-                                ForEach (vm.projects) { item in
+                                ForEach (projectVM.projects) { item in
                                     NavigationLink  {
-                                        InsideBoardView()
+                                        InsideBoardView(project: item, taskVM: taskVM, projectName: item.name)
                                     } label: {
                                         ZStack{
                                             RoundedRectangle(cornerRadius: 25)
@@ -159,7 +160,7 @@ struct BoardView: View {
 
                                                     Spacer()
                                                     NavigationLink {
-                                                        BoardDetailView(project: item, vm: vm, projectName: item.name, projectDesc: item.desc)
+                                                        BoardDetailView(project: item, vm: projectVM, projectName: item.name, projectDesc: item.desc)
                                                     } label: {
                                                         Image(systemName: "square.and.pencil")
                                                             .font(.system(size: 20))
@@ -201,7 +202,7 @@ struct BoardView: View {
 
 struct BoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(vm: ProjectViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
     }
 }
 
