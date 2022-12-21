@@ -35,6 +35,10 @@ class TaskViewModel: ObservableObject {
                 
                 self.tasks[index].name = name
                 self.tasks[index].assignee = assignee
+                self.tasks[index].desc = desc
+                self.tasks[index].priority = priority
+                self.tasks[index].dueDate = dueDate
+                
             }
         }
         

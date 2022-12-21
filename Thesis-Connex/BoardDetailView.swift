@@ -11,11 +11,6 @@ struct BoardDetailView: View {
     
     let project: Project?
     
-//    init(project: Project?) {
-//        self.project = project
-//        self.vm = .init(project: project)
-//    }
-    
     @ObservedObject var vm: ProjectViewModel
     
     @Environment(\.presentationMode) var presentationMode

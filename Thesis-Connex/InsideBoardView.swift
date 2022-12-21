@@ -76,6 +76,7 @@ struct AppBar: View{
 struct InsideBoardView: View {
     
     let project: Project?
+//    let task: Task?
     
     @ObservedObject var taskVM: TaskViewModel
     
@@ -105,13 +106,10 @@ struct InsideBoardView: View {
                         .clipShape(Circle())
                         .frame(alignment: .topLeading)
                     
-                    Text("  \(projectName)")
-                        .font(.system(size: 28, weight: .bold))
+                    Text("  \(project!.name)")
+                        .font(.system(size: 25, weight: .bold))
                         .foregroundColor(Color("brown_tone"))
                         .frame(alignment: .topLeading)
-                    Text(project!.id)
-                        .foregroundColor(.black)
-//                    Text(projectName)
                     
                     Button(action: {
                         newTaskView()
@@ -178,6 +176,7 @@ struct InsideBoardView: View {
     }
 
     var body: some View {
+        
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             VStack{
@@ -188,13 +187,13 @@ struct InsideBoardView: View {
                     
                     HStack(spacing: 0){
                         
-                        TodoView(taskVM: TaskViewModel())
+                        TodoView(taskVM: taskVM, task: nil)
                             .frame(width: g.frame(in: .global).width)
-                        
-                        ProgressingView()
+
+                        ProgressingView(taskVM: taskVM, task: nil)
                             .frame(width: g.frame(in: .global).width)
-                        
-                        DoneView()
+
+                        DoneView(taskVM: taskVM, task: nil)
                             .frame(width: g.frame(in: .global).width)
                     }
                     .offset(x: self.offset)
@@ -254,6 +253,8 @@ struct TodoView: View{
     
     @ObservedObject var taskVM: TaskViewModel
     
+    let task: Task?
+    
     @State private var showModel = false
     @State var customAlert = false
     @State var HUD = false
@@ -283,14 +284,18 @@ struct TodoView: View{
                                         
                                         Spacer()
                                         
-                                        NavigationLink(destination: TaskDetailView(), label: {
-                                            Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                        })
+                                        NavigationLink {
+                                            TaskDetailView(task: item, vm: taskVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
+                                        } label: {
+                                            Image(systemName: "square.and.pencil")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.white)
+                                        }
                                     }
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: ")
+                                    Text("Assigne: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)
@@ -339,6 +344,11 @@ struct TodoView: View{
 }
 
 struct ProgressingView: View{
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
+    let task: Task?
+    
     @State private var showModel = false
     @State var customAlert = false
     @State var HUD = false
@@ -350,41 +360,44 @@ struct ProgressingView: View{
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                VStack{
-                    Button(action: {
-                        editTaskView()
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 15)
-                                .foregroundColor(Color("progressing_tone"))
-                                .shadow(radius: 1.5)
-                            VStack{
-                                HStack{
-                                    Text("Make a prototype")
-                                        .font(.system(size: 18, weight: .bold))
+                ForEach(taskVM.tasks) { item in
+                    VStack{
+                        Button(action: {
+                            editTaskView()
+                        }, label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(Color("progressing_tone"))
+                                    .shadow(radius: 1.5)
+                                VStack{
+                                    HStack{
+                                        Text("Make a prototype")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.white)
+                                        
+                                        NavigationLink(destination: TaskDetailView(task: item, vm: taskVM), label: {
+                                            Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
+                                        }).offset(x: 90)
+                                        
+    //                                    Button(action: {
+    //
+    //                                    }){
+    //                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
+    //                                            .foregroundColor(.white)
+    //                                    }.offset(x: 90)
+                                    }
+                                }.frame(width: 280, height: 50, alignment: .topLeading)
+                                
+                                VStack{
+                                    Text("Assigne: Annie")
+                                        .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
-                                    
-                                    NavigationLink(destination: TaskDetailView(), label: {
-                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                    }).offset(x: 90)
-                                    
-//                                    Button(action: {
-//
-//                                    }){
-//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-//                                            .foregroundColor(.white)
-//                                    }.offset(x: 90)
-                                }
-                            }.frame(width: 280, height: 50, alignment: .topLeading)
-                            
-                            VStack{
-                                Text("Assigne: Annie")
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.white)
-                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
-                        }.frame(width: 300, height: 80)
-                    }).frame(width: 320, height: 520, alignment: .top)
+                                }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                            }.frame(width: 300, height: 80)
+                        })
+                    }
                 }
+
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
     }
@@ -424,6 +437,11 @@ struct ProgressingView: View{
 }
 
 struct DoneView: View{
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
+    let task: Task?
+    
     @State private var showModel = false
     @State var customAlert = false
     @State var HUD = false
@@ -435,40 +453,42 @@ struct DoneView: View{
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                VStack{
-                    Button(action: {
-                        editTaskView()
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 15)
-                                .foregroundColor(Color("green_tone"))
-                                .shadow(radius: 1.5)
-                            VStack{
-                                HStack{
-                                    Text("Make a prototype")
-                                        .font(.system(size: 18, weight: .bold))
+                ForEach(taskVM.tasks) { item in
+                    VStack{
+                        Button(action: {
+                            editTaskView()
+                        }, label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(Color("green_tone"))
+                                    .shadow(radius: 1.5)
+                                VStack{
+                                    HStack{
+                                        Text("Make a prototype")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.white)
+                                        
+                                        NavigationLink(destination: TaskDetailView(task: task, vm: taskVM), label: {
+                                            Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
+                                        }).offset(x: 90)
+                                        
+    //                                    Button(action: {
+    //
+    //                                    }){
+    //                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
+    //                                            .foregroundColor(.white)
+    //                                    }.offset(x: 90)
+                                    }
+                                }.frame(width: 280, height: 50, alignment: .topLeading)
+                                
+                                VStack{
+                                    Text("Assigne: Annie")
+                                        .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
-                                    
-                                    NavigationLink(destination: TaskDetailView(), label: {
-                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                    }).offset(x: 90)
-                                    
-//                                    Button(action: {
-//
-//                                    }){
-//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-//                                            .foregroundColor(.white)
-//                                    }.offset(x: 90)
-                                }
-                            }.frame(width: 280, height: 50, alignment: .topLeading)
-                            
-                            VStack{
-                                Text("Assigne: Annie")
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.white)
-                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
-                        }.frame(width: 300, height: 80)
-                    }).frame(width: 320, height: 520, alignment: .top)
+                                }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                            }.frame(width: 300, height: 80)
+                        })
+                    }
                 }
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
