@@ -270,7 +270,7 @@ struct TodoView: View{
                 ForEach(taskVM.tasks) { item in
                     VStack{
                         Button(action: {
-                            editTaskView()
+                            editTaskView(taskToEdit: item)
                         }, label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)
@@ -307,33 +307,31 @@ struct TodoView: View{
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
     }
-    func editTaskView(){
+    func editTaskView(taskToEdit: Task?){
+        
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             //do yiur own stuff
-            
-        }
-        
-        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
-            //same
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            print("DONE")
         }
         
         //adding into alertview
         alert.addAction(todo)
         alert.addAction(progressing)
         alert.addAction(done)
-        alert.addAction(delete)
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
@@ -419,15 +417,11 @@ struct ProgressingView: View{
             
         }
         
-        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
-            //same
-        }
         
         //adding into alertview
         alert.addAction(todo)
         alert.addAction(progressing)
         alert.addAction(done)
-        alert.addAction(delete)
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
@@ -511,15 +505,10 @@ struct DoneView: View{
             
         }
         
-        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
-            //same
-        }
-        
         //adding into alertview
         alert.addAction(todo)
         alert.addAction(progressing)
         alert.addAction(done)
-        alert.addAction(delete)
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {

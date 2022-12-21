@@ -44,6 +44,27 @@ class TaskViewModel: ObservableObject {
         
     }
     
+    func updateExistingDataStatus(taskToUpdate: Task, status: String) {
+        
+        let db = FirebaseManager.shared.firestore
+        
+        // Set the data to update
+        db.collection("tasks").document(taskToUpdate.id).setData(
+            ["status": status
+            
+            ]
+            , merge: true) { error in
+            
+            if error == nil,
+               let index = self.tasks.firstIndex(of: taskToUpdate){
+                
+                self.tasks[index].status = status
+            }
+        }
+        
+    }
+    
+    
     func deleteData(taskToDelete: Task) {
         // Get a reference to the database
         let db = FirebaseManager.shared.firestore
@@ -89,7 +110,8 @@ class TaskViewModel: ObservableObject {
                                         assignee: d["assignee"] as? String ?? "",
                                         desc: d["desc"] as? String ?? "",
                                         priority: d["priority"] as? String ?? "",
-                                        dueDate: d["dueDate"] as? String ?? ""
+                                        dueDate: d["dueDate"] as? String ?? "",
+                                        status: d["status"] as? String ?? ""
                             
                             )
                         }
@@ -120,7 +142,8 @@ class TaskViewModel: ObservableObject {
                                         assignee: d["assignee"] as? String ?? "",
                                         desc: d["desc"] as? String ?? "",
                                         priority: d["priority"] as? String ?? "",
-                                        dueDate: d["dueDate"] as? String ?? ""
+                                        dueDate: d["dueDate"] as? String ?? "",
+                                        status: d["status"] as? String ?? ""
                             
                             )
                         }

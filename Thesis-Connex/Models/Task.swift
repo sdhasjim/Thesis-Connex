@@ -15,6 +15,7 @@ struct Task: Identifiable, Equatable {
     var desc: String
     var priority: String
     var dueDate: String
+    var status: String
     
     static func == (lhs: Task, rhs: Task) -> Bool {
             return lhs.id == rhs.id
