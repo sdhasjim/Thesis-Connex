@@ -15,6 +15,57 @@ class TaskViewModel: ObservableObject {
         getData()
     }
     
+    func updateExistingData(taskToUpdate: Task, name: String, assignee: String, desc: String, priority: String, dueDate: String) {
+        
+        let db = FirebaseManager.shared.firestore
+        
+        // Set the data to update
+        db.collection("tasks").document(taskToUpdate.id).setData(
+            ["name": name,
+             "assignee": assignee,
+             "desc": desc,
+             "priority": priority,
+             "dueDate": dueDate
+            
+            ]
+            , merge: true) { error in
+            
+            if error == nil,
+               let index = self.tasks.firstIndex(of: taskToUpdate){
+                
+                self.tasks[index].name = name
+                self.tasks[index].assignee = assignee
+            }
+        }
+        
+    }
+    
+    func deleteData(taskToDelete: Task) {
+        // Get a reference to the database
+        let db = FirebaseManager.shared.firestore
+        
+        // Specify the document to delete
+        db.collection("tasks").document(taskToDelete.id).delete { error in
+            // Check for errors
+            
+            if error == nil {
+                // No errors
+                
+                //Update the UI from the main thread
+                DispatchQueue.main.async {
+                    
+                    // Remove the project that was just deleted
+                    self.tasks.removeAll { task in
+                        // Check for the project to remove
+                        
+                        return task.id == taskToDelete.id
+                    }
+                }
+                
+            }
+        }
+    }
+    
     func getData() {
         let db = FirebaseManager.shared.firestore
         
@@ -34,7 +85,12 @@ class TaskViewModel: ObservableObject {
                             // Create a project for each document iterated
                             return Task(id: d.documentID,
                                         name: d["name"] as? String ?? "",
-                                        assignee: d["assignee"] as? String ?? "")
+                                        assignee: d["assignee"] as? String ?? "",
+                                        desc: d["desc"] as? String ?? "",
+                                        priority: d["priority"] as? String ?? "",
+                                        dueDate: d["dueDate"] as? String ?? ""
+                            
+                            )
                         }
                     }
                     
