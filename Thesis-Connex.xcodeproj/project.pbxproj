@@ -113,23 +113,15 @@
 		3F15BCC329096F2500351530 /* Thesis-Connex */ = {
 			isa = PBXGroup;
 			children = (
+				3F6EA8742953554C00A737E0 /* Views */,
 				3F0292A22950BB7C006B82FB /* ViewModels */,
 				3FDA08B4293F8B4C003DF219 /* Models */,
 				3F7610D1293CE4DA00665A75 /* Utils */,
 				B20C90B2291A4F4A0037B929 /* Network */,
 				B28AF16529122665004BC481 /* TabCurve.swift */,
 				B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */,
-				B28AF16329122573004BC481 /* TaskView.swift */,
 				3F15BCC429096F2500351530 /* Thesis_ConnexApp.swift */,
 				3F15BCC629096F2500351530 /* ContentView.swift */,
-				B297E700291154F600248982 /* ProfileView.swift */,
-				B297E6FE2911514900248982 /* BoardView.swift */,
-				3F0633452946EC020046D7F3 /* TaskDetailView.swift */,
-				3F78A84F2946DCDA00C6ED03 /* BoardDetailView.swift */,
-				B20C90B7291A52C00037B929 /* InsideBoardView.swift */,
-				B2616E0A2952CA6F00F19CED /* ScoringView.swift */,
-				B2616E0C2952D3EB00F19CED /* ScoringDetailView.swift */,
-				B2C5EC652909712200672E71 /* LoginView.swift */,
 				3F6EA25D292CE72000AE4007 /* ImagePicker.swift */,
 				3F9EFB4429195E0600E8DF17 /* GoogleService-Info.plist */,
 				B2C5EC672909713600672E71 /* Signup.swift */,
@@ -145,6 +137,46 @@
 				3F15BCCB29096F2600351530 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3F6EA8742953554C00A737E0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3F6EA877295355BB00A737E0 /* ScoreView */,
+				3F6EA8762953559B00A737E0 /* TaskView */,
+				3F6EA8752953557900A737E0 /* ProjectView */,
+				B297E700291154F600248982 /* ProfileView.swift */,
+				B2C5EC652909712200672E71 /* LoginView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3F6EA8752953557900A737E0 /* ProjectView */ = {
+			isa = PBXGroup;
+			children = (
+				B297E6FE2911514900248982 /* BoardView.swift */,
+				3F78A84F2946DCDA00C6ED03 /* BoardDetailView.swift */,
+				B20C90B7291A52C00037B929 /* InsideBoardView.swift */,
+			);
+			path = ProjectView;
+			sourceTree = "<group>";
+		};
+		3F6EA8762953559B00A737E0 /* TaskView */ = {
+			isa = PBXGroup;
+			children = (
+				B28AF16329122573004BC481 /* TaskView.swift */,
+				3F0633452946EC020046D7F3 /* TaskDetailView.swift */,
+			);
+			path = TaskView;
+			sourceTree = "<group>";
+		};
+		3F6EA877295355BB00A737E0 /* ScoreView */ = {
+			isa = PBXGroup;
+			children = (
+				B2616E0A2952CA6F00F19CED /* ScoringView.swift */,
+				B2616E0C2952D3EB00F19CED /* ScoringDetailView.swift */,
+			);
+			path = ScoreView;
 			sourceTree = "<group>";
 		};
 		3F7610D1293CE4DA00665A75 /* Utils */ = {
