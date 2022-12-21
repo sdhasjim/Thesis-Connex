@@ -38,96 +38,91 @@ struct BoardDetailView: View {
                 .frame(alignment: .topLeading)
             
             Text("  Back")
-                .font(.system(size: 18, weight: .regular))
+                .font(.system(size: 18, weight: .bold))
                 .foregroundColor(Color("brown_tone"))
-                .frame(width: 280, alignment: .topLeading)
+                .frame(width: 275, alignment: .topLeading)
             
             Button {
                 vm.updateExistingData(projectToUpdate: project!, name: projectName, desc: projectDesc)
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("Save")
-                    .font(.system(size: 18, weight: .regular))
+                    .font(.system(size: 18, weight: .bold))
                     .foregroundColor(Color("brown_tone"))
             }
             .frame(alignment: .trailing)
-        }
+        }.offset(x: 5)
         
         }
     }
     
     var body: some View {
-        NavigationView {
-            ZStack{
-                Color("yellow_tone").ignoresSafeArea()
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        Text(" Project Name")
-                        TextField("Project Name", text: $projectName)
-                            .padding(9)
-                            .foregroundColor(.black)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(10)
-                        Text(" Project Description")
-                        TextField("Project Description", text: $projectDesc)
-                            .padding(9)
-                            .foregroundColor(.black)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(10)
-                        Text(" Collaborator")
-                        TextField("Test", text: $projectName)
-                            .padding(9)
-                            .foregroundColor(.black)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(10)
-                        DatePicker(
-                            "Due Date",
-                             selection: $date,
-                             displayedComponents: [.date, .hourAndMinute]
-                        )
-                        Divider()
-                        VStack {
-                            Button {
-                                print("Finish")
-                            } label: {
-                                
-                                ZStack{
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .foregroundColor(Color("green_tone"))
-                                        .shadow(radius: 1.5)
-                                        .frame(width: 200, height: 40)
-                                    VStack {
-                                        Text("Finish Project")
-                                            .font(.system(size: 20, weight: .bold))
-                                            .foregroundColor(.white)
-                                    }
+        ZStack{
+            Color("yellow_tone").ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(" Project Name")
+                    TextField("Project Name", text: $projectName)
+                        .padding(9)
+                        .foregroundColor(.black)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
+                    Text(" Project Description")
+                    TextField("Project Description", text: $projectDesc)
+                        .padding(9)
+                        .foregroundColor(.black)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
+                    Text(" Collaborator")
+                    TextField("Test", text: $projectName)
+                        .padding(9)
+                        .foregroundColor(.black)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
+                    DatePicker(
+                        "Due Date",
+                         selection: $date,
+                         displayedComponents: [.date, .hourAndMinute]
+                    )
+                    Divider()
+                    VStack {
+                        NavigationLink {
+                            ScoringView()
+                        } label: {
+                            
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 25)
+                                    .foregroundColor(Color("green_tone"))
+                                    .shadow(radius: 1.5)
+                                    .frame(width: 200, height: 40)
+                                VStack {
+                                    Text("Finish Project")
+                                        .font(.system(size: 15, weight: .regular))
+                                        .foregroundColor(.white)
                                 }
                             }
-                            
-                            Spacer()
-                            
-                            Button {
-                                vm.deleteData(projectToDelete: project!)
-                                presentationMode.wrappedValue.dismiss()
-                            } label: {
-                                ZStack{
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .foregroundColor(Color("red_tone"))
-                                        .shadow(radius: 1.5)
-                                        .frame(width: 200, height: 40)
-                                    VStack {
-                                        Text("Delete Project")
-                                            .font(.system(size: 20, weight: .bold))
-                                            .foregroundColor(.white)
-                                    }
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            vm.deleteData(projectToDelete: project!)
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 25)
+                                    .foregroundColor(Color("red_tone"))
+                                    .shadow(radius: 1.5)
+                                    .frame(width: 200, height: 40)
+                                VStack {
+                                    Text("Delete Project")
+                                        .font(.system(size: 15, weight: .regular))
+                                        .foregroundColor(.white)
                                 }
                             }
-                        }.frame(maxWidth: .infinity, alignment: .center).offset(y:20)
-
-
-                    }.padding()
-                    
-                }
+                        }
+                    }.frame(maxWidth: .infinity, alignment: .center).offset(y:20)
+                }.padding()
             }
         }.navigationBarTitleDisplayMode(.inline)
         
@@ -141,10 +136,10 @@ struct BoardDetailView: View {
             Color("yellow_tone"),
             for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .toolbar(.hidden, for: .tabBar)
         .preferredColorScheme(.light)
+        
+        .toolbar(.hidden, for: .tabBar)
     }
-
 }
 
 struct BoardDetailView_Previews: PreviewProvider {
