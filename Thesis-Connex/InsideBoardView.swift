@@ -109,12 +109,6 @@ struct InsideBoardView: View {
                             .foregroundColor(Color("brown_tone"))
                             .frame(width: 185, alignment: .trailing)
                     })
-//                    NavigationLink(destination: TaskDetailView(), label: {
-//                        Image(systemName: "plus.circle.fill")
-//                            .font(.system(size: 20))
-//                            .foregroundColor(Color("brown_tone"))
-//                            .frame(width: 185, alignment: .trailing)
-//                    })
                 }
             }
         }
