@@ -12,11 +12,12 @@ struct ContentView: View {
     
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var boardVM = ProjectViewModel()
+    @StateObject var taskVM = TaskViewModel()
     
     var body: some View {
         if currentPage > totalPages{
             TabView{
-                BoardView(vm: boardVM)
+                BoardView(projectVM: boardVM, taskVM: taskVM)
                     .tabItem{
                         Label("Board", systemImage: "doc.circle")
                     }

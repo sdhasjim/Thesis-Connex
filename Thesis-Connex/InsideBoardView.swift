@@ -74,6 +74,16 @@ struct AppBar: View{
 }
 
 struct InsideBoardView: View {
+    
+    let project: Project?
+//    let task: Task?
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
+    @State var projectName = ""
+    @State var projectDesc = ""
+    
+    
     @State var selectedTab = "profile"
     @State var index = 1
     @State var offset: CGFloat = 0
@@ -96,8 +106,8 @@ struct InsideBoardView: View {
                         .clipShape(Circle())
                         .frame(alignment: .topLeading)
                     
-                    Text("  Board 1")
-                        .font(.system(size: 28, weight: .bold))
+                    Text("  \(project!.name)")
+                        .font(.system(size: 25, weight: .bold))
                         .foregroundColor(Color("brown_tone"))
                         .frame(alignment: .topLeading)
                     
@@ -111,6 +121,10 @@ struct InsideBoardView: View {
                     })
                 }
             }
+            .onAppear(perform: {
+                taskVM.getDataFromProjectID(projectID: project!.id)
+//                taskVM.getDataFromStatus(status: "todo")
+            })
         }
         
     }
@@ -118,17 +132,36 @@ struct InsideBoardView: View {
     func newTaskView(){
         let alert = UIAlertController(title: "Create New Task", message: "Let's create your task name", preferredStyle: .alert)
         
+        let errorAlert = UIAlertController(title: "Failed to Add New Project", message: "Project Name should be filled", preferredStyle: .alert)
+        
+        errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            print("Ok tapped")
+        }))
+        
         
         alert.addTextField{(name) in
             name.isSecureTextEntry = false
             name.placeholder = "Task Name"
         }
         
-        let create = UIAlertAction(title: "Create", style: .default){(_) in
-            //do yiur own stuff
+        let confirmAction = UIAlertAction(title: "Save", style: .default) { _ in
+            if let textField = alert.textFields?.first, let text = textField.text {
+                projectName = text
+                print("Final text: \(projectName)")
+            }
+            if let textField = alert.textFields?.last, let text = textField.text {
+                projectDesc = text
+                print("Last text: \(projectDesc)")
+            }
             
-            //retrieving password
-            taskName = alert.textFields![0].text!
+            if projectName == "" {
+                UIApplication.shared.windows.first?.rootViewController?.present(errorAlert, animated: true, completion: {
+
+                })
+            }
+            else {
+                taskVM.addData(projectID: project!.id, name: projectName)
+            }
         }
         
         let cancel = UIAlertAction(title: "cancel", style: .destructive){(_) in
@@ -138,7 +171,7 @@ struct InsideBoardView: View {
         //adding into alertview
         alert.addAction(cancel)
         
-        alert.addAction(create)
+        alert.addAction(confirmAction)
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
@@ -147,6 +180,7 @@ struct InsideBoardView: View {
     }
 
     var body: some View {
+        
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             VStack{
@@ -157,13 +191,13 @@ struct InsideBoardView: View {
                     
                     HStack(spacing: 0){
                         
-                        TodoView()
+                        TodoView(taskVM: taskVM, projectID: project!.id, task: nil)
                             .frame(width: g.frame(in: .global).width)
-                        
-                        ProgressingView()
+
+                        ProgressingView(taskVM: taskVM, task: nil)
                             .frame(width: g.frame(in: .global).width)
-                        
-                        DoneView()
+
+                        DoneView(taskVM: taskVM, task: nil)
                             .frame(width: g.frame(in: .global).width)
                     }
                     .offset(x: self.offset)
@@ -183,6 +217,7 @@ struct InsideBoardView: View {
             }
             .animation(.default)
         }
+
         .navigationBarTitleDisplayMode(.inline)
         
         //ini headernya
@@ -220,82 +255,90 @@ struct InsideBoardView: View {
 }
 
 struct TodoView: View{
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
+    let projectID: String
+    let task: Task?
+    
     @State private var showModel = false
     @State var customAlert = false
     @State var HUD = false
     @State var projectName = ""
     var body: some View{
+
         ZStack{
             RoundedRectangle(cornerRadius: 25)
                 .foregroundColor(.white)
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                VStack{
-                    Button(action: {
-                        editTaskView()
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 15)
-                                .foregroundColor(Color("red_tone"))
-                                .shadow(radius: 1.5)
-                            VStack{
-                                HStack{
-                                    Text("Make a prototype")
-                                        .font(.system(size: 18, weight: .bold))
+                ForEach(taskVM.tasks) { item in
+                    VStack{
+                        Button(action: {
+                            editTaskView(taskToEdit: item)
+                        }, label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(Color("red_tone"))
+                                    .shadow(radius: 1.5)
+                                VStack{
+                                    HStack{
+                                        Text(item.name)
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.white)
+                                        
+                                        Spacer()
+                                        
+                                        NavigationLink {
+                                            TaskDetailView(task: item, vm: taskVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
+                                        } label: {
+                                            Image(systemName: "square.and.pencil")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.white)
+                                        }
+                                    }
+                                }.frame(width: 280, height: 50, alignment: .topLeading)
+                                
+                                VStack{
+                                    Text("Assigne: \(item.assignee)")
+                                        .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
-                                    
-                                    NavigationLink(destination: TaskDetailView(), label: {
-                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                    }).offset(x: 90)
-                                    
-//                                    Button(action: {
-//
-//                                    }){
-//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-//                                            .foregroundColor(.white)
-//                                    }.offset(x: 90)
-                                }
-                            }.frame(width: 280, height: 50, alignment: .topLeading)
-                            
-                            VStack{
-                                Text("Assigne: Annie")
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.white)
-                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
-                        }.frame(width: 300, height: 80)
-                    }).frame(width: 320, height: 520, alignment: .top)
+                                }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                            }.frame(width: 300, height: 80)
+                        })
+                    }
                 }
+
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
+//            .onAppear(perform: {
+//                taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+//            })
+
     }
-    func editTaskView(){
+    func editTaskView(taskToEdit: Task?){
+        
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            print("DONE")
         }
         
-        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
-            //same
-        }
-        
-        //adding into alertview
         alert.addAction(todo)
         alert.addAction(progressing)
         alert.addAction(done)
-        alert.addAction(delete)
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
@@ -306,6 +349,11 @@ struct TodoView: View{
 }
 
 struct ProgressingView: View{
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
+    let task: Task?
+    
     @State private var showModel = false
     @State var customAlert = false
     @State var HUD = false
@@ -317,71 +365,71 @@ struct ProgressingView: View{
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                VStack{
-                    Button(action: {
-                        editTaskView()
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 15)
-                                .foregroundColor(Color("progressing_tone"))
-                                .shadow(radius: 1.5)
-                            VStack{
-                                HStack{
-                                    Text("Make a prototype")
-                                        .font(.system(size: 18, weight: .bold))
+                ForEach(taskVM.tasks) { item in
+                    VStack{
+                        Button(action: {
+                            editTaskView(taskToEdit: item)
+                        }, label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(Color("progressing_tone"))
+                                    .shadow(radius: 1.5)
+                                VStack{
+                                    HStack{
+                                        Text("Make a prototype")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.white)
+                                        
+                                        NavigationLink(destination: TaskDetailView(task: item, vm: taskVM), label: {
+                                            Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
+                                        }).offset(x: 90)
+                                        
+    //                                    Button(action: {
+    //
+    //                                    }){
+    //                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
+    //                                            .foregroundColor(.white)
+    //                                    }.offset(x: 90)
+                                    }
+                                }.frame(width: 280, height: 50, alignment: .topLeading)
+                                
+                                VStack{
+                                    Text("Assigne: Annie")
+                                        .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
-                                    
-                                    NavigationLink(destination: TaskDetailView(), label: {
-                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                    }).offset(x: 90)
-                                    
-//                                    Button(action: {
-//
-//                                    }){
-//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-//                                            .foregroundColor(.white)
-//                                    }.offset(x: 90)
-                                }
-                            }.frame(width: 280, height: 50, alignment: .topLeading)
-                            
-                            VStack{
-                                Text("Assigne: Annie")
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.white)
-                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
-                        }.frame(width: 300, height: 80)
-                    }).frame(width: 320, height: 520, alignment: .top)
+                                }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                            }.frame(width: 300, height: 80)
+                        })
+                    }
                 }
+
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
+//                    .onAppear(perform: {
+//                        taskVM.getDataFromStatus(status: "progressing")
+//                    })
     }
-    func editTaskView(){
+    func editTaskView(taskToEdit: Task?){
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            print("DONE")
         }
         
-        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
-            //same
-        }
-        
-        //adding into alertview
         alert.addAction(todo)
         alert.addAction(progressing)
         alert.addAction(done)
-        alert.addAction(delete)
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
@@ -391,6 +439,11 @@ struct ProgressingView: View{
 }
 
 struct DoneView: View{
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
+    let task: Task?
+    
     @State private var showModel = false
     @State var customAlert = false
     @State var HUD = false
@@ -402,71 +455,70 @@ struct DoneView: View{
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                VStack{
-                    Button(action: {
-                        editTaskView()
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 15)
-                                .foregroundColor(Color("green_tone"))
-                                .shadow(radius: 1.5)
-                            VStack{
-                                HStack{
-                                    Text("Make a prototype")
-                                        .font(.system(size: 18, weight: .bold))
+                ForEach(taskVM.tasks) { item in
+                    VStack{
+                        Button(action: {
+                            editTaskView(taskToEdit: item)
+                        }, label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(Color("green_tone"))
+                                    .shadow(radius: 1.5)
+                                VStack{
+                                    HStack{
+                                        Text("Make a prototype")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.white)
+                                        
+                                        NavigationLink(destination: TaskDetailView(task: task, vm: taskVM), label: {
+                                            Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
+                                        }).offset(x: 90)
+                                        
+    //                                    Button(action: {
+    //
+    //                                    }){
+    //                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
+    //                                            .foregroundColor(.white)
+    //                                    }.offset(x: 90)
+                                    }
+                                }.frame(width: 280, height: 50, alignment: .topLeading)
+                                
+                                VStack{
+                                    Text("Assigne: Annie")
+                                        .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
-                                    
-                                    NavigationLink(destination: TaskDetailView(), label: {
-                                        Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                    }).offset(x: 90)
-                                    
-//                                    Button(action: {
-//
-//                                    }){
-//                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-//                                            .foregroundColor(.white)
-//                                    }.offset(x: 90)
-                                }
-                            }.frame(width: 280, height: 50, alignment: .topLeading)
-                            
-                            VStack{
-                                Text("Assigne: Annie")
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.white)
-                            }.frame(width: 280, height: 50, alignment: .bottomLeading)
-                        }.frame(width: 300, height: 80)
-                    }).frame(width: 320, height: 520, alignment: .top)
+                                }.frame(width: 280, height: 50, alignment: .bottomLeading)
+                            }.frame(width: 300, height: 80)
+                        })
+                    }
                 }
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
     }
-    func editTaskView(){
+    func editTaskView(taskToEdit: Task?){
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
-            //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             //do yiur own stuff
-            
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             //do yiur own stuff
-            
-        }
-        
-        let delete = UIAlertAction(title: "Delete", style: .destructive){(_) in
-            //same
+            taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            print("DONE")
         }
         
         //adding into alertview
         alert.addAction(todo)
         alert.addAction(progressing)
         alert.addAction(done)
-        alert.addAction(delete)
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
@@ -478,7 +530,7 @@ struct DoneView: View{
 
 struct InsideBoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(vm: ProjectViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
     }
 }
 
