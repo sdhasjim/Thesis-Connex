@@ -317,18 +317,15 @@ struct TodoView: View{
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
-            //do yiur own stuff
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
             print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
-            //do yiur own stuff
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
             print("DONE")
         }
         
-        //adding into alertview
         alert.addAction(todo)
         alert.addAction(progressing)
         alert.addAction(done)
@@ -408,19 +405,15 @@ struct ProgressingView: View{
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
-            //do yiur own stuff
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
             print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
-            //do yiur own stuff
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
             print("DONE")
         }
         
-        
-        //adding into alertview
         alert.addAction(todo)
         alert.addAction(progressing)
         alert.addAction(done)
