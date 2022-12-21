@@ -92,6 +92,7 @@ struct TaskDetailView: View {
                     }
                 }
         }
+        .navigationTitle("Task Detail").navigationBarTitleDisplayMode(.inline)
     }
 }
 

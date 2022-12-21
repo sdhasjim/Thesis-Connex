@@ -28,6 +28,8 @@
 		3FDA08B6293F8B6F003DF219 /* ProfileUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDA08B5293F8B6F003DF219 /* ProfileUser.swift */; };
 		B20C90B6291A509E0037B929 /* NetworkMonitorConnex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */; };
 		B20C90B8291A52C00037B929 /* InsideBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B7291A52C00037B929 /* InsideBoardView.swift */; };
+		B2616E0B2952CA6F00F19CED /* ScoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2616E0A2952CA6F00F19CED /* ScoringView.swift */; };
+		B2616E0D2952D3EB00F19CED /* ScoringDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2616E0C2952D3EB00F19CED /* ScoringDetailView.swift */; };
 		B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */; };
 		B28AF16429122573004BC481 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF16329122573004BC481 /* TaskView.swift */; };
 		B28AF16629122665004BC481 /* TabCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28AF16529122665004BC481 /* TabCurve.swift */; };
@@ -56,6 +58,8 @@
 		3FDA08B5293F8B6F003DF219 /* ProfileUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUser.swift; sourceTree = "<group>"; };
 		B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorConnex.swift; sourceTree = "<group>"; };
 		B20C90B7291A52C00037B929 /* InsideBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsideBoardView.swift; sourceTree = "<group>"; };
+		B2616E0A2952CA6F00F19CED /* ScoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringView.swift; sourceTree = "<group>"; };
+		B2616E0C2952D3EB00F19CED /* ScoringDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringDetailView.swift; sourceTree = "<group>"; };
 		B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B28AF16329122573004BC481 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		B28AF16529122665004BC481 /* TabCurve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCurve.swift; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 				3F0633452946EC020046D7F3 /* TaskDetailView.swift */,
 				3F78A84F2946DCDA00C6ED03 /* BoardDetailView.swift */,
 				B20C90B7291A52C00037B929 /* InsideBoardView.swift */,
+				B2616E0A2952CA6F00F19CED /* ScoringView.swift */,
+				B2616E0C2952D3EB00F19CED /* ScoringDetailView.swift */,
 				B2C5EC652909712200672E71 /* LoginView.swift */,
 				3F6EA25D292CE72000AE4007 /* ImagePicker.swift */,
 				3F9EFB4429195E0600E8DF17 /* GoogleService-Info.plist */,
@@ -253,6 +259,7 @@
 				B2C5EC662909712200672E71 /* LoginView.swift in Sources */,
 				3F6EA25E292CE72000AE4007 /* ImagePicker.swift in Sources */,
 				3F0292A82950BE8D006B82FB /* ProjectViewModel.swift in Sources */,
+				B2616E0B2952CA6F00F19CED /* ScoringView.swift in Sources */,
 				B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */,
 				3F1611A62951A9A400B38E9C /* ProfileViewModel.swift in Sources */,
 				B2C5EC682909713600672E71 /* Signup.swift in Sources */,
@@ -267,6 +274,7 @@
 				3F7610D3293CE4ED00665A75 /* FirebaseManager.swift in Sources */,
 				3F15BCC529096F2500351530 /* Thesis_ConnexApp.swift in Sources */,
 				3FDA08B6293F8B6F003DF219 /* ProfileUser.swift in Sources */,
+				B2616E0D2952D3EB00F19CED /* ScoringDetailView.swift in Sources */,
 				3F78A8502946DCDA00C6ED03 /* BoardDetailView.swift in Sources */,
 				3F6EA8712952C92500A737E0 /* Task.swift in Sources */,
 				B28AF16629122665004BC481 /* TabCurve.swift in Sources */,
