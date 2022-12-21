@@ -70,6 +70,34 @@ class TaskViewModel: ObservableObject {
         }
     }
     
+    func getDataFromProjectID(projectID: String) {
+        let db = FirebaseManager.shared.firestore
+        
+        let taskRef = db.collection("tasks")
+        
+        let query = taskRef.whereField("projectID", isEqualTo: projectID)
+        
+        query.getDocuments { querySnapshot, err in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                    DispatchQueue.main.async {
+                        self.tasks = querySnapshot!.documents.map { d in
+                            
+                            return Task(id: d.documentID,
+                                        name: d["name"] as? String ?? "",
+                                        assignee: d["assignee"] as? String ?? "",
+                                        desc: d["desc"] as? String ?? "",
+                                        priority: d["priority"] as? String ?? "",
+                                        dueDate: d["dueDate"] as? String ?? ""
+                            
+                            )
+                        }
+                    }
+            }
+        }
+    }
+    
     func getData() {
         let db = FirebaseManager.shared.firestore
         
@@ -122,7 +150,7 @@ class TaskViewModel: ObservableObject {
                     return
                 }
                 
-                self.getData()
+                self.getDataFromProjectID(projectID: projectID)
                 print("Success")
             }
     }
