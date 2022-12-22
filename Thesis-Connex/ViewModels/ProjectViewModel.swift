@@ -10,9 +10,11 @@ import Foundation
 class ProjectViewModel: ObservableObject {
     
     @Published var projects = [Project]()
+    @Published var collabProjects = [Project]()
     
     init() {
         getDataFromUser()
+        getDataFromOther()
     }
     
     func updateData(projectToUpdate: Project) {
@@ -118,6 +120,35 @@ class ProjectViewModel: ObservableObject {
             } else {
                     DispatchQueue.main.async {
                         self.projects = querySnapshot!.documents.map { d in
+                            
+                            // Create a project for each document iterated
+                            return Project(id: d.documentID,
+                                           name: d["name"] as? String ?? "",
+                                           desc: d["desc"] as? String ?? "",
+                                           collaborator: d["collaborator"] as? [String] ?? [String]())
+                        }
+                    }
+            }
+        }
+    }
+    
+    func getDataFromOther() {
+        guard let email = FirebaseManager.shared.auth.currentUser?.email else { return }
+        
+        let db = FirebaseManager.shared.firestore
+        
+        let projectRef = db.collection("projects")
+        
+        let query =
+        projectRef
+            .whereField("collaborator", arrayContains: email)
+        
+        query.getDocuments { querySnapshot, err in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                    DispatchQueue.main.async {
+                        self.collabProjects = querySnapshot!.documents.map { d in
                             
                             // Create a project for each document iterated
                             return Project(id: d.documentID,
