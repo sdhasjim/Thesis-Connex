@@ -13,11 +13,11 @@ class CreateNewMessageViewModel: ObservableObject {
     @Published var users = [ProfileUser]()
     @Published var errorMessage = ""
     
-    init() {
-        fetchAllUsers()
+    init(collaborator: [String]) {
+        fetchAllUsers(collaborator: collaborator)
     }
     
-    private func fetchAllUsers() {
+    private func fetchAllUsers(collaborator: [String]) {
         FirebaseManager.shared.firestore.collection("users")
             .getDocuments { documentsSnapshot, error in
                 if let error = error {
@@ -29,7 +29,8 @@ class CreateNewMessageViewModel: ObservableObject {
                 documentsSnapshot?.documents.forEach({ snapshot in
                     let data = snapshot.data()
                     let user = ProfileUser(data: data)
-                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid {
+                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
+                    }) {
                         self.users.append(.init(data: data))
                     }
                 })
@@ -43,7 +44,7 @@ struct InviteCollaborator: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    @ObservedObject var vm = CreateNewMessageViewModel()
+    @ObservedObject var vm: CreateNewMessageViewModel
     
     var body: some View {
         NavigationView {

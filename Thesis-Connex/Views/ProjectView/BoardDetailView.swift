@@ -80,7 +80,7 @@ struct BoardDetailView: View {
                             self.profileUser = user
                             self.collaborator.append(self.profileUser!.email)
                             print(collaborator)
-                        })
+                        }, vm: CreateNewMessageViewModel(collaborator: collaborator))
         }
     }
     
