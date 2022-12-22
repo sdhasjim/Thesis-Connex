@@ -160,7 +160,7 @@ struct BoardView: View {
 
                                                     Spacer()
                                                     NavigationLink {
-                                                        BoardDetailView(project: item, vm: projectVM, projectName: item.name, projectDesc: item.desc)
+                                                        BoardDetailView(project: item, vm: projectVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
                                                     } label: {
                                                         Image(systemName: "square.and.pencil")
                                                             .font(.system(size: 20))

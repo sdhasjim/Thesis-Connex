@@ -26,6 +26,7 @@
 		3F78A8502946DCDA00C6ED03 /* BoardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F78A84F2946DCDA00C6ED03 /* BoardDetailView.swift */; };
 		3F9EFB4529195E0600E8DF17 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F9EFB4429195E0600E8DF17 /* GoogleService-Info.plist */; };
 		3FDA08B6293F8B6F003DF219 /* ProfileUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDA08B5293F8B6F003DF219 /* ProfileUser.swift */; };
+		3FE502E0295446F400936401 /* InviteCollaborator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE502DF295446F400936401 /* InviteCollaborator.swift */; };
 		B20C90B6291A509E0037B929 /* NetworkMonitorConnex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */; };
 		B20C90B8291A52C00037B929 /* InsideBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B7291A52C00037B929 /* InsideBoardView.swift */; };
 		B2616E0B2952CA6F00F19CED /* ScoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2616E0A2952CA6F00F19CED /* ScoringView.swift */; };
@@ -56,6 +57,7 @@
 		3F78A84F2946DCDA00C6ED03 /* BoardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDetailView.swift; sourceTree = "<group>"; };
 		3F9EFB4429195E0600E8DF17 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3FDA08B5293F8B6F003DF219 /* ProfileUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUser.swift; sourceTree = "<group>"; };
+		3FE502DF295446F400936401 /* InviteCollaborator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCollaborator.swift; sourceTree = "<group>"; };
 		B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorConnex.swift; sourceTree = "<group>"; };
 		B20C90B7291A52C00037B929 /* InsideBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsideBoardView.swift; sourceTree = "<group>"; };
 		B2616E0A2952CA6F00F19CED /* ScoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringView.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				3F6EA8752953557900A737E0 /* ProjectView */,
 				B297E700291154F600248982 /* ProfileView.swift */,
 				B2C5EC652909712200672E71 /* LoginView.swift */,
+				3FE502DF295446F400936401 /* InviteCollaborator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				B2616E0B2952CA6F00F19CED /* ScoringView.swift in Sources */,
 				B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */,
 				3F1611A62951A9A400B38E9C /* ProfileViewModel.swift in Sources */,
+				3FE502E0295446F400936401 /* InviteCollaborator.swift in Sources */,
 				B2C5EC682909713600672E71 /* Signup.swift in Sources */,
 				3F0292A62950BBDD006B82FB /* Project.swift in Sources */,
 				B297E6FF2911514900248982 /* BoardView.swift in Sources */,
