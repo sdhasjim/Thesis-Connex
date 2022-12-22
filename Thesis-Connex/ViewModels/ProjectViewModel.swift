@@ -32,12 +32,12 @@ class ProjectViewModel: ObservableObject {
         
     }
     
-    func updateExistingData(projectToUpdate: Project, name: String, desc: String) {
+    func updateExistingData(projectToUpdate: Project, name: String, desc: String, collaborator: [String]) {
         
         let db = FirebaseManager.shared.firestore
         
         // Set the data to update
-        db.collection("projects").document(projectToUpdate.id).setData(["name": name, "desc": desc], merge: true) { error in
+        db.collection("projects").document(projectToUpdate.id).setData(["name": name, "desc": desc, "collaborator": collaborator], merge: true) { error in
             
 //        }
 //        db.collection("projects").document(projectToUpdate.id).setData(["name": "updated project name"], merge: true)
@@ -48,6 +48,7 @@ class ProjectViewModel: ObservableObject {
                 
                 self.projects[index].name = name
                 self.projects[index].desc = desc
+                self.projects[index].collaborator = collaborator
             }
         }
         
@@ -121,7 +122,8 @@ class ProjectViewModel: ObservableObject {
                             // Create a project for each document iterated
                             return Project(id: d.documentID,
                                            name: d["name"] as? String ?? "",
-                                           desc: d["desc"] as? String ?? "")
+                                           desc: d["desc"] as? String ?? "",
+                                           collaborator: d["collaborator"] as? [String] ?? [String]())
                         }
                     }
             }
@@ -149,7 +151,8 @@ class ProjectViewModel: ObservableObject {
                             // Create a project for each document iterated
                             return Project(id: d.documentID,
                                            name: d["name"] as? String ?? "",
-                                           desc: d["desc"] as? String ?? "")
+                                           desc: d["desc"] as? String ?? "",
+                                           collaborator: d["collaborator"] as? [String] ?? [String]())
                         }
                     }
                     

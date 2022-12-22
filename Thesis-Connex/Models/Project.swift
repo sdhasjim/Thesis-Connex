@@ -12,6 +12,7 @@ struct Project: Identifiable, Equatable {
     var id: String
     var name: String
     var desc: String
+    var collaborator: [String]
     
     static func == (lhs: Project, rhs: Project) -> Bool {
             return lhs.id == rhs.id

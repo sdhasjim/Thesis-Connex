@@ -91,6 +91,6 @@ struct InviteCollaborator: View {
 struct InviteCollaborator_Previews: PreviewProvider {
     static var previews: some View {
 //        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla"), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"]), vm: ProjectViewModel())
     }
 }

@@ -17,7 +17,6 @@ struct BoardDetailView: View {
     
     @State var projectName = ""
     @State var projectDesc = ""
-    @State var projectInvite = ""
     @State var collaborator = [String]()
     @State var date = Date()
     
@@ -42,7 +41,7 @@ struct BoardDetailView: View {
                 .frame(width: 275, alignment: .topLeading)
             
             Button {
-                vm.updateExistingData(projectToUpdate: project!, name: projectName, desc: projectDesc)
+                vm.updateExistingData(projectToUpdate: project!, name: projectName, desc: projectDesc, collaborator: collaborator)
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("Save")
@@ -52,7 +51,7 @@ struct BoardDetailView: View {
             .frame(alignment: .trailing)
         }.offset(x: 5)
         
-        }
+    }
     }
     
     private var inviteCollaborator: some View {
@@ -67,20 +66,20 @@ struct BoardDetailView: View {
             }
             .foregroundColor(.white)
             .padding(.vertical)
-                .background(Color.blue)
-                .cornerRadius(24)
-                .padding(.horizontal)
-                .shadow(radius: 15)
+            .background(Color.blue)
+            .cornerRadius(24)
+            .padding(.horizontal)
+            .shadow(radius: 15)
         }
         .fullScreenCover(isPresented: $shouldShowNewMessageScreen) {
-                        InviteCollaborator(didSelectNewUser: { user
-                            in
-                            print(user.email)
-//                            self.shouldNavigateToChatLogView.toggle()
-                            self.profileUser = user
-                            self.collaborator.append(self.profileUser!.email)
-                            print(collaborator)
-                        }, vm: CreateNewMessageViewModel(collaborator: collaborator))
+            InviteCollaborator(didSelectNewUser: { user
+                in
+                print(user.email)
+                //                            self.shouldNavigateToChatLogView.toggle()
+                self.profileUser = user
+                self.collaborator.append(self.profileUser!.email)
+                print(collaborator)
+            }, vm: CreateNewMessageViewModel(collaborator: collaborator))
         }
     }
     
@@ -126,10 +125,6 @@ struct BoardDetailView: View {
         }.frame(maxWidth: .infinity, alignment: .center).offset(y:20)
     }
     
-    func delete(at offsets: IndexSet) {
-        collaborator.remove(atOffsets: offsets)
-    }
-    
     var body: some View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
@@ -151,27 +146,44 @@ struct BoardDetailView: View {
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(10)
                     }
-                    Group {
-                        Text(" Collaborator")
+                    Text(" Collaborator")
+                    VStack(alignment: .leading) {
                         ForEach(collaborator, id:\.self) { c in
-                            Text(c)
+                            HStack {
+                                Text(c)
+                                    .padding()
+                                Button {
+                                    if let index = self.collaborator.firstIndex(of: c) {
+                                        self.collaborator.remove(at: index)
+                                    }
+                                    print(collaborator)
+                                } label: {
+                                    Image(systemName: "minus.circle")
+                                        .foregroundColor(.red)
+                                        .padding()
+                                }
+                                
+                            }
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(20)
+                            
                         }
-                        .onDelete(perform: delete)
                     }
+                    
                     inviteCollaborator
-//                    Button {
-//                        self.collaborator.append(self.projectInvite)
-//                        self.projectInvite = ""
-//                        print(collaborator)
-//                    } label: {
-//                        Text("Add Item")
-//                    }
-
-//                    DatePicker(
-//                        "Due Date",
-//                         selection: $date,
-//                         displayedComponents: [.date, .hourAndMinute]
-//                    )
+                    //                    Button {
+                    //                        self.collaborator.append(self.projectInvite)
+                    //                        self.projectInvite = ""
+                    //                        print(collaborator)
+                    //                    } label: {
+                    //                        Text("Add Item")
+                    //                    }
+                    
+                    //                    DatePicker(
+                    //                        "Due Date",
+                    //                         selection: $date,
+                    //                         displayedComponents: [.date, .hourAndMinute]
+                    //                    )
                     Divider()
                     projectProperty
                 }.padding()
@@ -179,23 +191,23 @@ struct BoardDetailView: View {
         }.navigationBarTitleDisplayMode(.inline)
         
         //ini headernya
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: boardDetailNavBar)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: boardDetailNavBar)
         
         //make navbar color to white
-        .toolbarColorScheme(.dark, for: .navigationBar)
-        .toolbarBackground(
-            Color("yellow_tone"),
-            for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .preferredColorScheme(.light)
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarBackground(
+                Color("yellow_tone"),
+                for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .preferredColorScheme(.light)
         
-        .toolbar(.hidden, for: .tabBar)
+            .toolbar(.hidden, for: .tabBar)
     }
 }
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla"), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"]), vm: ProjectViewModel())
     }
 }
