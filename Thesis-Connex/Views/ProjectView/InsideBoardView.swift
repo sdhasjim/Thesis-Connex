@@ -168,6 +168,9 @@ struct InsideBoardView: View {
             else {
                 taskVM.addData(projectID: project!.id, name: projectName)
             }
+            taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "done")
         }
         
         let cancel = UIAlertAction(title: "cancel", style: .destructive){(_) in
@@ -181,7 +184,6 @@ struct InsideBoardView: View {
         
         //presenting alertView
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
-            //do your own
         })
     }
 
@@ -330,17 +332,23 @@ struct TodoView: View{
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("DONE")
         }
@@ -353,6 +361,7 @@ struct TodoView: View{
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
             //do your own
         })
+//        taskVM
     }
     
 }
@@ -426,17 +435,23 @@ struct ProgressingView: View{
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("DONE")
         }
@@ -518,17 +533,23 @@ struct DoneView: View{
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
             taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("DONE")
         }
