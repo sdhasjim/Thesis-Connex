@@ -122,9 +122,15 @@ struct InsideBoardView: View {
                 }
             }
             .onAppear(perform: {
-                taskVM.getDataFromProjectID(projectID: project!.id)
-//                taskVM.getDataFromStatus(status: "todo")
+                taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "todo")
+                taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "progressing")
+                taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "done")
             })
+//            .onAppear(perform: {
+////                taskVM.getDataFromProjectID(projectID: project!.id)
+//                taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "todo")
+////                taskVM.getDataFromStatus(status: "todo")
+//            })
         }
         
     }
@@ -194,10 +200,10 @@ struct InsideBoardView: View {
                         TodoView(taskVM: taskVM, projectID: project!.id, task: nil)
                             .frame(width: g.frame(in: .global).width)
 
-                        ProgressingView(taskVM: taskVM, task: nil)
+                        ProgressingView(taskVM: taskVM, projectID: project!.id, task: nil)
                             .frame(width: g.frame(in: .global).width)
 
-                        DoneView(taskVM: taskVM, task: nil)
+                        DoneView(taskVM: taskVM, projectID: project!.id, task: nil)
                             .frame(width: g.frame(in: .global).width)
                     }
                     .offset(x: self.offset)
@@ -273,7 +279,7 @@ struct TodoView: View{
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                ForEach(taskVM.tasks) { item in
+                ForEach(taskVM.todoTasks) { item in
                     VStack{
                         Button(action: {
                             editTaskView(taskToEdit: item)
@@ -323,16 +329,19 @@ struct TodoView: View{
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
             print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
             print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("DONE")
         }
         
@@ -352,6 +361,7 @@ struct ProgressingView: View{
     
     @ObservedObject var taskVM: TaskViewModel
     
+    let projectID: String
     let task: Task?
     
     @State private var showModel = false
@@ -365,7 +375,7 @@ struct ProgressingView: View{
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                ForEach(taskVM.tasks) { item in
+                ForEach(taskVM.progressingTasks) { item in
                     VStack{
                         Button(action: {
                             editTaskView(taskToEdit: item)
@@ -376,25 +386,24 @@ struct ProgressingView: View{
                                     .shadow(radius: 1.5)
                                 VStack{
                                     HStack{
-                                        Text("Make a prototype")
+                                        Text(item.name)
                                             .font(.system(size: 18, weight: .bold))
                                             .foregroundColor(.white)
                                         
-                                        NavigationLink(destination: TaskDetailView(task: item, vm: taskVM), label: {
-                                            Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                        }).offset(x: 90)
+                                        Spacer()
                                         
-    //                                    Button(action: {
-    //
-    //                                    }){
-    //                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-    //                                            .foregroundColor(.white)
-    //                                    }.offset(x: 90)
+                                        NavigationLink {
+                                            TaskDetailView(task: item, vm: taskVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
+                                        } label: {
+                                            Image(systemName: "square.and.pencil")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.white)
+                                        }
                                     }
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: Annie")
+                                    Text("Assigne: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)
@@ -405,25 +414,30 @@ struct ProgressingView: View{
 
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
-//                    .onAppear(perform: {
-//                        taskVM.getDataFromStatus(status: "progressing")
-//                    })
+//            .onAppear(perform: {
+//                taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
+//                taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
+//                taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
+//            })
     }
     func editTaskView(taskToEdit: Task?){
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
             print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
             print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("DONE")
         }
         
@@ -442,6 +456,7 @@ struct DoneView: View{
     
     @ObservedObject var taskVM: TaskViewModel
     
+    let projectID: String
     let task: Task?
     
     @State private var showModel = false
@@ -455,7 +470,7 @@ struct DoneView: View{
                 .shadow(radius: 1.5)
                 .foregroundColor(.black)
             ScrollView(){
-                ForEach(taskVM.tasks) { item in
+                ForEach(taskVM.doneTasks) { item in
                     VStack{
                         Button(action: {
                             editTaskView(taskToEdit: item)
@@ -466,25 +481,24 @@ struct DoneView: View{
                                     .shadow(radius: 1.5)
                                 VStack{
                                     HStack{
-                                        Text("Make a prototype")
+                                        Text(item.name)
                                             .font(.system(size: 18, weight: .bold))
                                             .foregroundColor(.white)
                                         
-                                        NavigationLink(destination: TaskDetailView(task: task, vm: taskVM), label: {
-                                            Image(systemName: "square.and.pencil").font(.system(size: 20)).foregroundColor(.white)
-                                        }).offset(x: 90)
+                                        Spacer()
                                         
-    //                                    Button(action: {
-    //
-    //                                    }){
-    //                                        Image(systemName: "square.and.pencil").font(.system(size: 20))
-    //                                            .foregroundColor(.white)
-    //                                    }.offset(x: 90)
+                                        NavigationLink {
+                                            TaskDetailView(task: item, vm: taskVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
+                                        } label: {
+                                            Image(systemName: "square.and.pencil")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.white)
+                                        }
                                     }
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: Annie")
+                                    Text("Assigne: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)
@@ -494,24 +508,28 @@ struct DoneView: View{
                 }
             }.frame(width: 320, height: 520)
         }.frame(width: 340, height: 570).offset(y: -40)
+//            .onAppear(perform: {
+//                taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
+//            })
     }
     func editTaskView(taskToEdit: Task?){
         let alert = UIAlertController(title: "Task", message: "Edit your task status", preferredStyle: .alert)
         
         let todo = UIAlertAction(title: "To Do", style: .default){(_) in
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "todo")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "todo")
             print("TODO")
         }
         
         let progressing = UIAlertAction(title: "Progressing", style: .default){(_) in
-            //do yiur own stuff
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "progressing")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "progressing")
             print("PROGRESSING")
         }
         
         let done = UIAlertAction(title: "Done", style: .default){(_) in
-            //do yiur own stuff
             taskVM.updateExistingDataStatus(taskToUpdate: taskToEdit!, status: "done")
+            taskVM.getDataFromStatusAndProjectID(projectID: projectID, status: "done")
             print("DONE")
         }
         
