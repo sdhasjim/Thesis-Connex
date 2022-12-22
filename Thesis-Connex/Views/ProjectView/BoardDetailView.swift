@@ -17,7 +17,11 @@ struct BoardDetailView: View {
     
     @State var projectName = ""
     @State var projectDesc = ""
+    @State var projectInvite = ""
+    @State var collaborator = [String]()
     @State var date = Date()
+    
+    @State var shouldShowNewMessageScreen = false
     
     var boardDetailNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -51,72 +55,125 @@ struct BoardDetailView: View {
         }
     }
     
+    private var inviteCollaborator: some View {
+        Button {
+            shouldShowNewMessageScreen.toggle()
+        } label: {
+            HStack {
+                Spacer()
+                Text("+ Invite To Project")
+                    .font(.system(size: 16, weight: .bold))
+                Spacer()
+            }
+            .foregroundColor(.white)
+            .padding(.vertical)
+                .background(Color.blue)
+                .cornerRadius(24)
+                .padding(.horizontal)
+                .shadow(radius: 15)
+        }
+        .fullScreenCover(isPresented: $shouldShowNewMessageScreen) {
+                        InviteCollaborator(didSelectNewUser: { user
+                            in
+                            print(user.email)
+//                            self.shouldNavigateToChatLogView.toggle()
+                            self.profileUser = user
+                            self.collaborator.append(self.profileUser!.email)
+                            print(collaborator)
+                        })
+        }
+    }
+    
+    @State var profileUser: ProfileUser?
+    
+    private var projectProperty: some View {
+        VStack {
+            NavigationLink {
+                ScoringView()
+            } label: {
+                
+                ZStack{
+                    RoundedRectangle(cornerRadius: 25)
+                        .foregroundColor(Color("green_tone"))
+                        .shadow(radius: 1.5)
+                        .frame(width: 200, height: 40)
+                    VStack {
+                        Text("Finish Project")
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundColor(.white)
+                    }
+                }
+            }
+            
+            Spacer()
+            
+            Button {
+                vm.deleteData(projectToDelete: project!)
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                ZStack{
+                    RoundedRectangle(cornerRadius: 25)
+                        .foregroundColor(Color("red_tone"))
+                        .shadow(radius: 1.5)
+                        .frame(width: 200, height: 40)
+                    VStack {
+                        Text("Delete Project")
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundColor(.white)
+                    }
+                }
+            }
+        }.frame(maxWidth: .infinity, alignment: .center).offset(y:20)
+    }
+    
+    func delete(at offsets: IndexSet) {
+        collaborator.remove(atOffsets: offsets)
+    }
+    
     var body: some View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text(" Project Name")
-                    TextField("Project Name", text: $projectName)
-                        .padding(9)
-                        .foregroundColor(.black)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
-                    Text(" Project Description")
-                    TextField("Project Description", text: $projectDesc)
-                        .padding(9)
-                        .foregroundColor(.black)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
-                    Text(" Collaborator")
-                    TextField("Test", text: $projectName)
-                        .padding(9)
-                        .foregroundColor(.black)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
-                    DatePicker(
-                        "Due Date",
-                         selection: $date,
-                         displayedComponents: [.date, .hourAndMinute]
-                    )
+                    Group {
+                        Text(" Project Name")
+                        TextField("Project Name", text: $projectName)
+                            .padding(9)
+                            .foregroundColor(.black)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
+                    }
+                    Group {
+                        Text(" Project Description")
+                        TextField("Project Description", text: $projectDesc)
+                            .padding(9)
+                            .foregroundColor(.black)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
+                    }
+                    Group {
+                        Text(" Collaborator")
+                        ForEach(collaborator, id:\.self) { c in
+                            Text(c)
+                        }
+                        .onDelete(perform: delete)
+                    }
+                    inviteCollaborator
+//                    Button {
+//                        self.collaborator.append(self.projectInvite)
+//                        self.projectInvite = ""
+//                        print(collaborator)
+//                    } label: {
+//                        Text("Add Item")
+//                    }
+
+//                    DatePicker(
+//                        "Due Date",
+//                         selection: $date,
+//                         displayedComponents: [.date, .hourAndMinute]
+//                    )
                     Divider()
-                    VStack {
-                        NavigationLink {
-                            ScoringView()
-                        } label: {
-                            
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 25)
-                                    .foregroundColor(Color("green_tone"))
-                                    .shadow(radius: 1.5)
-                                    .frame(width: 200, height: 40)
-                                VStack {
-                                    Text("Finish Project")
-                                        .font(.system(size: 15, weight: .regular))
-                                        .foregroundColor(.white)
-                                }
-                            }
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            vm.deleteData(projectToDelete: project!)
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 25)
-                                    .foregroundColor(Color("red_tone"))
-                                    .shadow(radius: 1.5)
-                                    .frame(width: 200, height: 40)
-                                VStack {
-                                    Text("Delete Project")
-                                        .font(.system(size: 15, weight: .regular))
-                                        .foregroundColor(.white)
-                                }
-                            }
-                        }
-                    }.frame(maxWidth: .infinity, alignment: .center).offset(y:20)
+                    projectProperty
                 }.padding()
             }
         }.navigationBarTitleDisplayMode(.inline)
@@ -139,6 +196,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla"), vm: ProjectViewModel())
     }
 }

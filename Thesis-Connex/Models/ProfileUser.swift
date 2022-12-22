@@ -7,7 +7,10 @@
 
 import Foundation
 
-struct ProfileUser {
+struct ProfileUser: Identifiable {
+    
+    var id: String { uid }
+    
     let uid, username, email, profileImageUrl: String
     
     init(data: [String: Any]) {
