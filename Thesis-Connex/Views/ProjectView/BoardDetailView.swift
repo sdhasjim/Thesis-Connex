@@ -79,7 +79,7 @@ struct BoardDetailView: View {
                 self.profileUser = user
                 self.collaborator.append(self.profileUser!.email)
                 print(collaborator)
-            }, vm: CreateNewMessageViewModel(collaborator: collaborator))
+            }, project: project, vm: CreateNewMessageViewModel(collaborator: collaborator, projectUID: project!.uid), projectVM: vm)
         }
     }
     
@@ -146,6 +146,7 @@ struct BoardDetailView: View {
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(10)
                     }
+//                    Text(" Project Owner: \(profileUser.)")
                     Text(" Collaborator")
                     VStack(alignment: .leading) {
                         ForEach(collaborator, id:\.self) { c in
@@ -171,19 +172,6 @@ struct BoardDetailView: View {
                     }
                     
                     inviteCollaborator
-                    //                    Button {
-                    //                        self.collaborator.append(self.projectInvite)
-                    //                        self.projectInvite = ""
-                    //                        print(collaborator)
-                    //                    } label: {
-                    //                        Text("Add Item")
-                    //                    }
-                    
-                    //                    DatePicker(
-                    //                        "Due Date",
-                    //                         selection: $date,
-                    //                         displayedComponents: [.date, .hourAndMinute]
-                    //                    )
                     Divider()
                     projectProperty
                 }.padding()
@@ -208,6 +196,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"]), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53"), vm: ProjectViewModel())
     }
 }

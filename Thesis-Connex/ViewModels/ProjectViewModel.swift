@@ -125,7 +125,8 @@ class ProjectViewModel: ObservableObject {
                             return Project(id: d.documentID,
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
-                                           collaborator: d["collaborator"] as? [String] ?? [String]())
+                                           collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           uid: d["uid"] as? String ?? "")
                         }
                     }
             }
@@ -154,7 +155,8 @@ class ProjectViewModel: ObservableObject {
                             return Project(id: d.documentID,
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
-                                           collaborator: d["collaborator"] as? [String] ?? [String]())
+                                           collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           uid: d["uid"] as? String ?? "")
                         }
                     }
             }
@@ -183,7 +185,8 @@ class ProjectViewModel: ObservableObject {
                             return Project(id: d.documentID,
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
-                                           collaborator: d["collaborator"] as? [String] ?? [String]())
+                                           collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           uid: d["uid"] as? String ?? "")
                         }
                     }
                     

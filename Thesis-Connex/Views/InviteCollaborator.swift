@@ -13,11 +13,11 @@ class CreateNewMessageViewModel: ObservableObject {
     @Published var users = [ProfileUser]()
     @Published var errorMessage = ""
     
-    init(collaborator: [String]) {
-        fetchAllUsers(collaborator: collaborator)
+    init(collaborator: [String], projectUID: String) {
+        fetchAllUsers(collaborator: collaborator, projectUID: projectUID)
     }
     
-    private func fetchAllUsers(collaborator: [String]) {
+    private func fetchAllUsers(collaborator: [String], projectUID: String) {
         FirebaseManager.shared.firestore.collection("users")
             .getDocuments { documentsSnapshot, error in
                 if let error = error {
@@ -29,10 +29,16 @@ class CreateNewMessageViewModel: ObservableObject {
                 documentsSnapshot?.documents.forEach({ snapshot in
                     let data = snapshot.data()
                     let user = ProfileUser(data: data)
-                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
+                    print("Data User: \(user)")
+                    print("Project UID: \(projectUID)")
+                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && user.uid != projectUID && !collaborator.contains(where: { $0 == user.email
                     }) {
+                        print("User UID: \(user.uid)")
+                        print(FirebaseManager.shared.auth.currentUser?.uid)
                         self.users.append(.init(data: data))
                     }
+                    print(self.users)
+//                    self.users.append(.init(data: data))
                 })
             }
     }
@@ -44,7 +50,10 @@ struct InviteCollaborator: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    let project: Project?
+    
     @ObservedObject var vm: CreateNewMessageViewModel
+    @ObservedObject var projectVM: ProjectViewModel
     
     var body: some View {
         NavigationView {
@@ -91,6 +100,6 @@ struct InviteCollaborator: View {
 struct InviteCollaborator_Previews: PreviewProvider {
     static var previews: some View {
 //        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"]), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53"), vm: ProjectViewModel())
     }
 }
