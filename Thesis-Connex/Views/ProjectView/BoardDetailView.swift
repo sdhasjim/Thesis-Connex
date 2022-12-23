@@ -174,7 +174,10 @@ struct BoardDetailView: View {
                     inviteCollaborator
                     Divider()
                     projectProperty
-                }.padding()
+                }
+                .padding()
+                
+                
             }
         }.navigationBarTitleDisplayMode(.inline)
         
