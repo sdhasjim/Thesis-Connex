@@ -29,12 +29,8 @@ class CreateNewMessageViewModel: ObservableObject {
                 documentsSnapshot?.documents.forEach({ snapshot in
                     let data = snapshot.data()
                     let user = ProfileUser(data: data)
-                    print("Data User: \(user)")
-                    print("Project UID: \(projectUID)")
                     if user.uid != FirebaseManager.shared.auth.currentUser?.uid && user.uid != projectUID && !collaborator.contains(where: { $0 == user.email
                     }) {
-                        print("User UID: \(user.uid)")
-                        print(FirebaseManager.shared.auth.currentUser?.uid)
                         self.users.append(.init(data: data))
                     }
                     print(self.users)
@@ -100,6 +96,6 @@ struct InviteCollaborator: View {
 struct InviteCollaborator_Previews: PreviewProvider {
     static var previews: some View {
 //        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53"), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel())
     }
 }

@@ -146,7 +146,10 @@ struct BoardDetailView: View {
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(10)
                     }
-//                    Text(" Project Owner: \(profileUser.)")
+                    Text(" Project Owner: \(project!.owner)")
+                        .padding()
+                        .background(Color.brown.opacity(0.5))
+                        .cornerRadius(20)
                     Text(" Collaborator")
                     VStack(alignment: .leading) {
                         ForEach(collaborator, id:\.self) { c in
@@ -199,6 +202,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53"), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel())
     }
 }

@@ -82,14 +82,14 @@ class ProjectViewModel: ObservableObject {
         }
     }
     
-    func addData(name: String, desc: String) {
+    func addData(name: String, desc: String, owner: String) {
         // Get a reference to the database
         
         let db = FirebaseManager.shared.firestore
         
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
         
-        let projectData = ["uid": uid, "name": name, "desc": desc]
+        let projectData = ["uid": uid, "name": name, "desc": desc, "owner": owner]
         
         // Add a document to a collection
 
@@ -126,7 +126,9 @@ class ProjectViewModel: ObservableObject {
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
                                            collaborator: d["collaborator"] as? [String] ?? [String](),
-                                           uid: d["uid"] as? String ?? "")
+                                           uid: d["uid"] as? String ?? "",
+                                           owner: d["owner"] as? String ?? ""
+                            )
                         }
                     }
             }
@@ -156,7 +158,9 @@ class ProjectViewModel: ObservableObject {
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
                                            collaborator: d["collaborator"] as? [String] ?? [String](),
-                                           uid: d["uid"] as? String ?? "")
+                                           uid: d["uid"] as? String ?? "",
+                                           owner: d["owner"] as? String ?? ""
+                            )
                         }
                     }
             }
@@ -186,7 +190,9 @@ class ProjectViewModel: ObservableObject {
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
                                            collaborator: d["collaborator"] as? [String] ?? [String](),
-                                           uid: d["uid"] as? String ?? "")
+                                           uid: d["uid"] as? String ?? "",
+                                           owner: d["owner"] as? String ?? ""
+                            )
                         }
                     }
                     

@@ -98,7 +98,7 @@ struct BoardView: View {
                 })
             }
             else {
-                projectVM.addData(name: projectName, desc: projectDesc)
+                projectVM.addData(name: projectName, desc: projectDesc, owner: FirebaseManager.shared.auth.currentUser?.email ?? "")
             }
         }
         
