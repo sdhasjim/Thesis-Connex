@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ScoringView: View {
+    
+    let collaborator: [String]
+    @ObservedObject var vm: ProfileViewModel
+    
     @State var selectedTab = "task"
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -39,29 +43,31 @@ struct ScoringView: View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             ScrollView(){
-                VStack{
-                    NavigationLink{
-                        ScoringDetailView()
-                    } label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 15)
-                                .foregroundColor(.white)
-                                .shadow(radius: 1.5)
-                            VStack{
-                                HStack{
-                                    Image(systemName: "person.circle")
-                                        .foregroundColor(.black)
-                                        .font(.system(size: 30))
-                                        .frame(width: 70, alignment: .center)
-                                    
-                                    Text("People 1")
-                                        .font(.system(size: 18, weight: .bold))
-                                        .foregroundColor(.black)
-                                        .frame(width: 260, alignment: .leading)
+                ForEach(collaborator, id:\.self) { item in
+                    VStack{
+                        NavigationLink{
+                            ScoringDetailView()
+                        } label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(.white)
+                                    .shadow(radius: 1.5)
+                                VStack{
+                                    HStack{
+                                        Image(systemName: "person.circle")
+                                            .foregroundColor(.black)
+                                            .font(.system(size: 30))
+                                            .frame(width: 70, alignment: .center)
+                                        
+                                        Text(item)
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.black)
+                                            .frame(width: 260, alignment: .leading)
+                                    }
                                 }
-                            }
-                        }.frame(width: 340, height: 80).offset(y: 20)
-                    }.frame(width: 350, height: 520, alignment: .top)
+                            }.frame(width: 340, height: 80).offset(y: 20)
+                        }
+                    }
                 }
             }.frame(width: 360)
             .frame(maxHeight: .infinity)
@@ -79,12 +85,18 @@ struct ScoringView: View {
             for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .preferredColorScheme(.light)
+        .onAppear {
+            // Fetch user data
+            print(collaborator)
+            vm.fetchUserDataFromEmail(email: collaborator)
+            print(vm.profileUser)
+        }
     }
 }
 
 struct ScoringView_Previews: PreviewProvider {
     static var previews: some View {
-        ScoringView()
+        ScoringView(collaborator: ["test", "mantab"], vm: ProfileViewModel())
     }
 }
 

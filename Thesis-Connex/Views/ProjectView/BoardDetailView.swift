@@ -75,7 +75,6 @@ struct BoardDetailView: View {
             InviteCollaborator(didSelectNewUser: { user
                 in
                 print(user.email)
-                //                            self.shouldNavigateToChatLogView.toggle()
                 self.profileUser = user
                 self.collaborator.append(self.profileUser!.email)
                 print(collaborator)
@@ -88,7 +87,7 @@ struct BoardDetailView: View {
     private var projectProperty: some View {
         VStack {
             NavigationLink {
-                ScoringView()
+                ScoringView(collaborator: collaborator, vm: ProfileViewModel())
             } label: {
                 
                 ZStack{

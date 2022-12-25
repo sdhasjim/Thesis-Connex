@@ -12,6 +12,8 @@ class ProfileViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var profileUser: ProfileUser?
     
+    @Published var users = [ProfileUser]()
+    
     init() {
         
         DispatchQueue.main.async {
@@ -19,6 +21,63 @@ class ProfileViewModel: ObservableObject {
         }
         fetchCurrentUser()
     }
+    
+    func fetchUserDataFromEmail(email: [String]) {
+        print("Masuk VM Fetch")
+//        guard let email = FirebaseManager.shared.auth.currentUser?.email else { return }
+        
+        let db = FirebaseManager.shared.firestore
+        
+        let userRef = db.collection("users")
+        
+        let query =
+        userRef
+            .whereField("email", isEqualTo: email)
+        
+        query.getDocuments { querySnapshot, err in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                    DispatchQueue.main.async {
+                        self.users = querySnapshot!.documents.map { d in
+                            
+                            // Create a project for each document iterated
+                            return ProfileUser(data: ["String" : "Any"]
+                            )
+                        }
+                    }
+            }
+        }
+
+        
+//        query.getDocuments { querySnapshot, err in
+//            if let err = err {
+//                print("Error getting documents: \(err)")
+//            } else {
+//                    DispatchQueue.main.async {
+//
+//                        for d in querySnapshot!.documents {
+//                            let data = d.data()
+////                            self.users = .init(data)
+////                            print(data)
+////                            self.users = .init(data)
+////                            print(self.profileUser)
+//                        }
+//
+//                    }
+//            }
+//        }
+    }
+//    var id: String { uid }
+//
+//    let uid, username, email, profileImageUrl: String
+//
+//    init(data: [String: Any]) {
+//        self.uid = data["uid"] as? String ?? ""
+//        self.email = data["email"] as? String ?? ""
+//        self.profileImageUrl = data["profileImageUrl"] as? String ?? ""
+//        self.username = data["username"] as? String ?? ""
+//    }
     
     func fetchCurrentUser() {
         
@@ -38,6 +97,8 @@ class ProfileViewModel: ObservableObject {
                 self.errorMessage = "No data found"
                 return
             }
+            
+            print(data)
             
             self.profileUser = .init(data: data)
         }
