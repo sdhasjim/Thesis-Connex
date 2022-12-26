@@ -106,7 +106,7 @@ struct BoardView: View {
                 })
             }
             else {
-                projectVM.addData(name: projectName, desc: projectDesc)
+                projectVM.addData(name: projectName, desc: projectDesc, owner: FirebaseManager.shared.auth.currentUser?.email ?? "")
             }
         }
         
@@ -180,9 +180,7 @@ struct BoardView: View {
                                     }
 
 
-                                }
-                                
-                                .frame(height: 160)
+                                }.frame(height: 160)
                             }
                         }
                         .searchable(text: $searchText)
@@ -193,7 +191,12 @@ struct BoardView: View {
                     NetworkConnection()
                 }
                 
-            }).frame(maxWidth: .infinity, maxHeight: .infinity)
+            })
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear(perform: {
+                projectVM.getDataFromUser()
+                projectVM.getDataFromOther()
+            })
         }
         .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbarBackground(

@@ -79,11 +79,10 @@ struct BoardDetailView: View {
             InviteCollaborator(didSelectNewUser: { user
                 in
                 print(user.email)
-                //                            self.shouldNavigateToChatLogView.toggle()
                 self.profileUser = user
                 self.collaborator.append(self.profileUser!.email)
                 print(collaborator)
-            }, vm: CreateNewMessageViewModel(collaborator: collaborator))
+            }, project: project, vm: CreateNewMessageViewModel(collaborator: collaborator, projectUID: project!.uid), projectVM: vm)
         }
     }
     
@@ -91,7 +90,7 @@ struct BoardDetailView: View {
     
     private var projectProperty: some View {
         VStack {
-            NavigationLink(destination: ScoringView(), isActive: self.$showDetail) { EmptyView() }
+            NavigationLink(destination: ScoringView(collaborator: collaborator, vm: ProfileViewModel()), isActive: self.$showDetail) { EmptyView() }
             Button {
                 showingAlert = true
             } label: {
@@ -167,6 +166,10 @@ struct BoardDetailView: View {
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(10)
                     }
+                    Text(" Project Owner: \(project!.owner)")
+                        .padding()
+                        .background(Color.brown.opacity(0.5))
+                        .cornerRadius(20)
                     Text(" Collaborator")
                     VStack(alignment: .leading) {
                         ForEach(collaborator, id:\.self) { c in
@@ -192,22 +195,12 @@ struct BoardDetailView: View {
                     }
                     
                     inviteCollaborator
-                    //                    Button {
-                    //                        self.collaborator.append(self.projectInvite)
-                    //                        self.projectInvite = ""
-                    //                        print(collaborator)
-                    //                    } label: {
-                    //                        Text("Add Item")
-                    //                    }
-                    
-                    //                    DatePicker(
-                    //                        "Due Date",
-                    //                         selection: $date,
-                    //                         displayedComponents: [.date, .hourAndMinute]
-                    //                    )
                     Divider()
                     projectProperty
-                }.padding()
+                }
+                .padding()
+                
+                
             }
         }.navigationBarTitleDisplayMode(.inline)
         
@@ -229,6 +222,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"]), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel())
     }
 }

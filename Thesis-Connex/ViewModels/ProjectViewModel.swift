@@ -10,9 +10,11 @@ import Foundation
 class ProjectViewModel: ObservableObject {
     
     @Published var projects = [Project]()
+    @Published var collabProjects = [Project]()
     
     init() {
         getDataFromUser()
+        getDataFromOther()
     }
     
     func updateData(projectToUpdate: Project) {
@@ -80,14 +82,14 @@ class ProjectViewModel: ObservableObject {
         }
     }
     
-    func addData(name: String, desc: String) {
+    func addData(name: String, desc: String, owner: String) {
         // Get a reference to the database
         
         let db = FirebaseManager.shared.firestore
         
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
         
-        let projectData = ["uid": uid, "name": name, "desc": desc]
+        let projectData = ["uid": uid, "name": name, "desc": desc, "owner": owner]
         
         // Add a document to a collection
 
@@ -123,7 +125,42 @@ class ProjectViewModel: ObservableObject {
                             return Project(id: d.documentID,
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
-                                           collaborator: d["collaborator"] as? [String] ?? [String]())
+                                           collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           uid: d["uid"] as? String ?? "",
+                                           owner: d["owner"] as? String ?? ""
+                            )
+                        }
+                    }
+            }
+        }
+    }
+    
+    func getDataFromOther() {
+        guard let email = FirebaseManager.shared.auth.currentUser?.email else { return }
+        
+        let db = FirebaseManager.shared.firestore
+        
+        let projectRef = db.collection("projects")
+        
+        let query =
+        projectRef
+            .whereField("collaborator", arrayContains: email)
+        
+        query.getDocuments { querySnapshot, err in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                    DispatchQueue.main.async {
+                        self.collabProjects = querySnapshot!.documents.map { d in
+                            
+                            // Create a project for each document iterated
+                            return Project(id: d.documentID,
+                                           name: d["name"] as? String ?? "",
+                                           desc: d["desc"] as? String ?? "",
+                                           collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           uid: d["uid"] as? String ?? "",
+                                           owner: d["owner"] as? String ?? ""
+                            )
                         }
                     }
             }
@@ -152,7 +189,10 @@ class ProjectViewModel: ObservableObject {
                             return Project(id: d.documentID,
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
-                                           collaborator: d["collaborator"] as? [String] ?? [String]())
+                                           collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           uid: d["uid"] as? String ?? "",
+                                           owner: d["owner"] as? String ?? ""
+                            )
                         }
                     }
                     
