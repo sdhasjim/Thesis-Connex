@@ -15,28 +15,15 @@ struct ScoringView: View {
     @State var selectedTab = "task"
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    var scoringViewNavbar : some View { Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
-        }){
-            
-            VStack{
-                HStack{
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 8, weight: .semibold))
-                        .foregroundColor(.white)
-                        .frame(width: 20, height: 20)
-                        .background(Color("brown_tone"))
-                        .clipShape(Circle())
-                        .frame(alignment: .topLeading)
-                    
-                    Text("  Scoring")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(Color("brown_tone"))
-                        .frame(alignment: .topLeading)
-                }.offset(x: 5)
-            }
+    var scoringViewNavbar : some View {
+        VStack{
+            HStack{
+                Text("  Scoring")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Color("brown_tone"))
+                    .frame(alignment: .topLeading)
+            }.offset(x: 5)
         }
-        
     }
     
     var body: some View {

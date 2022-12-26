@@ -105,11 +105,12 @@ struct InsideBoardView: View {
                         .background(Color("brown_tone"))
                         .clipShape(Circle())
                         .frame(alignment: .topLeading)
+                        .offset(x: 10)
                     
-                    Text("  \(project!.name)")
+                    Text("    \(project!.name)")
                         .font(.system(size: 25, weight: .bold))
                         .foregroundColor(Color("brown_tone"))
-                        .frame(alignment: .topLeading)
+                        .frame(width: 290, alignment: .topLeading)
                     
                     Button(action: {
                         newTaskView()
@@ -117,7 +118,6 @@ struct InsideBoardView: View {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 20))
                             .foregroundColor(Color("brown_tone"))
-                            .frame(width: 185, alignment: .trailing)
                     })
                 }
             }

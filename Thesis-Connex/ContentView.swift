@@ -32,7 +32,7 @@ struct ContentView: View {
                         Label("Notif", systemImage: "bell.circle")
                     }
                 
-                ProfileView(vm: profileVM)
+                ProfileView(projectVM: boardVM, vm: profileVM, taskVM: taskVM)
                     .tabItem{
                         Label("Profile", systemImage: "person.circle")
                     }

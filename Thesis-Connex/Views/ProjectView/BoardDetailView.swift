@@ -15,6 +15,10 @@ struct BoardDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var displayPopupMessage: Bool = false
+    @State private var showingAlert = false
+    @State private var showingAlert2 = false
+    @State var showDetail: Bool = false
     @State var projectName = ""
     @State var projectDesc = ""
     @State var collaborator = [String]()
@@ -86,8 +90,9 @@ struct BoardDetailView: View {
     
     private var projectProperty: some View {
         VStack {
-            NavigationLink {
-                ScoringView(collaborator: collaborator, vm: ProfileViewModel())
+            NavigationLink(destination: ScoringView(collaborator: collaborator, vm: ProfileViewModel()), isActive: self.$showDetail) { EmptyView() }
+            Button {
+                showingAlert = true
             } label: {
                 
                 ZStack{
@@ -101,13 +106,20 @@ struct BoardDetailView: View {
                             .foregroundColor(.white)
                     }
                 }
-            }
+            }.alert(isPresented:$showingAlert) {
+                Alert(
+                    title: Text("Are you sure this project has been finish?"),
+                    message: Text("\nThis action can't be undo"),
+                    primaryButton: .destructive(Text("Finish")) {
+                        self.showDetail = true
+                    },
+                    secondaryButton: .cancel()
+                )}
             
             Spacer()
             
             Button {
-                vm.deleteData(projectToDelete: project!)
-                presentationMode.wrappedValue.dismiss()
+                showingAlert2 = true
             } label: {
                 ZStack{
                     RoundedRectangle(cornerRadius: 25)
@@ -120,7 +132,16 @@ struct BoardDetailView: View {
                             .foregroundColor(.white)
                     }
                 }
-            }
+            }.alert(isPresented:$showingAlert2) {
+                Alert(
+                    title: Text("Are you sure you want to delete project?"),
+                    message: Text("\nThis project will delete permanently"),
+                    primaryButton: .destructive(Text("Delete")) {
+                        vm.deleteData(projectToDelete: project!)
+                        presentationMode.wrappedValue.dismiss()
+                    },
+                    secondaryButton: .cancel()
+                )}
         }.frame(maxWidth: .infinity, alignment: .center).offset(y:20)
     }
     
