@@ -10,6 +10,9 @@ import Foundation
 class TaskViewModel: ObservableObject {
     
     @Published var tasks = [Task]()
+    @Published var todoTasks = [Task]()
+    @Published var progressingTasks = [Task]()
+    @Published var doneTasks = [Task]()
     
 //    init() {
 //        getData()
@@ -55,9 +58,12 @@ class TaskViewModel: ObservableObject {
             ]
             , merge: true) { error in
             
+//                if error == nil {
+//                    self.getDataFromStatusAndProjectID(projectID: <#T##String#>, status: status)
+//                }
             if error == nil,
                let index = self.tasks.firstIndex(of: taskToUpdate){
-                
+
                 self.tasks[index].status = status
             }
         }
@@ -125,25 +131,59 @@ class TaskViewModel: ObservableObject {
         
         let taskRef = db.collection("tasks")
         
-        let query = taskRef.whereField("status", isEqualTo: status)
+        let query =
+        taskRef
+            .whereField("status", isEqualTo: status)
+            .whereField("projectID", isEqualTo: projectID)
         
         query.getDocuments { querySnapshot, err in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                     DispatchQueue.main.async {
-                        self.tasks = querySnapshot!.documents.map { d in
-                            
-                            return Task(id: d.documentID,
-                                        name: d["name"] as? String ?? "",
-                                        assignee: d["assignee"] as? String ?? "",
-                                        desc: d["desc"] as? String ?? "",
-                                        priority: d["priority"] as? String ?? "",
-                                        dueDate: d["dueDate"] as? String ?? "",
-                                        status: d["status"] as? String ?? ""
-                            
-                            )
+                        if status == "todo" {
+                            self.todoTasks = querySnapshot!.documents.map { d in
+
+                                return Task(id: d.documentID,
+                                            name: d["name"] as? String ?? "",
+                                            assignee: d["assignee"] as? String ?? "",
+                                            desc: d["desc"] as? String ?? "",
+                                            priority: d["priority"] as? String ?? "",
+                                            dueDate: d["dueDate"] as? String ?? "",
+                                            status: d["status"] as? String ?? ""
+
+                                )
+                            }
                         }
+                        else if status == "progressing" {
+                            self.progressingTasks = querySnapshot!.documents.map { d in
+
+                                return Task(id: d.documentID,
+                                            name: d["name"] as? String ?? "",
+                                            assignee: d["assignee"] as? String ?? "",
+                                            desc: d["desc"] as? String ?? "",
+                                            priority: d["priority"] as? String ?? "",
+                                            dueDate: d["dueDate"] as? String ?? "",
+                                            status: d["status"] as? String ?? ""
+
+                                )
+                            }
+                        }
+                        else {
+                            self.doneTasks = querySnapshot!.documents.map { d in
+
+                                return Task(id: d.documentID,
+                                            name: d["name"] as? String ?? "",
+                                            assignee: d["assignee"] as? String ?? "",
+                                            desc: d["desc"] as? String ?? "",
+                                            priority: d["priority"] as? String ?? "",
+                                            dueDate: d["dueDate"] as? String ?? "",
+                                            status: d["status"] as? String ?? ""
+
+                                )
+                            }
+                        }
+
                     }
             }
         }
