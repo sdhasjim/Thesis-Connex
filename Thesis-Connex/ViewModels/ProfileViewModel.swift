@@ -98,8 +98,6 @@ class ProfileViewModel: ObservableObject {
                 return
             }
             
-            print(data)
-            
             self.profileUser = .init(data: data)
         }
     }
