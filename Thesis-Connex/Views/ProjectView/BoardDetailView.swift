@@ -15,6 +15,10 @@ struct BoardDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var displayPopupMessage: Bool = false
+    @State private var showingAlert = false
+    @State private var showingAlert2 = false
+    @State var showDetail: Bool = false
     @State var projectName = ""
     @State var projectDesc = ""
     @State var collaborator = [String]()

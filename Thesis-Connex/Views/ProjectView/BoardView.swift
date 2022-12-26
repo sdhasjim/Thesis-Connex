@@ -38,7 +38,15 @@ struct NetworkConnection: View{
 struct BoardView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    var filteredProject: [Project]{
+            if searchText.isEmpty {
+                return projectVM.projects
+            } else {
+                return self.projectVM.projects.filter{$0.name.lowercased().contains(self.searchText.lowercased())}
+            }
+        }
     @State private var searchText = ""
+    
     @State var selectedTab = "board"
     @ObservedObject var monitor = NetworkMonitorConnex()
     @State private var showAlertSheet = false
@@ -123,11 +131,7 @@ struct BoardView: View {
         UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: {
 
         })
-        
-        
     }
-    
-    @State var shouldShowEditBoard = false
     
     var body: some View {
         
@@ -137,13 +141,10 @@ struct BoardView: View {
                 
                 if monitor.isConnected{
                     VStack{
-                        Text("\(searchText)")
-                            .searchable(text: $searchText)
-                            .navigationBarBackButtonHidden(true)
-                            .navigationBarItems(leading: mainNavBar)
                         ScrollView(){
                             VStack{
-                                ForEach (projectVM.projects) { item in
+                                ForEach (filteredProject)
+                                { item in
                                     NavigationLink  {
                                         InsideBoardView(project: item, taskVM: taskVM, projectName: item.name)
                                     } label: {
@@ -156,9 +157,9 @@ struct BoardView: View {
                                             VStack {
                                                 HStack {
                                                     Text(item.name)
-                                                        .font(.system(size: 15, weight: .bold)).offset(x:5)
-
-                                                    Spacer()
+                                                        .font(.system(size: 15, weight: .bold))
+                                                        .frame(width: 290, alignment: .leading)
+                                                    
                                                     NavigationLink {
                                                         BoardDetailView(project: item, vm: projectVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
                                                     } label: {
@@ -184,6 +185,9 @@ struct BoardView: View {
                                 .frame(height: 160)
                             }
                         }
+                        .searchable(text: $searchText)
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarItems(leading: mainNavBar)
                     }
                 } else {
                     NetworkConnection()
@@ -197,6 +201,8 @@ struct BoardView: View {
             for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .preferredColorScheme(.light)
+        .toolbar(.visible, for: .tabBar)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
