@@ -16,6 +16,7 @@ struct TaskView: View {
                 VStack{
                     Text("Your Task").font(.system(size: 28, weight: .bold))
                         .frame(width: 330, alignment: .leading)
+                        .foregroundColor(Color("brown_tone"))
                     
                     Button(action: {
                         editTaskView()
@@ -40,8 +41,8 @@ struct TaskView: View {
                         }.frame(width: 340, height: 80)
                     }).frame(width: 340, height: 520, alignment: .top)
                 }.offset(y: 20)
-            }.frame(width: 360)
-                .frame(maxHeight: .infinity)
+            }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
     

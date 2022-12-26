@@ -37,6 +37,7 @@
 		B297E701291154F600248982 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B297E700291154F600248982 /* ProfileView.swift */; };
 		B2C5EC662909712200672E71 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC652909712200672E71 /* LoginView.swift */; };
 		B2C5EC682909713600672E71 /* Signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC672909713600672E71 /* Signup.swift */; };
+		B2E83E45295445F600CADC1C /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E83E44295445F600CADC1C /* ProjectDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		B297E700291154F600248982 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		B2C5EC652909712200672E71 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B2C5EC672909713600672E71 /* Signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup.swift; sourceTree = "<group>"; };
+		B2E83E44295445F600CADC1C /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,10 +144,10 @@
 		3F6EA8742953554C00A737E0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B2E83E41295445D300CADC1C /* ProfileView */,
 				3F6EA877295355BB00A737E0 /* ScoreView */,
 				3F6EA8762953559B00A737E0 /* TaskView */,
 				3F6EA8752953557900A737E0 /* ProjectView */,
-				B297E700291154F600248982 /* ProfileView.swift */,
 				B2C5EC652909712200672E71 /* LoginView.swift */,
 			);
 			path = Views;
@@ -203,6 +205,15 @@
 				B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		B2E83E41295445D300CADC1C /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				B297E700291154F600248982 /* ProfileView.swift */,
+				B2E83E44295445F600CADC1C /* ProjectDetailView.swift */,
+			);
+			path = ProfileView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,6 +299,7 @@
 			files = (
 				B28AF16429122573004BC481 /* TaskView.swift in Sources */,
 				B2C5EC662909712200672E71 /* LoginView.swift in Sources */,
+				B2E83E45295445F600CADC1C /* ProjectDetailView.swift in Sources */,
 				B2C5EC662909712200672E71 /* LoginView.swift in Sources */,
 				3F6EA25E292CE72000AE4007 /* ImagePicker.swift in Sources */,
 				3F0292A82950BE8D006B82FB /* ProjectViewModel.swift in Sources */,
