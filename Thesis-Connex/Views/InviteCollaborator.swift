@@ -29,12 +29,10 @@ class CreateNewMessageViewModel: ObservableObject {
                 documentsSnapshot?.documents.forEach({ snapshot in
                     let data = snapshot.data()
                     let user = ProfileUser(data: data)
-                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && user.uid != projectUID && !collaborator.contains(where: { $0 == user.email
+                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
                     }) {
                         self.users.append(.init(data: data))
                     }
-                    print(self.users)
-//                    self.users.append(.init(data: data))
                 })
             }
     }

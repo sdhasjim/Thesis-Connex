@@ -42,7 +42,6 @@ struct ContentView: View {
                         self.profileVM.isCurrentlyLoggedOut = false
                         self.profileVM.fetchCurrentUser()
                         self.boardVM.getDataFromUser()
-                        self.boardVM.getDataFromOther()
                     })
                 }
 

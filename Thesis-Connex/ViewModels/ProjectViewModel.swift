@@ -12,11 +12,6 @@ class ProjectViewModel: ObservableObject {
     @Published var projects = [Project]()
     @Published var collabProjects = [Project]()
     
-    init() {
-        getDataFromUser()
-        getDataFromOther()
-    }
-    
     func updateData(projectToUpdate: Project) {
         
         let db = FirebaseManager.shared.firestore
@@ -88,8 +83,9 @@ class ProjectViewModel: ObservableObject {
         let db = FirebaseManager.shared.firestore
         
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        guard let email = FirebaseManager.shared.auth.currentUser?.email else { return }
         
-        let projectData = ["uid": uid, "name": name, "desc": desc, "owner": owner]
+        let projectData = ["uid": uid, "name": name, "desc": desc, "owner": owner, "collaborator": [email]] as [String : Any]
         
         // Add a document to a collection
 
@@ -107,35 +103,6 @@ class ProjectViewModel: ObservableObject {
     
     func getDataFromUser() {
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
-        
-        let db = FirebaseManager.shared.firestore
-        
-        let projectRef = db.collection("projects")
-        
-        let query = projectRef.whereField("uid", isEqualTo: uid)
-        
-        query.getDocuments { querySnapshot, err in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                    DispatchQueue.main.async {
-                        self.projects = querySnapshot!.documents.map { d in
-                            
-                            // Create a project for each document iterated
-                            return Project(id: d.documentID,
-                                           name: d["name"] as? String ?? "",
-                                           desc: d["desc"] as? String ?? "",
-                                           collaborator: d["collaborator"] as? [String] ?? [String](),
-                                           uid: d["uid"] as? String ?? "",
-                                           owner: d["owner"] as? String ?? ""
-                            )
-                        }
-                    }
-            }
-        }
-    }
-    
-    func getDataFromOther() {
         guard let email = FirebaseManager.shared.auth.currentUser?.email else { return }
         
         let db = FirebaseManager.shared.firestore
@@ -151,7 +118,7 @@ class ProjectViewModel: ObservableObject {
                 print("Error getting documents: \(err)")
             } else {
                     DispatchQueue.main.async {
-                        self.collabProjects = querySnapshot!.documents.map { d in
+                        self.projects = querySnapshot!.documents.map { d in
                             
                             // Create a project for each document iterated
                             return Project(id: d.documentID,

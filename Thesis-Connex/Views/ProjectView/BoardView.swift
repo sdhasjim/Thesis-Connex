@@ -195,7 +195,6 @@ struct BoardView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear(perform: {
                 projectVM.getDataFromUser()
-                projectVM.getDataFromOther()
             })
         }
         .toolbarColorScheme(.dark, for: .navigationBar)
