@@ -36,7 +36,7 @@ struct ProfileView: View {
                                         .scaledToFill()
                                         .cornerRadius(64)
                                 } else {
-                                    WebImage(url: URL(string: vm.profileUser?.profileImageUrl ?? ""))
+                                    WebImage(url: URL(string: vm.user?.profileImageUrl ?? ""))
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 100, height: 100)
@@ -51,8 +51,8 @@ struct ProfileView: View {
                             }
                             .overlay(RoundedRectangle(cornerRadius: 64).stroke(Color.black, lineWidth: 3))
                         }
-                        Text(vm.profileUser?.username ?? "").foregroundColor(Color("brown_tone"))
-                        Text(vm.profileUser?.email ?? "").foregroundColor(Color("brown_tone"))
+                        Text(vm.user?.username ?? "").foregroundColor(Color("brown_tone"))
+                        Text(vm.user?.email ?? "").foregroundColor(Color("brown_tone"))
                     }
                     
                     Button {
@@ -123,7 +123,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel())
     }
 }
 

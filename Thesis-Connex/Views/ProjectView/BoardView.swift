@@ -57,6 +57,7 @@ struct BoardView: View {
     
     @ObservedObject var projectVM: ProjectViewModel
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     var mainNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -157,11 +158,60 @@ struct BoardView: View {
                                             VStack {
                                                 HStack {
                                                     Text(item.name)
+//<<<<<<< Updated upstream
                                                         .font(.system(size: 15, weight: .bold))
                                                         .frame(width: 290, alignment: .leading)
                                                     
+//=======
+//                                                        .font(.system(size: 15, weight: .bold)).offset(x:5)
+//
+//                                                    Spacer()
+//                                                    NavigationLink {
+//                                                        BoardDetailView(project: item, vm: projectVM, profileVM: profileVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
+//                                                    } label: {
+//                                                        Image(systemName: "square.and.pencil")
+//                                                            .font(.system(size: 20))
+//                                                    }
+//                                                }
+//                                                
+//                                                Text(item.desc)
+//                                                    .frame(width: 320, height: 80, alignment: .topLeading)
+//                                                    .multilineTextAlignment(.leading)
+//                                                
+//                                            }
+//                                            .padding()
+//                                        }
+//                                        .padding()
+//                                        
+//                                    }
+//
+//
+//                                }.frame(height: 160)
+//                                
+//                                Divider()
+//                                Text("Invited")
+//                                    .font(.system(size: 25, weight: .bold))
+//                                    .foregroundColor(Color("brown_tone"))
+//                                    .frame(width: 300, alignment: .leading)
+//                                ForEach (projectVM.collabProjects) { item in
+//                                    NavigationLink  {
+//                                        InsideBoardView(project: item, taskVM: taskVM, projectName: item.name)
+//                                    } label: {
+//                                        ZStack{
+//                                            RoundedRectangle(cornerRadius: 25)
+//                                                .foregroundColor(.white)
+//                                                .shadow(radius: 1.5)
+//                                                .frame(width: 350, height: 150)
+//                                                .foregroundColor(.black)
+//                                            VStack {
+//                                                HStack {
+//                                                    Text(item.name)
+//                                                        .font(.system(size: 15, weight: .bold)).offset(x:5)
+//
+//                                                    Spacer()
+//>>>>>>> Stashed changes
                                                     NavigationLink {
-                                                        BoardDetailView(project: item, vm: projectVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
+                                                        BoardDetailView(project: item, vm: projectVM, profileVM: profileVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
                                                     } label: {
                                                         Image(systemName: "square.and.pencil")
                                                             .font(.system(size: 20))
@@ -210,7 +260,7 @@ struct BoardView: View {
 
 struct BoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel())
     }
 }
 

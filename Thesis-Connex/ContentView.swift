@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         if currentPage > totalPages{
             TabView{
-                BoardView(projectVM: boardVM, taskVM: taskVM)
+                BoardView(projectVM: boardVM, taskVM: taskVM, profileVM: profileVM)
                     .tabItem{
                         Label("Board", systemImage: "doc.circle")
                     }

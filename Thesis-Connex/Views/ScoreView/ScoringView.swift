@@ -10,6 +10,7 @@ import SwiftUI
 struct ScoringView: View {
     
     let collaborator: [String]
+//    let users: [User]
     @ObservedObject var vm: ProfileViewModel
     
     @State var selectedTab = "task"
@@ -30,7 +31,7 @@ struct ScoringView: View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             ScrollView(){
-                ForEach(collaborator, id:\.self) { item in
+                ForEach(vm.users) { item in
                     VStack{
                         NavigationLink{
                             ScoringDetailView()
@@ -46,7 +47,7 @@ struct ScoringView: View {
                                             .font(.system(size: 30))
                                             .frame(width: 70, alignment: .center)
                                         
-                                        Text(item)
+                                        Text("item.email")
                                             .font(.system(size: 18, weight: .bold))
                                             .foregroundColor(.black)
                                             .frame(width: 260, alignment: .leading)
@@ -74,16 +75,23 @@ struct ScoringView: View {
         .preferredColorScheme(.light)
         .onAppear {
             // Fetch user data
-            print(collaborator)
-            vm.fetchUserDataFromEmail(email: collaborator)
-            print(vm.profileUser)
+//            print("collaborator \(collaborator)")
+//            for collab in collaborator {
+//                print(collab)
+//                vm.fetchUserDataFromEmail(email: collab)
+//            }
+//            vm.fetchUserDataFromEmail(email: collaborator)
+//            vm.fetchUserForCollab(collaborator: collaborator)
+//            vm.fetchUserDataFromEmail(email: <#T##String#>)
+            
+            print(vm.users)
         }
     }
 }
 
-struct ScoringView_Previews: PreviewProvider {
-    static var previews: some View {
-        ScoringView(collaborator: ["test", "mantab"], vm: ProfileViewModel())
-    }
-}
+//struct ScoringView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ScoringView(collaborator: ["test", "mantab"], users: <#[User]#>, vm: ProfileViewModel())
+//    }
+//}
 

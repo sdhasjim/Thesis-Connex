@@ -12,6 +12,7 @@ struct BoardDetailView: View {
     let project: Project?
     
     @ObservedObject var vm: ProjectViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -79,14 +80,17 @@ struct BoardDetailView: View {
             InviteCollaborator(didSelectNewUser: { user
                 in
                 print(user.email)
-                self.profileUser = user
-                self.collaborator.append(self.profileUser!.email)
-                print(collaborator)
-            }, project: project, vm: CreateNewMessageViewModel(collaborator: collaborator, projectUID: project!.uid), projectVM: vm)
+                self.user = user
+                self.users.append(user)
+                self.collaborator.append(self.user!.email)
+                print(users)
+            }, project: project, vm: CreateNewMessageViewModel(collaborator: collaborator, projectUID: project!.uid), projectVM: vm, profileVM: profileVM)
         }
     }
     
-    @State var profileUser: ProfileUser?
+//    @State var profileUser: ProfileUser?
+    @State var user: User?
+    @State var users = [User]()
     
     private var projectProperty: some View {
         VStack {
@@ -222,6 +226,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel())
     }
 }
