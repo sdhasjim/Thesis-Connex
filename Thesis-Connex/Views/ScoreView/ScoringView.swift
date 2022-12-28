@@ -6,20 +6,26 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ScoringView: View {
     
+    let project: Project?
     let collaborator: [String]
 //    let users: [User]
     @ObservedObject var vm: ProfileViewModel
     
     @State var selectedTab = "task"
+//    @State var scoreStatus = false
+    
+    @State var scoreStatus: Bool = false
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var scoringViewNavbar : some View {
         VStack{
             HStack{
-                Text("  Scoring")
+                Text("\(project!.name)  Scoring")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color("brown_tone"))
                     .frame(alignment: .topLeading)
@@ -34,7 +40,7 @@ struct ScoringView: View {
                 ForEach(vm.collabUsers) { item in
                     VStack{
                         NavigationLink{
-                            ScoringDetailView()
+                            ScoringDetailView(user: item, project: project!, scoreStatus: $scoreStatus)
                         } label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)
@@ -42,16 +48,34 @@ struct ScoringView: View {
                                     .shadow(radius: 1.5)
                                 VStack{
                                     HStack{
-                                        Image(systemName: "person.circle")
-                                            .foregroundColor(.black)
-                                            .font(.system(size: 30))
-                                            .frame(width: 70, alignment: .center)
+                                        WebImage(url: URL(string: item.profileImageUrl))
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50)
+                                            .clipped()
+                                            .cornerRadius(50)
+                                            .overlay(RoundedRectangle(cornerRadius: 50)
+                                                .stroke(Color(.label), lineWidth: 1)
+                                            )
                                         
                                         Text(item.email)
                                             .font(.system(size: 18, weight: .bold))
                                             .foregroundColor(.black)
-                                            .frame(width: 260, alignment: .leading)
-                                    }
+                                            .frame(alignment: .leading)
+//
+                                        Spacer()
+//
+//                                        if scoreStatus == false {
+//                                            Text("Unfinished")
+//                                                .font(.system(size: 13, weight: .semibold))
+//                                        } else {
+//                                            Text("Finished")
+//                                                .font(.system(size: 13, weight: .semibold))
+//                                                .foregroundColor(.green)
+//                                        }
+
+//                                            .frame(width: 260, alignment: .trailing)
+                                    }.padding()
                                 }
                             }.frame(width: 340, height: 80).offset(y: 20)
                         }
@@ -94,7 +118,7 @@ struct ScoringView: View {
 
 //struct ScoringView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ScoringView(collaborator: ["test", "mantab"], users: <#[User]#>, vm: ProfileViewModel())
+//        ScoringView(project: Project(id: <#T##String#>, name: <#T##String#>, desc: <#T##String#>, collaborator: <#T##[String]#>, uid: <#T##String#>, owner: <#T##String#>), collaborator: ["test", "mantab"], vm: ProfileViewModel())
 //    }
 //}
 

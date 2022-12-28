@@ -94,7 +94,7 @@ struct BoardDetailView: View {
     
     private var projectProperty: some View {
         VStack {
-            NavigationLink(destination: ScoringView(collaborator: collaborator, vm: profileVM), isActive: self.$showDetail) { EmptyView() }
+            NavigationLink(destination: ScoringView(project: project!, collaborator: collaborator, vm: profileVM), isActive: self.$showDetail) { EmptyView() }
             Button {
                 showingAlert = true
             } label: {
