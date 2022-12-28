@@ -14,7 +14,6 @@ struct User: Identifiable, Equatable {
     var username: String
     var email: String
     var profileImageUrl: String
-    var projects: String
     
     static func == (lhs: User, rhs: User) -> Bool {
             return lhs.id == rhs.id

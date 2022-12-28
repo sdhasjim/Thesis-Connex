@@ -147,42 +147,6 @@ class ProfileViewModel: ObservableObject {
 //
 //    }
     
-    func updateUserProject(projectToUpdate: Project, collaborator: String) {
-//        self.getUserIdFromEmail()
-        
-//        print("fetched users: \(user)")
-//        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
-//        print("userIdToUpdate: \(user?.id)")
-        let userID = (user?.id)!
-        
-        let projectID = projectToUpdate.id
-        
-        print("3. user: \(userID)")
-        print("3. userIdToUpdate: \(projectID)")
-        
-        let db = FirebaseManager.shared.firestore
-        
-        // Set the data to update
-        let userRef = db.collection("users").document(userID)
-        
-        userRef.updateData([
-            "projects": FieldValue.arrayUnion([projectID])
-        ])
-        //        db.collection("users").document(projectToUpdate.id).setData(["name": name, "desc": desc, "collaborator": collaborator], merge: true) { error in
-        
-        //        }
-        //        db.collection("projects").document(projectToUpdate.id).setData(["name": "updated project name"], merge: true)
-        //        db.collection("projects").document(projectToUpdate.id).setData(["name": "Updated: \(projectToUpdate.name)"], merge: true) { error in
-        
-        //            if error == nil,
-        //               let index = self.projects.firstIndex(of: projectToUpdate){
-        //
-        //                self.projects[index].name = name
-        //                self.projects[index].desc = desc
-        //                self.projects[index].collaborator = collaborator
-        //            }
-    }
-    
     func fetchUserForCollab(collaborator: [String]) {
         FirebaseManager.shared.firestore.collection("users")
             .getDocuments { documentsSnapshot, error in
@@ -203,8 +167,7 @@ class ProfileViewModel: ObservableObject {
                     let username = data["username"] as? String ?? ""
                     let email = data["email"] as? String ?? ""
                     let profileImageUrl = data["profileImageUrl"] as? String ?? ""
-                    let projects = data["projects"] as? String ?? ""
-                    let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl, projects: projects)
+                    let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
                     if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
                         //>>>>>>> Stashed changes
                     }) {
@@ -234,8 +197,7 @@ class ProfileViewModel: ObservableObject {
                 let username = data["username"] as? String ?? ""
                 let email = data["email"] as? String ?? ""
                 let profileImageUrl = data["profileImageUrl"] as? String ?? ""
-                let projects = data["projects"] as? String ?? ""
-                let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl, projects: projects)
+                let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
                 if user.uid != FirebaseManager.shared.auth.currentUser?.uid
                 //                    && user.uid != projectUID && !collaborator.contains(where: { $0 == user.email})
                 {
@@ -266,8 +228,7 @@ class ProfileViewModel: ObservableObject {
                 let username = data["username"] as? String ?? ""
                 let email = data["email"] as? String ?? ""
                 let profileImageUrl = data["profileImageUrl"] as? String ?? ""
-                let projects = data["projects"] as? String ?? ""
-                let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl, projects: projects)
+                let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
                 
                 if user.uid != FirebaseManager.shared.auth.currentUser?.uid
                 //                    && user.uid != projectUID && !collaborator.contains(where: { $0 == user.email})
@@ -307,8 +268,7 @@ class ProfileViewModel: ObservableObject {
                 let username = data["username"] as? String ?? ""
                 let email = data["email"] as? String ?? ""
                 let profileImageUrl = data["profileImageUrl"] as? String ?? ""
-                let projects = data["projects"] as? String ?? ""
-                let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl, projects: projects)
+                let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
                 if user.uid != FirebaseManager.shared.auth.currentUser?.uid
                 //                    && user.uid != projectUID && !collaborator.contains(where: { $0 == user.email})
                 {
@@ -346,9 +306,8 @@ class ProfileViewModel: ObservableObject {
             let username = data["username"] as? String ?? ""
             let email = data["email"] as? String ?? ""
             let profileImageUrl = data["profileImageUrl"] as? String ?? ""
-            let projects = data["projects"] as? String ?? ""
             
-            self.user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl, projects: projects)
+            self.user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
             
             //>>>>>>> Stashed changes
         }

@@ -47,11 +47,6 @@ struct BoardDetailView: View {
             
             Button {
                 vm.updateExistingData(projectToUpdate: project!, name: projectName, desc: projectDesc, collaborator: collaborator)
-                print("collaborator yang ada: \(collaborator)")
-                for item in collaborator {
-                    print("1. users: \(item)")
-                    profileVM.updateUserProject(projectToUpdate: project!, collaborator: item)
-                }
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("Save")

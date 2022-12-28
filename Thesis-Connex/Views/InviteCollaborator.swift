@@ -38,8 +38,7 @@ class CreateNewMessageViewModel: ObservableObject {
                     let username = data["username"] as? String ?? ""
                     let email = data["email"] as? String ?? ""
                     let profileImageUrl = data["profileImageUrl"] as? String ?? ""
-                    let projects = data["projects"] as? String ?? ""
-                    let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl, projects: projects)
+                    let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
 
                     if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
 //>>>>>>> Stashed changes
