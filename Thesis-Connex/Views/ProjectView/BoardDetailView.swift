@@ -47,6 +47,11 @@ struct BoardDetailView: View {
             
             Button {
                 vm.updateExistingData(projectToUpdate: project!, name: projectName, desc: projectDesc, collaborator: collaborator)
+                print("collaborator yang ada: \(collaborator)")
+                for item in collaborator {
+                    print("1. users: \(item)")
+                    profileVM.updateUserProject(projectToUpdate: project!, collaborator: item)
+                }
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("Save")
@@ -79,11 +84,11 @@ struct BoardDetailView: View {
         .fullScreenCover(isPresented: $shouldShowNewMessageScreen) {
             InviteCollaborator(didSelectNewUser: { user
                 in
-                print(user.email)
+//                print(user.email)
                 self.user = user
                 self.users.append(user)
                 self.collaborator.append(self.user!.email)
-                print(users)
+//                print(users)
             }, project: project, vm: CreateNewMessageViewModel(collaborator: collaborator, projectUID: project!.uid), projectVM: vm, profileVM: profileVM)
         }
     }
@@ -94,11 +99,11 @@ struct BoardDetailView: View {
     
     private var projectProperty: some View {
         VStack {
-            NavigationLink(destination: ScoringView(collaborator: collaborator, vm: ProfileViewModel()), isActive: self.$showDetail) { EmptyView() }
+            NavigationLink(destination: ScoringView(collaborator: collaborator, vm: profileVM), isActive: self.$showDetail) { EmptyView() }
             Button {
                 showingAlert = true
             } label: {
-                
+
                 ZStack{
                     RoundedRectangle(cornerRadius: 25)
                         .foregroundColor(Color("green_tone"))

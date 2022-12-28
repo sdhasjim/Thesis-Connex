@@ -31,7 +31,7 @@ struct ScoringView: View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             ScrollView(){
-                ForEach(vm.users) { item in
+                ForEach(vm.collabUsers) { item in
                     VStack{
                         NavigationLink{
                             ScoringDetailView()
@@ -47,7 +47,7 @@ struct ScoringView: View {
                                             .font(.system(size: 30))
                                             .frame(width: 70, alignment: .center)
                                         
-                                        Text("item.email")
+                                        Text(item.email)
                                             .font(.system(size: 18, weight: .bold))
                                             .foregroundColor(.black)
                                             .frame(width: 260, alignment: .leading)
@@ -76,15 +76,18 @@ struct ScoringView: View {
         .onAppear {
             // Fetch user data
 //            print("collaborator \(collaborator)")
-//            for collab in collaborator {
-//                print(collab)
-//                vm.fetchUserDataFromEmail(email: collab)
-//            }
+            for collab in collaborator {
+                print("1. usernya:\(collab)")
+//                print(vm.collabUsers)
+                vm.fetchUserDataFromEmail(email: collab)
+//                print(vm.collabUsers)
+            }
+//            vm.fet
 //            vm.fetchUserDataFromEmail(email: collaborator)
 //            vm.fetchUserForCollab(collaborator: collaborator)
 //            vm.fetchUserDataFromEmail(email: <#T##String#>)
             
-            print(vm.users)
+//            print(vm.users)
         }
     }
 }
