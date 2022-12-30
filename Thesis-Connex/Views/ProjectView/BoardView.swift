@@ -58,6 +58,7 @@ struct BoardView: View {
     @ObservedObject var projectVM: ProjectViewModel
     @ObservedObject var taskVM: TaskViewModel
     @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
     
     var mainNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -162,7 +163,7 @@ struct BoardView: View {
                                                         .frame(width: 290, alignment: .leading)
 
                                                     NavigationLink {
-                                                        BoardDetailView(project: item, vm: projectVM, profileVM: profileVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
+                                                        BoardDetailView(project: item, vm: projectVM, profileVM: profileVM, scoreVM: scoreVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
                                                     } label: {
                                                         Image(systemName: "square.and.pencil")
                                                             .font(.system(size: 20))
@@ -211,7 +212,7 @@ struct BoardView: View {
 
 struct BoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }
 

@@ -113,7 +113,7 @@ class ProjectViewModel: ObservableObject {
         projectRef
             .whereField("collaborator", arrayContains: email)
         
-        query.getDocuments { querySnapshot, err in
+        query.addSnapshotListener { querySnapshot, err in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -140,7 +140,7 @@ class ProjectViewModel: ObservableObject {
         let db = FirebaseManager.shared.firestore
         
         // Read the documents at a specific path
-        db.collection("projects").getDocuments { snapshot, error in
+        db.collection("projects").addSnapshotListener { snapshot, error in
             
             // Check for errors
             if error == nil {

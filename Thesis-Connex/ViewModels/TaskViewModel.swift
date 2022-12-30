@@ -104,7 +104,7 @@ class TaskViewModel: ObservableObject {
         
         let query = taskRef.whereField("status", isEqualTo: status)
         
-        query.getDocuments { querySnapshot, err in
+        query.addSnapshotListener { querySnapshot, err in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -136,7 +136,7 @@ class TaskViewModel: ObservableObject {
             .whereField("status", isEqualTo: status)
             .whereField("projectID", isEqualTo: projectID)
         
-        query.getDocuments { querySnapshot, err in
+        query.addSnapshotListener { querySnapshot, err in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -196,7 +196,7 @@ class TaskViewModel: ObservableObject {
         
         let query = taskRef.whereField("projectID", isEqualTo: projectID)
         
-        query.getDocuments { querySnapshot, err in
+        query.addSnapshotListener { querySnapshot, err in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -222,7 +222,7 @@ class TaskViewModel: ObservableObject {
         let db = FirebaseManager.shared.firestore
         
         // Read the documents at a specific path
-        db.collection("tasks").getDocuments { snapshot, error in
+        db.collection("tasks").addSnapshotListener { snapshot, error in
             
             // Check for errors
             if error == nil {

@@ -14,6 +14,7 @@ struct ScoringView: View {
     let collaborator: [String]
 //    let users: [User]
     @ObservedObject var vm: ProfileViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
     
     @State var selectedTab = "task"
 //    @State var scoreStatus = false
@@ -40,7 +41,7 @@ struct ScoringView: View {
                 ForEach(vm.collabUsers) { item in
                     VStack{
                         NavigationLink{
-                            ScoringDetailView(user: item, project: project!, scoreStatus: $scoreStatus)
+                            ScoringDetailView(user: item, project: project!, scoreVM: scoreVM, scoreStatus: $scoreStatus)
                         } label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)

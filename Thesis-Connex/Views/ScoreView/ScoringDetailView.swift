@@ -15,6 +15,8 @@ struct ScoringDetailView: View {
     let user: User?
     let project: Project?
     
+    @ObservedObject var scoreVM: ScoreViewModel
+    
     @State var userScore = ""
     @State var userStart = ""
     @State var userStop = ""
@@ -43,6 +45,7 @@ struct ScoringDetailView: View {
                 .frame(width: 275, alignment: .topLeading)
             
             Button {
+                scoreVM.addData(projectID: project!.id, userID: user!.id, score: userScore, userStart: userStart, userStop: userStop, userContinue: userContinue)
                 self.presentationMode.wrappedValue.dismiss()
                 scoreStatus = true
             } label: {

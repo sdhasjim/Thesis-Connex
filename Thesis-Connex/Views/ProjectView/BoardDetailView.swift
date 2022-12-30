@@ -13,6 +13,7 @@ struct BoardDetailView: View {
     
     @ObservedObject var vm: ProjectViewModel
     @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -94,7 +95,7 @@ struct BoardDetailView: View {
     
     private var projectProperty: some View {
         VStack {
-            NavigationLink(destination: ScoringView(project: project!, collaborator: collaborator, vm: profileVM), isActive: self.$showDetail) { EmptyView() }
+            NavigationLink(destination: ScoringView(project: project!, collaborator: collaborator, vm: profileVM, scoreVM: scoreVM), isActive: self.$showDetail) { EmptyView() }
             Button {
                 showingAlert = true
             } label: {
@@ -226,6 +227,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }

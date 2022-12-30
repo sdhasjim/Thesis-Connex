@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import FirebaseFirestore
+import Firebase
 
 class CreateNewMessageViewModel: ObservableObject {
 
@@ -20,7 +22,7 @@ class CreateNewMessageViewModel: ObservableObject {
 
     private func fetchAllUsers(collaborator: [String], projectUID: String) {
         FirebaseManager.shared.firestore.collection("users")
-            .getDocuments { documentsSnapshot, error in
+            .addSnapshotListener { documentsSnapshot, error in
                 if let error = error {
                     self.errorMessage = "Failed to fetch current users: \(error)"
                     print("Failed to fetch users: \(error)")
@@ -108,6 +110,6 @@ struct InviteCollaborator: View {
 struct InviteCollaborator_Previews: PreviewProvider {
     static var previews: some View {
 //        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }

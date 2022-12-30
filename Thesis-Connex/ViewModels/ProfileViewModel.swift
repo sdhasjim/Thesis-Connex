@@ -149,7 +149,7 @@ class ProfileViewModel: ObservableObject {
     
     func fetchUserForCollab(collaborator: [String]) {
         FirebaseManager.shared.firestore.collection("users")
-            .getDocuments { documentsSnapshot, error in
+            .addSnapshotListener { documentsSnapshot, error in
                 if let error = error {
                     self.errorMessage = "Failed to fetch current users: \(error)"
                     print("Failed to fetch users: \(error)")
@@ -183,7 +183,7 @@ class ProfileViewModel: ObservableObject {
         let db = FirebaseManager.shared.firestore
         
         // Read the documents at a specific path
-        db.collection("users").getDocuments { documentsSnapshot, error in
+        db.collection("users").addSnapshotListener { documentsSnapshot, error in
             if let error = error {
                 self.errorMessage = "Failed to fetch current users: \(error)"
                 print("Failed to fetch users: \(error)")
@@ -214,7 +214,7 @@ class ProfileViewModel: ObservableObject {
         let db = FirebaseManager.shared.firestore
         
         // Read the documents at a specific path
-        db.collection("users").getDocuments { documentsSnapshot, error in
+        db.collection("users").addSnapshotListener { documentsSnapshot, error in
             if let error = error {
                 self.errorMessage = "Failed to fetch current users: \(error)"
                 print("Failed to fetch users: \(error)")
@@ -255,7 +255,7 @@ class ProfileViewModel: ObservableObject {
         userRef
             .whereField("email", isEqualTo: email)
         
-        query.getDocuments { documentsSnapshot, error in
+        query.addSnapshotListener { documentsSnapshot, error in
             if let error = error {
                 self.errorMessage = "Failed to fetch current users: \(error)"
                 print("Failed to fetch users: \(error)")
@@ -288,7 +288,7 @@ class ProfileViewModel: ObservableObject {
             return
         }
         
-        FirebaseManager.shared.firestore.collection("users").document(uid).getDocument { snapshot, error in
+        FirebaseManager.shared.firestore.collection("users").document(uid).addSnapshotListener { snapshot, error in
             if let error = error {
                 self.errorMessage = "Failed to fetch current user: \(error)"
                 print("Failed to fetch current user: ", error)

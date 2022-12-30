@@ -569,7 +569,7 @@ struct DoneView: View{
 
 struct InsideBoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }
 
