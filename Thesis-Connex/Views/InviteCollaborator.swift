@@ -110,6 +110,6 @@ struct InviteCollaborator: View {
 struct InviteCollaborator_Previews: PreviewProvider {
     static var previews: some View {
 //        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], status: "unfinished", uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }

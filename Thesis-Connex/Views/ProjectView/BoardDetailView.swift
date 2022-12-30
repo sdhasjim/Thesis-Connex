@@ -117,6 +117,7 @@ struct BoardDetailView: View {
                     message: Text("\nThis action can't be undo"),
                     primaryButton: .destructive(Text("Finish")) {
                         self.showDetail = true
+                        vm.updateExistingDataStatus(projectToUpdate: project!, status: "finished")
                     },
                     secondaryButton: .cancel()
                 )}
@@ -227,6 +228,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], status: "unfinished", uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }

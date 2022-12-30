@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseFirestore
 
 class ProjectViewModel: ObservableObject {
     
@@ -23,8 +25,36 @@ class ProjectViewModel: ObservableObject {
             
             if error == nil {
                 // Get the new data
-                self.getDataFromUser()
+//                self.getDataFromUser(status: "unfinished")
+                self.getAllUserData()
             }
+        }
+        
+    }
+    
+    func updateExistingDataStatus(projectToUpdate: Project, status: String) {
+        
+        let db = FirebaseManager.shared.firestore
+        
+        // Set the data to update
+        db.collection("projects").document(projectToUpdate.id).setData(
+            ["status": status
+            
+            ]
+            , merge: true) { error in
+            
+//                if error == nil {
+//                    self.getDataFromStatusAndProjectID(projectID: <#T##String#>, status: status)
+//                }
+                if error == nil {
+//                    self.getDataFromUser(status: "unfinished")
+                    self.getAllUserData()
+                }
+//                ,
+//               let index = self.tasks.firstIndex(of: taskToUpdate){
+//
+//                self.tasks[index].status = status
+//            }
         }
         
     }
@@ -40,13 +70,17 @@ class ProjectViewModel: ObservableObject {
 //        db.collection("projects").document(projectToUpdate.id).setData(["name": "updated project name"], merge: true)
 //        db.collection("projects").document(projectToUpdate.id).setData(["name": "Updated: \(projectToUpdate.name)"], merge: true) { error in
             
-            if error == nil,
-               let index = self.projects.firstIndex(of: projectToUpdate){
-                
-                self.projects[index].name = name
-                self.projects[index].desc = desc
-                self.projects[index].collaborator = collaborator
+            if error == nil {
+//                self.getDataFromUser(status: "unfinished")
+                self.getAllUserData()
             }
+//                ,
+//               let index = self.projects.firstIndex(of: projectToUpdate){
+//
+//                self.projects[index].name = name
+//                self.projects[index].desc = desc
+//                self.projects[index].collaborator = collaborator
+//            }
         }
         
     }
@@ -85,7 +119,7 @@ class ProjectViewModel: ObservableObject {
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
         guard let email = FirebaseManager.shared.auth.currentUser?.email else { return }
         
-        let projectData = ["uid": uid, "name": name, "desc": desc, "owner": owner, "collaborator": [email]] as [String : Any]
+        let projectData = ["uid": uid, "name": name, "desc": desc, "owner": owner, "collaborator": [email], "status": "unfinished"] as [String : Any]
         
         // Add a document to a collection
 
@@ -96,12 +130,13 @@ class ProjectViewModel: ObservableObject {
                     return
                 }
                 
-                self.getDataFromUser()
+//                self.getDataFromUser(status: "unfinished")
+                self.getAllUserData()
                 print("Success")
             }
     }
     
-    func getDataFromUser() {
+    func getAllUserData() {
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
         guard let email = FirebaseManager.shared.auth.currentUser?.email else { return }
         
@@ -112,6 +147,7 @@ class ProjectViewModel: ObservableObject {
         let query =
         projectRef
             .whereField("collaborator", arrayContains: email)
+        
         
         query.addSnapshotListener { querySnapshot, err in
             if let err = err {
@@ -125,6 +161,44 @@ class ProjectViewModel: ObservableObject {
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
                                            collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           status: d["status"] as? String ?? "",
+                                           uid: d["uid"] as? String ?? "",
+                                           owner: d["owner"] as? String ?? ""
+                            )
+                        }
+                    }
+            }
+        }
+    }
+
+    
+    func getDataFromUser(status: String) {
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        guard let email = FirebaseManager.shared.auth.currentUser?.email else { return }
+        
+        let db = FirebaseManager.shared.firestore
+        
+        let projectRef = db.collection("projects")
+        
+        let query =
+        projectRef
+            .whereField("collaborator", arrayContains: email)
+            .whereField("status", isEqualTo: status)
+        
+        
+        query.addSnapshotListener { querySnapshot, err in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                    DispatchQueue.main.async {
+                        self.projects = querySnapshot!.documents.map { d in
+                            
+                            // Create a project for each document iterated
+                            return Project(id: d.documentID,
+                                           name: d["name"] as? String ?? "",
+                                           desc: d["desc"] as? String ?? "",
+                                           collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           status: d["status"] as? String ?? "",
                                            uid: d["uid"] as? String ?? "",
                                            owner: d["owner"] as? String ?? ""
                             )
@@ -157,6 +231,7 @@ class ProjectViewModel: ObservableObject {
                                            name: d["name"] as? String ?? "",
                                            desc: d["desc"] as? String ?? "",
                                            collaborator: d["collaborator"] as? [String] ?? [String](),
+                                           status: d["status"] as? String ?? "",
                                            uid: d["uid"] as? String ?? "",
                                            owner: d["owner"] as? String ?? ""
                             )

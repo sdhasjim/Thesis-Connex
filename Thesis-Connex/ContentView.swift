@@ -42,7 +42,8 @@ struct ContentView: View {
                     LoginView(didCompleteLoginProcess: {
                         self.profileVM.isCurrentlyLoggedOut = false
                         self.profileVM.fetchCurrentUser()
-                        self.boardVM.getDataFromUser()
+//                        self.boardVM.getDataFromUser(status: "unfinished")
+                        self.boardVM.getAllUserData()
                     })
                 }
 

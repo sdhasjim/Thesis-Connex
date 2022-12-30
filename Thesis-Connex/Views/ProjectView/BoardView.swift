@@ -95,11 +95,9 @@ struct BoardView: View {
         let confirmAction = UIAlertAction(title: "Save", style: .default) { _ in
             if let textField = alert.textFields?.first, let text = textField.text {
                 projectName = text
-                print("Final text: \(projectName)")
             }
             if let textField = alert.textFields?.last, let text = textField.text {
                 projectDesc = text
-                print("Last text: \(projectDesc)")
             }
             
             if projectName == "" {
@@ -196,9 +194,11 @@ struct BoardView: View {
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear(perform: {
-                projectVM.getDataFromUser()
+//                projectVM.getDataFromUser(status: "unfinished")
+                projectVM.getAllUserData()
             })
         }.navigationViewStyle(.stack)
+        
         .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbarBackground(
             Color("yellow_tone"),
