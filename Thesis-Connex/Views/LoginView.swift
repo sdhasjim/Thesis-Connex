@@ -192,7 +192,7 @@ struct LoginView: View {
 
         let usernameUser = String(username)
         
-        let userData = ["email": self.createEmail, "username": usernameUser, "uid": uid, "profileImageUrl": imageProfileUrl.absoluteString]
+        let userData = ["email": self.createEmail, "username": usernameUser, "uid": uid, "profileImageUrl": imageProfileUrl.absoluteString, "projects": ""]
         FirebaseManager.shared.firestore.collection("users")
             .document(uid).setData(userData) { err in
                 if let err = err {

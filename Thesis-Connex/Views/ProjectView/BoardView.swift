@@ -57,6 +57,8 @@ struct BoardView: View {
     
     @ObservedObject var projectVM: ProjectViewModel
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
     
     var mainNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -93,11 +95,9 @@ struct BoardView: View {
         let confirmAction = UIAlertAction(title: "Save", style: .default) { _ in
             if let textField = alert.textFields?.first, let text = textField.text {
                 projectName = text
-                print("Final text: \(projectName)")
             }
             if let textField = alert.textFields?.last, let text = textField.text {
                 projectDesc = text
-                print("Last text: \(projectDesc)")
             }
             
             if projectName == "" {
@@ -159,9 +159,9 @@ struct BoardView: View {
                                                     Text(item.name)
                                                         .font(.system(size: 15, weight: .bold))
                                                         .frame(width: 290, alignment: .leading)
-                                                    
+
                                                     NavigationLink {
-                                                        BoardDetailView(project: item, vm: projectVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
+                                                        BoardDetailView(project: item, vm: projectVM, profileVM: profileVM, scoreVM: scoreVM, projectName: item.name, projectDesc: item.desc, collaborator: item.collaborator)
                                                     } label: {
                                                         Image(systemName: "square.and.pencil")
                                                             .font(.system(size: 20))
@@ -194,10 +194,11 @@ struct BoardView: View {
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear(perform: {
-                projectVM.getDataFromUser()
-                projectVM.getDataFromOther()
+                projectVM.getDataFromUser(status: "unfinished")
+//                projectVM.getAllUserData()
             })
-        }
+        }.navigationViewStyle(.stack)
+        
         .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbarBackground(
             Color("yellow_tone"),
@@ -211,7 +212,7 @@ struct BoardView: View {
 
 struct BoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }
 

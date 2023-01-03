@@ -12,6 +12,8 @@ struct BoardDetailView: View {
     let project: Project?
     
     @ObservedObject var vm: ProjectViewModel
+    @ObservedObject var profileVM: ProfileViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -78,23 +80,26 @@ struct BoardDetailView: View {
         .fullScreenCover(isPresented: $shouldShowNewMessageScreen) {
             InviteCollaborator(didSelectNewUser: { user
                 in
-                print(user.email)
-                self.profileUser = user
-                self.collaborator.append(self.profileUser!.email)
-                print(collaborator)
-            }, project: project, vm: CreateNewMessageViewModel(collaborator: collaborator, projectUID: project!.uid), projectVM: vm)
+//                print(user.email)
+                self.user = user
+                self.users.append(user)
+                self.collaborator.append(self.user!.email)
+//                print(users)
+            }, project: project, vm: CreateNewMessageViewModel(collaborator: collaborator, projectUID: project!.uid), projectVM: vm, profileVM: profileVM)
         }
     }
     
-    @State var profileUser: ProfileUser?
+//    @State var profileUser: ProfileUser?
+    @State var user: User?
+    @State var users = [User]()
     
     private var projectProperty: some View {
         VStack {
-            NavigationLink(destination: ScoringView(collaborator: collaborator, vm: ProfileViewModel()), isActive: self.$showDetail) { EmptyView() }
+            NavigationLink(destination: ScoringView(project: project!, collaborator: collaborator, vm: profileVM, scoreVM: scoreVM), isActive: self.$showDetail) { EmptyView() }
             Button {
                 showingAlert = true
             } label: {
-                
+
                 ZStack{
                     RoundedRectangle(cornerRadius: 25)
                         .foregroundColor(Color("green_tone"))
@@ -112,6 +117,7 @@ struct BoardDetailView: View {
                     message: Text("\nThis action can't be undo"),
                     primaryButton: .destructive(Text("Finish")) {
                         self.showDetail = true
+                        vm.updateExistingDataStatus(projectToUpdate: project!, status: "finished")
                     },
                     secondaryButton: .cancel()
                 )}
@@ -222,6 +228,6 @@ struct BoardDetailView: View {
 
 struct BoardDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], status: "unfinished", uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }

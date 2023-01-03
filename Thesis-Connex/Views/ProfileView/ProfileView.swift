@@ -16,6 +16,7 @@ struct ProfileView: View {
     @ObservedObject var projectVM: ProjectViewModel
     @ObservedObject var vm: ProfileViewModel
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
 
     var body: some View {
         
@@ -36,7 +37,7 @@ struct ProfileView: View {
                                         .scaledToFill()
                                         .cornerRadius(64)
                                 } else {
-                                    WebImage(url: URL(string: vm.profileUser?.profileImageUrl ?? ""))
+                                    WebImage(url: URL(string: vm.user?.profileImageUrl ?? ""))
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 100, height: 100)
@@ -51,8 +52,8 @@ struct ProfileView: View {
                             }
                             .overlay(RoundedRectangle(cornerRadius: 64).stroke(Color.black, lineWidth: 3))
                         }
-                        Text(vm.profileUser?.username ?? "").foregroundColor(Color("brown_tone"))
-                        Text(vm.profileUser?.email ?? "").foregroundColor(Color("brown_tone"))
+                        Text(vm.user?.username ?? "").foregroundColor(Color("brown_tone"))
+                        Text(vm.user?.email ?? "").foregroundColor(Color("brown_tone"))
                     }
                     
                     Button {
@@ -80,7 +81,7 @@ struct ProfileView: View {
                             .foregroundColor(Color("brown_tone"))
                         ForEach (projectVM.projects) { item in
                             NavigationLink  {
-                                ProjectDetailView(project: item, taskVM: taskVM, projectName: item.name)
+                                ProjectDetailView(project: item, taskVM: taskVM, scoreVM: scoreVM, projectName: item.name)
                             } label: {
                                 ZStack{
                                     RoundedRectangle(cornerRadius: 25)
@@ -112,6 +113,10 @@ struct ProfileView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .scrollIndicators(.hidden)
             })
+            .onAppear {
+                vm.fetchCurrentUser()
+                projectVM.getDataFromUser(status: "finished")
+            }
         }
 
     }
@@ -123,7 +128,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }
 

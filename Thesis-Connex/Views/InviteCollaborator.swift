@@ -7,34 +7,46 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import FirebaseFirestore
+import Firebase
 
 class CreateNewMessageViewModel: ObservableObject {
-    
-    @Published var users = [ProfileUser]()
+
+//    @Published var users = [ProfileUser]()
+    @Published var users = [User]()
     @Published var errorMessage = ""
-    
+
     init(collaborator: [String], projectUID: String) {
         fetchAllUsers(collaborator: collaborator, projectUID: projectUID)
     }
-    
+
     private func fetchAllUsers(collaborator: [String], projectUID: String) {
         FirebaseManager.shared.firestore.collection("users")
-            .getDocuments { documentsSnapshot, error in
+            .addSnapshotListener { documentsSnapshot, error in
                 if let error = error {
                     self.errorMessage = "Failed to fetch current users: \(error)"
                     print("Failed to fetch users: \(error)")
                     return
                 }
-                
+
                 documentsSnapshot?.documents.forEach({ snapshot in
                     let data = snapshot.data()
-                    let user = ProfileUser(data: data)
-                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && user.uid != projectUID && !collaborator.contains(where: { $0 == user.email
+//<<<<<<< Updated upstream
+//                    let user = ProfileUser(data: data)
+//                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
+//=======
+//                    let user = ProfileUser(data: data)
+                    let uid = data["uid"] as? String ?? ""
+                    let username = data["username"] as? String ?? ""
+                    let email = data["email"] as? String ?? ""
+                    let profileImageUrl = data["profileImageUrl"] as? String ?? ""
+                    let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
+
+                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
+//>>>>>>> Stashed changes
                     }) {
-                        self.users.append(.init(data: data))
+                        self.users.append(user)
                     }
-                    print(self.users)
-//                    self.users.append(.init(data: data))
                 })
             }
     }
@@ -42,7 +54,8 @@ class CreateNewMessageViewModel: ObservableObject {
 
 struct InviteCollaborator: View {
     
-    let didSelectNewUser: (ProfileUser) -> ()
+//    let didSelectNewUser: (ProfileUser) -> ()
+    let didSelectNewUser: (User) -> ()
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -50,6 +63,7 @@ struct InviteCollaborator: View {
     
     @ObservedObject var vm: CreateNewMessageViewModel
     @ObservedObject var projectVM: ProjectViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     var body: some View {
         NavigationView {
@@ -96,6 +110,6 @@ struct InviteCollaborator: View {
 struct InviteCollaborator_Previews: PreviewProvider {
     static var previews: some View {
 //        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
-        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel())
+        BoardDetailView(project: Project(id: "AMtXnHmzutlqKvQYHjNe", name: "OOP", desc: "Blablabla", collaborator: ["test", "mantap"], status: "unfinished", uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: "test"), vm: ProjectViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }

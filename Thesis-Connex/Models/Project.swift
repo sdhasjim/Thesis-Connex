@@ -13,6 +13,7 @@ struct Project: Identifiable, Equatable {
     var name: String
     var desc: String
     var collaborator: [String]
+    var status: String
     var uid: String
     var owner: String
     

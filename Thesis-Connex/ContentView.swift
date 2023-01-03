@@ -13,11 +13,12 @@ struct ContentView: View {
     @StateObject var profileVM = ProfileViewModel()
     @StateObject var boardVM = ProjectViewModel()
     @StateObject var taskVM = TaskViewModel()
+    @StateObject var scoreVM = ScoreViewModel()
     
     var body: some View {
         if currentPage > totalPages{
             TabView{
-                BoardView(projectVM: boardVM, taskVM: taskVM)
+                BoardView(projectVM: boardVM, taskVM: taskVM, profileVM: profileVM, scoreVM: scoreVM)
                     .tabItem{
                         Label("Board", systemImage: "doc.circle")
                     }
@@ -32,7 +33,7 @@ struct ContentView: View {
                         Label("Notif", systemImage: "bell.circle")
                     }
                 
-                ProfileView(projectVM: boardVM, vm: profileVM, taskVM: taskVM)
+                ProfileView(projectVM: boardVM, vm: profileVM, taskVM: taskVM, scoreVM: scoreVM)
                     .tabItem{
                         Label("Profile", systemImage: "person.circle")
                     }
@@ -41,8 +42,8 @@ struct ContentView: View {
                     LoginView(didCompleteLoginProcess: {
                         self.profileVM.isCurrentlyLoggedOut = false
                         self.profileVM.fetchCurrentUser()
-                        self.boardVM.getDataFromUser()
-                        self.boardVM.getDataFromOther()
+//                        self.boardVM.getDataFromUser(status: "unfinished")
+                        self.boardVM.getAllUserData()
                     })
                 }
 

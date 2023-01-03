@@ -126,11 +126,6 @@ struct InsideBoardView: View {
                 taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "progressing")
                 taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "done")
             })
-//            .onAppear(perform: {
-////                taskVM.getDataFromProjectID(projectID: project!.id)
-//                taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "todo")
-////                taskVM.getDataFromStatus(status: "todo")
-//            })
         }
         
     }
@@ -153,11 +148,9 @@ struct InsideBoardView: View {
         let confirmAction = UIAlertAction(title: "Save", style: .default) { _ in
             if let textField = alert.textFields?.first, let text = textField.text {
                 projectName = text
-                print("Final text: \(projectName)")
             }
             if let textField = alert.textFields?.last, let text = textField.text {
                 projectDesc = text
-                print("Last text: \(projectDesc)")
             }
             
             if projectName == "" {
@@ -569,7 +562,7 @@ struct DoneView: View{
 
 struct InsideBoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel())
+        BoardView(projectVM: ProjectViewModel(), taskVM: TaskViewModel(), profileVM: ProfileViewModel(), scoreVM: ScoreViewModel())
     }
 }
 

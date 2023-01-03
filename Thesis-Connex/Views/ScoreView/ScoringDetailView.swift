@@ -6,15 +6,25 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ScoringDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
+    let user: User?
+    let project: Project?
+    
+    @ObservedObject var scoreVM: ScoreViewModel
+    
     @State var userScore = ""
     @State var userStart = ""
     @State var userStop = ""
     @State var userContinue = ""
+    
+    @Binding var scoreStatus: Bool
+    
+//    @Binding var scoreStatus: Bool
     
     var scoreDetailNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -35,7 +45,9 @@ struct ScoringDetailView: View {
                 .frame(width: 275, alignment: .topLeading)
             
             Button {
-                //
+                scoreVM.addData(projectID: project!.id, userID: user!.id, score: userScore, userStart: userStart, userStop: userStop, userContinue: userContinue)
+                self.presentationMode.wrappedValue.dismiss()
+                scoreStatus = true
             } label: {
                 Text("Save")
                     .font(.system(size: 18, weight: .bold))
@@ -51,14 +63,23 @@ struct ScoringDetailView: View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .center, spacing: 20) {
                     
-                    Image(systemName: "person.circle")
-                        .font(.system(size: 80))
-                        .frame(width: 360, alignment: .center)
-                    Text("Person 1")
+                    WebImage(url: URL(string: user?.profileImageUrl ?? ""))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 100, height: 100, alignment: .center)
+                        .clipped()
+                        .cornerRadius(100)
+                        .overlay(RoundedRectangle(cornerRadius: 100)
+                            .stroke(Color(.label), lineWidth: 1)
+                        )
+                        .shadow(radius: 5)
+                    Text(user?.username ?? "")
                         .font(.system(size: 20, weight: .bold))
                         .frame(width: 360, alignment: .center)
+                    Text("In project: \(project!.name)")
+                        .font(.system(size: 16, weight: .semibold))
                     
                     VStack{
                         Text(" Give Score")
@@ -69,6 +90,7 @@ struct ScoringDetailView: View {
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(10)
                             .frame(width: 360, alignment: .leading)
+                            .keyboardType(.numberPad)
                         
                         VStack{
                             Text(" Let's give feedback to your friends")
@@ -122,9 +144,9 @@ struct ScoringDetailView: View {
     }
 }
 
-struct ScoringDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ScoringDetailView()
-    }
-}
+//struct ScoringDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ScoringDetailView(user: User(id: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", username: "sdhasjim", email: "sdhasjim@gmail.com", profileImageUrl: "https://firebasestorage.googleapis.com:443/v0/b/thesis-connex.appspot.com/o/pZ08hZ1PI4S4DNQUaDR86ruZzq53?alt=media&token=27929f7f-9f59-4dd3-a246-66cdaeafa9d3"))
+//    }
+//}
 
