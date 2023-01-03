@@ -178,8 +178,6 @@ struct BoardView: View {
                                         .padding()
                                         
                                     }
-
-
                                 }.frame(height: 160)
                             }
                         }
@@ -195,9 +193,9 @@ struct BoardView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear(perform: {
                 projectVM.getDataFromUser(status: "unfinished")
-//                projectVM.getAllUserData()
             })
-        }.navigationViewStyle(.stack)
+        }
+        .navigationViewStyle(.stack)
         
         .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbarBackground(

@@ -95,7 +95,7 @@ struct BoardDetailView: View {
     
     private var projectProperty: some View {
         VStack {
-            NavigationLink(destination: ScoringView(project: project!, collaborator: collaborator, vm: profileVM, scoreVM: scoreVM), isActive: self.$showDetail) { EmptyView() }
+            NavigationLink(destination: ScoringView(project: project!, collaborator: collaborator, vm: profileVM, scoreVM: scoreVM, projectVM: vm ), isActive: self.$showDetail) { EmptyView() }
             Button {
                 showingAlert = true
             } label: {
@@ -111,13 +111,13 @@ struct BoardDetailView: View {
                             .foregroundColor(.white)
                     }
                 }
-            }.alert(isPresented:$showingAlert) {
+            }
+            .alert(isPresented:$showingAlert) {
                 Alert(
                     title: Text("Are you sure this project has been finish?"),
                     message: Text("\nThis action can't be undo"),
                     primaryButton: .destructive(Text("Finish")) {
                         self.showDetail = true
-                        vm.updateExistingDataStatus(projectToUpdate: project!, status: "finished")
                     },
                     secondaryButton: .cancel()
                 )}
