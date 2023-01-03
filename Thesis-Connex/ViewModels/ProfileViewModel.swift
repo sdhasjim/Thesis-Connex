@@ -244,8 +244,6 @@ class ProfileViewModel: ObservableObject {
     
     func fetchUserDataFromEmail(email: String) {
         self.collabUsers.removeAll()
-        print("init collab users: \(collabUsers)")
-//        guard let uid = FirebaseManager.shared.auth.currentUser?.email else { return }
         
         let db = FirebaseManager.shared.firestore
         
@@ -277,7 +275,6 @@ class ProfileViewModel: ObservableObject {
                 }
                 //                    self.users.append(.init(data: data))
             })
-            print("end collab users: \(self.collabUsers)")
         }
     }
     

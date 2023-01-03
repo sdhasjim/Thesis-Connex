@@ -16,6 +16,7 @@ struct ProfileView: View {
     @ObservedObject var projectVM: ProjectViewModel
     @ObservedObject var vm: ProfileViewModel
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
 
     var body: some View {
         
@@ -80,7 +81,7 @@ struct ProfileView: View {
                             .foregroundColor(Color("brown_tone"))
                         ForEach (projectVM.projects) { item in
                             NavigationLink  {
-                                ProjectDetailView(project: item, taskVM: taskVM, projectName: item.name)
+                                ProjectDetailView(project: item, taskVM: taskVM, scoreVM: scoreVM, projectName: item.name)
                             } label: {
                                 ZStack{
                                     RoundedRectangle(cornerRadius: 25)

@@ -12,10 +12,10 @@ struct Score: Identifiable, Equatable {
     var id: String
     var projectID: String
     var userID: String
-    var score: [String]
-    var userStart: [String]
-    var userStop: [String]
-    var userContinue: [String]
+    var score: Int
+    var userStart: String
+    var userStop: String
+    var userContinue: String
     
     static func == (lhs: Score, rhs: Score) -> Bool {
             return lhs.id == rhs.id

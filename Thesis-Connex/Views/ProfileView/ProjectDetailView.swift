@@ -13,6 +13,7 @@ struct ProjectDetailView: View {
 //    let task: Task?
     
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
     
     @State var progressValue: Float = 0.0
     @State var projectName = ""
@@ -51,7 +52,6 @@ struct ProjectDetailView: View {
         }
         
     }
-
     
     var body: some View {
         ZStack{
@@ -62,13 +62,13 @@ struct ProjectDetailView: View {
                         .font(.system(size: 35, weight: .semibold))
                         .foregroundColor(Color("brown_tone"))
                     
-                    ProgressBar(progress: self.$progressValue)
+                    ProgressBar(progress: $scoreVM.progressValue)
                         .frame(width: 360, height: 200, alignment: .top)
                         .padding(20.0).onAppear(){
-                            self.progressValue = 0.80
+                            self.progressValue = scoreVM.progressValue
                         }
                     ZStack{
-                        Text("80")
+                        Text("\(scoreVM.finalScore)")
                             .font(.system(size: 60, weight: .semibold))
                             .foregroundColor(Color("brown_tone"))
                             .offset(y: -130)
@@ -86,16 +86,18 @@ struct ProjectDetailView: View {
                             ScrollView(.horizontal){
                                 HStack{
                                     Spacer()
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 25)
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 1.5)
-                                            .frame(width: 130, height: 100)
-                                        VStack{
-                                            Text("Kamu nih asu kali. aku sampe pusing gara-gara kamu ini mah. Haish haduuh kesel sincaaa doraemon nobita sasuke naruto pisang goreng")
+                                    ForEach(scoreVM.scores) { item in
+                                        ZStack{
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .foregroundColor(.white)
+                                                .shadow(radius: 1.5)
+                                                .frame(width: 130, height: 100)
+                                            VStack{
+                                                Text(item.userStart)
                                                 .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                        }.frame(width: 120, height: 80)
-                                    }.offset(x: 20)
+                                            }.frame(width: 120, height: 80)
+                                        }.offset(x: 20)
+                                    }
                                     Spacer()
                                 }.frame(height: 110)
                             }.frame(maxWidth: .infinity)
@@ -110,49 +112,20 @@ struct ProjectDetailView: View {
                             ScrollView(.horizontal){
                                 HStack{
                                     Spacer()
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 25)
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 1.5)
-                                            .frame(width: 130, height: 100)
-                                        VStack{
-                                            Text("Kamu nih asu kali. aku sampe pusing gara-gara kamu ini mah. Haish haduuh kesel sincaaa doraemon nobita sasuke naruto pisang goreng")
+                                    
+                                    ForEach(scoreVM.scores) { item in
+                                        ZStack{
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .foregroundColor(.white)
+                                                .shadow(radius: 1.5)
+                                                .frame(width: 130, height: 100)
+                                            VStack{
+                                                Text(item.userStop)
                                                 .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                        }.frame(width: 120, height: 80)
+                                            }.frame(width: 120, height: 80)
+                                        }
                                     }
                                     
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 25)
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 1.5)
-                                            .frame(width: 130, height: 100)
-                                        VStack{
-                                            Text("Kamu nih asu kali. aku sampe pusing gara-gara kamu ini mah. Haish haduuh kesel sincaaa doraemon nobita sasuke naruto pisang goreng")
-                                                .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                        }.frame(width: 120, height: 80)
-                                    }
-                                    
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 25)
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 1.5)
-                                            .frame(width: 130, height: 100)
-                                        VStack{
-                                            Text("Kamu nih asu kali. aku sampe pusing gara-gara kamu ini mah. Haish haduuh kesel sincaaa doraemon nobita sasuke naruto pisang goreng")
-                                                .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                        }.frame(width: 120, height: 80)
-                                    }
-                                    
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 25)
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 1.5)
-                                            .frame(width: 130, height: 100)
-                                        VStack{
-                                            Text("Kamu nih asu kali. aku sampe pusing gara-gara kamu ini mah. Haish haduuh kesel sincaaa doraemon nobita sasuke naruto pisang goreng")
-                                                .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                        }.frame(width: 120, height: 80)
-                                    }
                                     Spacer()
                                 }.frame(height: 110)
                             }
@@ -168,27 +141,35 @@ struct ProjectDetailView: View {
                             ScrollView(.horizontal){
                                 HStack{
                                     Spacer()
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 25)
-                                            .foregroundColor(.white)
-                                            .shadow(radius: 1.5)
-                                            .frame(width: 130, height: 100)
-                                        VStack{
-                                            Text("Kamu nih asu kali. aku sampe pusing gara-gara kamu ini mah. Haish haduuh kesel sincaaa doraemon nobita sasuke naruto pisang goreng")
+                                    ForEach(scoreVM.scores) { item in
+                                        ZStack{
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .foregroundColor(.white)
+                                                .shadow(radius: 1.5)
+                                                .frame(width: 130, height: 100)
+                                            VStack{
+                                                Text(item.userContinue)
                                                 .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                        }.frame(width: 120, height: 80)
-                                    }.offset(x: 20)
+                                            }.frame(width: 120, height: 80)
+                                        }.offset(x: 20)
+                                    }
                                     Spacer()
                                 }.frame(height: 110)
                             }.frame(maxWidth: .infinity)
                         }
                     }.offset(y:40)
                 }
+//                .onAppear {
+//                    scoreVM.scoreCalculation()
+//                }
                 Text("").frame(height: 80)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .scrollIndicators(.hidden)
         }
+        .onAppear(perform: {
+            scoreVM.getDataFromProjectID(projectID: project?.id ?? "")
+        })
         .navigationBarTitleDisplayMode(.inline)
         
         //ini headernya
