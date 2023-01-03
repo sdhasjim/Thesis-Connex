@@ -25,8 +25,8 @@ class ProjectViewModel: ObservableObject {
             
             if error == nil {
                 // Get the new data
-//                self.getDataFromUser(status: "unfinished")
-                self.getAllUserData()
+                self.getDataFromUser(status: "unfinished")
+//                self.getAllUserData()
             }
         }
         
@@ -47,8 +47,8 @@ class ProjectViewModel: ObservableObject {
 //                    self.getDataFromStatusAndProjectID(projectID: <#T##String#>, status: status)
 //                }
                 if error == nil {
-//                    self.getDataFromUser(status: "unfinished")
-                    self.getAllUserData()
+                    self.getDataFromUser(status: "unfinished")
+//                    self.getAllUserData()
                 }
 //                ,
 //               let index = self.tasks.firstIndex(of: taskToUpdate){
@@ -71,8 +71,8 @@ class ProjectViewModel: ObservableObject {
 //        db.collection("projects").document(projectToUpdate.id).setData(["name": "Updated: \(projectToUpdate.name)"], merge: true) { error in
             
             if error == nil {
-//                self.getDataFromUser(status: "unfinished")
-                self.getAllUserData()
+                self.getDataFromUser(status: "unfinished")
+//                self.getAllUserData()
             }
 //                ,
 //               let index = self.projects.firstIndex(of: projectToUpdate){
@@ -130,8 +130,8 @@ class ProjectViewModel: ObservableObject {
                     return
                 }
                 
-//                self.getDataFromUser(status: "unfinished")
-                self.getAllUserData()
+                self.getDataFromUser(status: "unfinished")
+//                self.getAllUserData()
                 print("Success")
             }
     }

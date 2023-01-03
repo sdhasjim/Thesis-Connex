@@ -194,8 +194,8 @@ struct BoardView: View {
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear(perform: {
-//                projectVM.getDataFromUser(status: "unfinished")
-                projectVM.getAllUserData()
+                projectVM.getDataFromUser(status: "unfinished")
+//                projectVM.getAllUserData()
             })
         }.navigationViewStyle(.stack)
         

@@ -115,6 +115,7 @@ struct ProfileView: View {
             })
             .onAppear {
                 vm.fetchCurrentUser()
+                projectVM.getDataFromUser(status: "finished")
             }
         }
 
