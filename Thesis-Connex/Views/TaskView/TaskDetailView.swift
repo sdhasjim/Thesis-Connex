@@ -135,7 +135,7 @@ struct TaskDetailView: View {
         }
         .onAppear(perform: {
             print(taskAssignee)
-            profileVM.fetchAssigneFromEmail(email: taskAssignee)
+            profileVM.fetchAssigneeFromEmail(email: taskAssignee)
             print(profileVM.userAssigned)
         })
         
