@@ -23,7 +23,7 @@ struct ContentView: View {
                         Label("Board", systemImage: "doc.circle")
                     }
                 
-                TaskView()
+                TaskView(taskVM: taskVM)
                     .tabItem{
                         Label("Task", systemImage: "hourglass.circle")
                     }

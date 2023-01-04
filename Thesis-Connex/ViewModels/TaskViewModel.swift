@@ -219,10 +219,16 @@ class TaskViewModel: ObservableObject {
     }
     
     func getData() {
+        guard let userEmail = FirebaseManager.shared.auth.currentUser?.email else { return }
+        
         let db = FirebaseManager.shared.firestore
         
+        let taskRef = db.collection("tasks")
+        
+        let query = taskRef.whereField("assignee", isEqualTo: userEmail)
+        
         // Read the documents at a specific path
-        db.collection("tasks").addSnapshotListener { snapshot, error in
+        query.addSnapshotListener { snapshot, error in
             
             // Check for errors
             if error == nil {

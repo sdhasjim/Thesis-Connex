@@ -9,6 +9,9 @@ import SwiftUI
 
 struct TaskView: View {
     @State var selectedTab = "task"
+    
+    @ObservedObject var taskVM: TaskViewModel
+    
     var body: some View {
         ZStack{
             Color("yellow_tone").ignoresSafeArea()
@@ -18,31 +21,37 @@ struct TaskView: View {
                         .frame(width: 330, alignment: .leading)
                         .foregroundColor(Color("brown_tone"))
                     
-                    Button(action: {
-                        editTaskView()
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 15)
-                                .foregroundColor(Color("green_tone"))
-                                .shadow(radius: 1.5)
-                            VStack{
-                                HStack{
-                                    Text("Make a prototype")
-                                        .font(.system(size: 18, weight: .bold))
+                    ForEach(taskVM.tasks) { item in
+                        Button(action: {
+                            editTaskView()
+                        }, label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundColor(Color("green_tone"))
+                                    .shadow(radius: 1.5)
+                                VStack{
+                                    HStack{
+                                        Text(item.name)
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(.white)
+                                    }
+                                }.frame(width: 300, height: 50, alignment: .topLeading)
+                                
+                                VStack{
+                                    Text(item.desc)
+                                        .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
-                                }
-                            }.frame(width: 300, height: 50, alignment: .topLeading)
-                            
-                            VStack{
-                                Text("Desc: make an UI interface")
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.white)
-                            }.frame(width: 300, height: 50, alignment: .bottomLeading)
-                        }.frame(width: 340, height: 80)
-                    }).frame(width: 340, height: 520, alignment: .top)
+                                }.frame(width: 300, height: 50, alignment: .bottomLeading)
+                            }.frame(width: 340, height: 80)
+                        })
+                    }
+
                 }.offset(y: 20)
             }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .onAppear {
+            taskVM.getData()
         }
     }
     
@@ -78,6 +87,6 @@ struct TaskView: View {
 
 struct TaskView_Previews: PreviewProvider {
     static var previews: some View {
-        TaskView()
+        TaskView(taskVM: TaskViewModel())
     }
 }
