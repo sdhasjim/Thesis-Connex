@@ -22,6 +22,9 @@ struct ProjectDetailView: View {
     @State var index = 1
     @State var offset: CGFloat = 0
     @State var taskName = ""
+    @State private var isExpanded1 = false
+    @State private var isExpanded2 = false
+    @State private var isExpanded3 = false
     @Environment(\.presentationMode) var presentationMode
     
     var projectDetailViewNavbar : some View { Button(action: {
@@ -78,90 +81,87 @@ struct ProjectDetailView: View {
                     VStack{
                         
                         VStack{
-                            Text("Start")
-                                .font(.system(size: 15, weight: .semibold))
-                                .foregroundColor(Color("brown_tone"))
-                                .frame(width: 360, height: 15, alignment: .leading)
-                                .offset(x: 10)
-                            ScrollView(.horizontal){
-                                HStack{
-                                    Spacer()
-                                    ForEach(scoreVM.scores) { item in
-                                        ZStack{
-                                            RoundedRectangle(cornerRadius: 25)
-                                                .foregroundColor(.white)
-                                                .shadow(radius: 1.5)
-                                                .frame(width: 130, height: 100)
-                                            VStack{
-                                                Text(item.userStart)
-                                                .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                            }.frame(width: 120, height: 80)
-                                        }.offset(x: 20)
+                            DisclosureGroup(isExpanded: $isExpanded1){
+                                ForEach(scoreVM.scores) { item in
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .foregroundColor(.white)
+                                            .shadow(radius: 1.5)
+                                            .frame(width: 340, height: 100)
+                                        VStack{
+//                                            Text(item.userStart)
+                                            Text("item.userStart tanga;gral rlan gab gan;lrn vl najn ;blanlvnalnl;anbj;an vl;nalkvlka; nvlankl;nalk;njla njlgkjnbkla dbklakl;bklajblkajbla;br;a")
+                                                .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
+                                                .frame(width: 330, height: 80, alignment: .topLeading)
+                                                .offset(y:5)
+                                        }.frame(width: 350, height: 80)
                                     }
-                                    Spacer()
                                 }.frame(height: 110)
-                            }.frame(maxWidth: .infinity)
-                        }
+                                Spacer()
+                            } label: {
+                                HStack{
+                                    Text("What you need to start")
+                                }.frame(width: 310, alignment: .leading)
+                                    .font(.system(size: 15, weight: .bold))
+                                    .foregroundColor(Color("brown_tone"))
+                            }.frame(width: 350, alignment: .top)
+                                .accentColor(Color("brown_tone"))                        }.frame(width: 360)
                         
                         VStack{
-                            Text("Stop")
-                                .font(.system(size: 15, weight: .semibold))
-                                .foregroundColor(Color("brown_tone"))
-                                .frame(width: 360, height: 15, alignment: .leading)
-                                .offset(x: 10)
-                            ScrollView(.horizontal){
-                                HStack{
-                                    Spacer()
-                                    
-                                    ForEach(scoreVM.scores) { item in
-                                        ZStack{
-                                            RoundedRectangle(cornerRadius: 25)
-                                                .foregroundColor(.white)
-                                                .shadow(radius: 1.5)
-                                                .frame(width: 130, height: 100)
-                                            VStack{
-                                                Text(item.userStop)
-                                                .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                            }.frame(width: 120, height: 80)
-                                        }
+                            DisclosureGroup(isExpanded: $isExpanded2){
+                                ForEach(scoreVM.scores) { item in
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .foregroundColor(.white)
+                                            .shadow(radius: 1.5)
+                                            .frame(width: 340, height: 100)
+                                        VStack{
+                                            Text(item.userStop)
+                                                .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
+                                                .frame(width: 330, height: 80, alignment: .topLeading)
+                                                .offset(y:5)
+                                        }.frame(width: 350, height: 80)
                                     }
-                                    
-                                    Spacer()
                                 }.frame(height: 110)
-                            }
-                            .frame(width: 360)
-                        }
+                                Spacer()
+                            } label: {
+                                HStack{
+                                    Text("What you need to stop")
+                                }.frame(width: 310, alignment: .leading)
+                                    .font(.system(size: 15, weight: .bold))
+                                    .foregroundColor(Color("brown_tone"))
+                            }.frame(width: 350, alignment: .top)
+                                .accentColor(Color("brown_tone"))
+                        }.frame(width: 360)
                         
                         VStack{
-                            Text("Continue")
-                                .font(.system(size: 15, weight: .semibold))
-                                .foregroundColor(Color("brown_tone"))
-                                .frame(width: 360, height: 15, alignment: .leading)
-                                .offset(x: 10)
-                            ScrollView(.horizontal){
-                                HStack{
-                                    Spacer()
-                                    ForEach(scoreVM.scores) { item in
-                                        ZStack{
-                                            RoundedRectangle(cornerRadius: 25)
-                                                .foregroundColor(.white)
-                                                .shadow(radius: 1.5)
-                                                .frame(width: 130, height: 100)
-                                            VStack{
-                                                Text(item.userContinue)
-                                                .font(.system(size: 12, weight: .regular)).foregroundColor(.black)
-                                            }.frame(width: 120, height: 80)
-                                        }.offset(x: 20)
+                            DisclosureGroup(isExpanded: $isExpanded3){
+                                ForEach(scoreVM.scores) { item in
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 25)
+                                            .foregroundColor(.white)
+                                            .shadow(radius: 1.5)
+                                            .frame(width: 340, height: 100)
+                                        VStack{
+                                            Text(item.userContinue)
+                                                .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
+                                                .frame(width: 330, height: 80, alignment: .topLeading)
+                                                .offset(y:5)
+                                        }.frame(width: 350, height: 80)
                                     }
-                                    Spacer()
                                 }.frame(height: 110)
-                            }.frame(maxWidth: .infinity)
-                        }
-                    }.offset(y:40)
+                                Spacer()
+                            } label: {
+                                HStack{
+                                    Text("What you need to continue")
+                                }.frame(width: 310, alignment: .leading)
+                                    .font(.system(size: 15, weight: .bold))
+                                    .foregroundColor(Color("brown_tone"))
+                            }.frame(width: 350, alignment: .top)
+                                .accentColor(Color("brown_tone"))
+                        }.frame(width: 360)
+                    }.frame(width: 360).frame(maxHeight: .infinity)
                 }
-//                .onAppear {
-//                    scoreVM.scoreCalculation()
-//                }
                 Text("").frame(height: 80)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
