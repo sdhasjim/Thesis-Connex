@@ -12,7 +12,6 @@ import Firebase
 
 class CreateNewMessageViewModel: ObservableObject {
 
-//    @Published var users = [ProfileUser]()
     @Published var users = [User]()
     @Published var errorMessage = ""
 
@@ -31,11 +30,6 @@ class CreateNewMessageViewModel: ObservableObject {
 
                 documentsSnapshot?.documents.forEach({ snapshot in
                     let data = snapshot.data()
-//<<<<<<< Updated upstream
-//                    let user = ProfileUser(data: data)
-//                    if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
-//=======
-//                    let user = ProfileUser(data: data)
                     let uid = data["uid"] as? String ?? ""
                     let username = data["username"] as? String ?? ""
                     let email = data["email"] as? String ?? ""
@@ -43,7 +37,6 @@ class CreateNewMessageViewModel: ObservableObject {
                     let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
 
                     if user.uid != FirebaseManager.shared.auth.currentUser?.uid && !collaborator.contains(where: { $0 == user.email
-//>>>>>>> Stashed changes
                     }) {
                         self.users.append(user)
                     }
@@ -54,7 +47,6 @@ class CreateNewMessageViewModel: ObservableObject {
 
 struct InviteCollaborator: View {
     
-//    let didSelectNewUser: (ProfileUser) -> ()
     let didSelectNewUser: (User) -> ()
     
     @Environment(\.presentationMode) var presentationMode
@@ -68,7 +60,6 @@ struct InviteCollaborator: View {
     var body: some View {
         NavigationView {
             ScrollView {
-//                Text(vm.errorMessage)
                 
                 ForEach(vm.users) { user in
                     Button {

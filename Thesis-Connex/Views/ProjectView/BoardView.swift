@@ -146,7 +146,7 @@ struct BoardView: View {
                                 ForEach (filteredProject)
                                 { item in
                                     NavigationLink  {
-                                        InsideBoardView(project: item, taskVM: taskVM, projectName: item.name)
+                                        InsideBoardView(project: item, collaborator: item.collaborator, taskVM: taskVM, profileVM: profileVM, projectName: item.name)
                                     } label: {
                                         ZStack{
                                             RoundedRectangle(cornerRadius: 25)
