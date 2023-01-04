@@ -89,8 +89,7 @@ struct ProjectDetailView: View {
                                             .shadow(radius: 1.5)
                                             .frame(width: 340, height: 100)
                                         VStack{
-//                                            Text(item.userStart)
-                                            Text("item.userStart tanga;gral rlan gab gan;lrn vl najn ;blanlvnalnl;anbj;an vl;nalkvlka; nvlankl;nalk;njla njlgkjnbkla dbklakl;bklajblkajbla;br;a")
+                                            Text(item.userStart)
                                                 .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
                                                 .frame(width: 330, height: 80, alignment: .topLeading)
                                                 .offset(y:5)
