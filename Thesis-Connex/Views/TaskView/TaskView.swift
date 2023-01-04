@@ -21,7 +21,7 @@ struct TaskView: View {
                         .frame(width: 330, alignment: .leading)
                         .foregroundColor(Color("brown_tone"))
                     
-                    ForEach(taskVM.tasks) { item in
+                    ForEach(taskVM.assignedTasks) { item in
                         Button(action: {
                             editTaskView()
                         }, label: {

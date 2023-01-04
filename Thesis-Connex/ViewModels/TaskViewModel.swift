@@ -10,6 +10,7 @@ import Foundation
 class TaskViewModel: ObservableObject {
     
     @Published var tasks = [Task]()
+    @Published var assignedTasks = [Task]()
     @Published var todoTasks = [Task]()
     @Published var progressingTasks = [Task]()
     @Published var doneTasks = [Task]()
@@ -238,7 +239,7 @@ class TaskViewModel: ObservableObject {
                     // Update the list property in the main thread
                     DispatchQueue.main.async {
                         // Get all the documents and create Projects
-                        self.tasks = snapshot.documents.map { d in
+                        self.assignedTasks = snapshot.documents.map { d in
                             
                             // Create a project for each document iterated
                             return Task(id: d.documentID,
