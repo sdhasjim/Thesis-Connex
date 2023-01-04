@@ -15,6 +15,7 @@ class ProfileViewModel: ObservableObject {
     @Published var errorMessage = ""
 
     @Published var user: User?
+    @Published var userAssigned: User?
     @Published var users = [User]()
     @Published var collabUsers = [User]()
     
@@ -274,6 +275,38 @@ class ProfileViewModel: ObservableObject {
                     self.collabUsers.append(user)
                 }
                 //                    self.users.append(.init(data: data))
+            })
+        }
+    }
+    
+    func fetchAssigneeFromEmail(email: String) {
+        self.userAssigned = nil
+        
+        let db = FirebaseManager.shared.firestore
+        
+        let userRef = db.collection("users")
+        
+        let query =
+        userRef
+            .whereField("email", isEqualTo: email)
+        
+        query.addSnapshotListener { documentsSnapshot, error in
+            if let error = error {
+                self.errorMessage = "Failed to fetch current users: \(error)"
+                print("Failed to fetch users: \(error)")
+                return
+            }
+            
+            documentsSnapshot?.documents.forEach({ snapshot in
+                let data = snapshot.data()
+                //                    let user = ProfileUser(data: data)
+                let uid = data["uid"] as? String ?? ""
+                let username = data["username"] as? String ?? ""
+                let email = data["email"] as? String ?? ""
+                let profileImageUrl = data["profileImageUrl"] as? String ?? ""
+                let user = User(id: uid, uid: uid, username: username, email: email, profileImageUrl: profileImageUrl)
+                
+                self.userAssigned = user
             })
         }
     }

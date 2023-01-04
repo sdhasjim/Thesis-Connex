@@ -77,8 +77,10 @@ struct InsideBoardView: View {
     
     let project: Project?
 //    let task: Task?
+    let collaborator: [String]
     
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     @State var projectName = ""
     @State var projectDesc = ""
@@ -166,7 +168,7 @@ struct InsideBoardView: View {
             taskVM.getDataFromStatusAndProjectID(projectID: project!.id, status: "done")
         }
         
-        let cancel = UIAlertAction(title: "cancel", style: .destructive){(_) in
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive){(_) in
             //same
         }
         
@@ -192,13 +194,13 @@ struct InsideBoardView: View {
                     
                     HStack(spacing: 0){
                         
-                        TodoView(taskVM: taskVM, projectID: project!.id, task: nil)
+                        TodoView(taskVM: taskVM, profileVM: profileVM, projectID: project!.id, task: nil, collaborator: collaborator)
                             .frame(width: g.frame(in: .global).width)
 
-                        ProgressingView(taskVM: taskVM, projectID: project!.id, task: nil)
+                        ProgressingView(taskVM: taskVM, profileVM: profileVM, projectID: project!.id, task: nil, collaborator: collaborator)
                             .frame(width: g.frame(in: .global).width)
 
-                        DoneView(taskVM: taskVM, projectID: project!.id, task: nil)
+                        DoneView(taskVM: taskVM, profileVM: profileVM, projectID: project!.id, task: nil, collaborator: collaborator)
                             .frame(width: g.frame(in: .global).width)
                     }
                     .offset(x: self.offset)
@@ -258,9 +260,11 @@ struct InsideBoardView: View {
 struct TodoView: View{
     
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     let projectID: String
     let task: Task?
+    let collaborator: [String]
     
     @State private var showModel = false
     @State var customAlert = false
@@ -292,7 +296,7 @@ struct TodoView: View{
                                         Spacer()
                                         
                                         NavigationLink {
-                                            TaskDetailView(task: item, vm: taskVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
+                                            TaskDetailView(task: item, collaborator: collaborator, vm: taskVM, profileVM: profileVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
                                         } label: {
                                             Image(systemName: "square.and.pencil")
                                                 .font(.system(size: 20))
@@ -302,7 +306,7 @@ struct TodoView: View{
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: \(item.assignee)")
+                                    Text("Assignee: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)
@@ -362,9 +366,11 @@ struct TodoView: View{
 struct ProgressingView: View{
     
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     let projectID: String
     let task: Task?
+    let collaborator: [String]
     
     @State private var showModel = false
     @State var customAlert = false
@@ -395,7 +401,7 @@ struct ProgressingView: View{
                                         Spacer()
                                         
                                         NavigationLink {
-                                            TaskDetailView(task: item, vm: taskVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
+                                            TaskDetailView(task: item, collaborator: collaborator, vm: taskVM, profileVM: profileVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
                                         } label: {
                                             Image(systemName: "square.and.pencil")
                                                 .font(.system(size: 20))
@@ -405,7 +411,7 @@ struct ProgressingView: View{
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: \(item.assignee)")
+                                    Text("Assignee: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)
@@ -463,9 +469,11 @@ struct ProgressingView: View{
 struct DoneView: View{
     
     @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     
     let projectID: String
     let task: Task?
+    let collaborator: [String]
     
     @State private var showModel = false
     @State var customAlert = false
@@ -496,7 +504,7 @@ struct DoneView: View{
                                         Spacer()
                                         
                                         NavigationLink {
-                                            TaskDetailView(task: item, vm: taskVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
+                                            TaskDetailView(task: item, collaborator: collaborator, vm: taskVM, profileVM: profileVM, taskName: item.name, taskDesc: item.desc, taskAssignee: item.assignee, taskPriority: item.priority)
                                         } label: {
                                             Image(systemName: "square.and.pencil")
                                                 .font(.system(size: 20))
@@ -506,7 +514,7 @@ struct DoneView: View{
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: \(item.assignee)")
+                                    Text("Assignee: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)
