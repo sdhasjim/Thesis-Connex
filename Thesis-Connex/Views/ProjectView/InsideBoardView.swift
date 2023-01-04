@@ -306,7 +306,7 @@ struct TodoView: View{
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: \(item.assignee)")
+                                    Text("Assignee: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)
@@ -411,7 +411,7 @@ struct ProgressingView: View{
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: \(item.assignee)")
+                                    Text("Assignee: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)
@@ -514,7 +514,7 @@ struct DoneView: View{
                                 }.frame(width: 280, height: 50, alignment: .topLeading)
                                 
                                 VStack{
-                                    Text("Assigne: \(item.assignee)")
+                                    Text("Assignee: \(item.assignee)")
                                         .font(.system(size: 12, weight: .semibold))
                                         .foregroundColor(.white)
                                 }.frame(width: 280, height: 50, alignment: .bottomLeading)

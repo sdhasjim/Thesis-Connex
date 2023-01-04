@@ -279,7 +279,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func fetchAssigneFromEmail(email: String) {
+    func fetchAssigneeFromEmail(email: String) {
         self.userAssigned = nil
         
         let db = FirebaseManager.shared.firestore
