@@ -10,8 +10,7 @@ import SDWebImageSwiftUI
 
 struct ScoringView: View {
     
-    let project: Project?
-    let collaborator: [String]
+    let project: Project
 //    let users: [User]
     @ObservedObject var vm: ProfileViewModel
     @ObservedObject var scoreVM: ScoreViewModel
@@ -22,14 +21,15 @@ struct ScoringView: View {
     
     var scoringViewNavbar : some View {
         HStack{
-            Text("\(project!.name)  Scoring")
+            Text("\(project.name)  Scoring")
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(Color("brown_tone"))
                 .frame(width: 300,alignment: .topLeading)
             
             Button{
-                projectVM.updateExistingDataStatus(projectToUpdate: project!, status: "finished")
-            }label: {
+                projectVM.updateExistingDataStatus(projectToUpdate: project, status: "finished")
+                presentationMode.wrappedValue.dismiss()
+            } label: {
                 VStack {
                     Text("Finish")
                         .font(.system(size: 20, weight: .bold))
@@ -47,7 +47,7 @@ struct ScoringView: View {
                     ForEach(vm.collabUsers) { item in
                         VStack{
                             NavigationLink{
-                                ScoringDetailView(user: item, project: project!, scoreVM: scoreVM, scoreStatus: $scoreStatus)
+                                ScoringDetailView(user: item, project: project, scoreVM: scoreVM, scoreStatus: $scoreStatus)
                             } label: {
                                 ZStack{
                                     RoundedRectangle(cornerRadius: 15)
@@ -94,7 +94,7 @@ struct ScoringView: View {
         .toolbarBackground(.visible, for: .navigationBar)
         .preferredColorScheme(.light)
         .onAppear {
-            for collab in collaborator {
+            for collab in project.collaborator {
                 vm.fetchUserDataFromEmail(email: collab)
             }
         }
@@ -103,7 +103,7 @@ struct ScoringView: View {
 
 //struct ScoringView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ScoringView(project: Project(id: <#T##String#>, name: <#T##String#>, desc: <#T##String#>, collaborator: <#T##[String]#>, uid: <#T##String#>, owner: <#T##String#>), collaborator: ["test", "mantab"], vm: ProfileViewModel())
+////        ScoringView(project: Project(id: "ZVkYGZYNpGxhf9rLkjzu", name: "Project Rama", desc: "", collaborator: "", uid: "pZ08hZ1PI4S4DNQUaDR86ruZzq53", owner: <#T##String#>)
 //    }
 //}
 

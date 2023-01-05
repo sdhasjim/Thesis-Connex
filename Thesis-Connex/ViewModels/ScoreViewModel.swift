@@ -18,9 +18,9 @@ class ScoreViewModel: ObservableObject {
         let db = FirebaseManager.shared.firestore
         let userScore = Int(score)
         
-//        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
         
-        let scoreData = ["userID": userID, "projectID": projectID, "score": userScore ?? 0, "userStart": userStart, "userStop": userStop, "userContinue": userContinue] as [String : Any]
+        let scoreData = ["toUserID": userID, "projectID": projectID, "score": userScore ?? 0, "userStart": userStart, "userStop": userStop, "userContinue": userContinue, "fromUserID": uid] as [String : Any]
         
         db.collection("scores")
             .addDocument(data: scoreData) { err in
@@ -43,7 +43,7 @@ class ScoreViewModel: ObservableObject {
         }
         print(userScore)
         let sum = userScore.reduce(0, +)
-        finalScore = sum / userScore.count
+        finalScore = userScore.count == 0 ? 0 : sum / userScore.count
         
         progressValue = Float(finalScore)
         progressValue = progressValue / 100
@@ -73,11 +73,12 @@ class ScoreViewModel: ObservableObject {
                             
                             return Score(id: d.documentID,
                                          projectID: d["projectID"] as? String ?? "",
-                                         userID: d["userID"] as? String ?? "",
+                                         toUserID: d["toUserID"] as? String ?? "",
                                          score: d["score"] as? Int ?? 0,
                                          userStart: d["userStart"] as? String ?? "",
                                          userStop: d["userStop"] as? String ?? "",
-                                         userContinue: d["userContinue"] as? String ?? ""
+                                         userContinue: d["userContinue"] as? String ?? "",
+                                         fromUserID: d["fromUserID"] as? String ?? ""
                             )
                         }
                         self.scoreCalculation()

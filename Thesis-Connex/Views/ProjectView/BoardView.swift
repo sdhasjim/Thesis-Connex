@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct NetworkConnection: View{
+struct NetworkConnection: View {
     @ObservedObject var monitor = NetworkMonitorConnex()
     @State private var showAlertSheet = false
     
@@ -38,14 +38,40 @@ struct NetworkConnection: View{
 struct BoardView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    var filteredProject: [Project]{
-            if searchText.isEmpty {
-                return projectVM.projects
-            } else {
-                return self.projectVM.projects.filter{$0.name.lowercased().contains(self.searchText.lowercased())}
-            }
+    // project that is unfinished only to show in board view
+    var filteredProject: [Project] {
+        // find projects that is unfinished
+        var unfinishedProjects = projectVM.projects.filter {
+            $0.status == "unfinished"
         }
+        // if no search, return immediately
+        guard searchText.isEmpty == false
+        else {
+            return unfinishedProjects
+        }
+        // do additional filter based on search
+        var filtered: Set<Project> = []
+        if searchText.isEmpty == false
+        {
+            // filter dari judul
+            let a = unfinishedProjects.filter {
+                $0.name.localizedCaseInsensitiveContains(searchText)
+            }
+            // filter dari deskripsi
+            let b = unfinishedProjects.filter {
+                $0.desc.localizedCaseInsensitiveContains(searchText)
+            }
+            // filter dari owner
+            let c = unfinishedProjects.filter {
+                $0.owner.localizedCaseInsensitiveContains(searchText)
+            }
+            [a, b, c].forEach { $0.forEach { filtered.insert($0) } }
+        }
+        return Array(filtered)
+    }
+    
     @State private var searchText = ""
+    @State private var projectPendingReview: Project?
     
     @State var selectedTab = "board"
     @ObservedObject var monitor = NetworkMonitorConnex()
@@ -142,7 +168,7 @@ struct BoardView: View {
                 if monitor.isConnected{
                     VStack{
                         ScrollView(){
-                            VStack{
+                            VStack {
                                 ForEach (filteredProject)
                                 { item in
                                     NavigationLink  {
@@ -192,7 +218,7 @@ struct BoardView: View {
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear(perform: {
-                projectVM.getDataFromUser(status: "unfinished")
+                projectVM.getDataFromUser()
             })
         }
         .navigationViewStyle(.stack)
@@ -205,7 +231,24 @@ struct BoardView: View {
         .preferredColorScheme(.light)
         .toolbar(.visible, for: .tabBar)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .alert(isPresented: $projectVM.isQueueForProjectReviewPresented) {
+            return Alert(
+                title: Text("Yay Project Finished!"),
+                message: Text("Please take your time to review your fellow collaborator for project: \(projectVM.queueForProjectReview[0].name)"),
+                dismissButton: .destructive(Text("ok")) {
+                    projectPendingReview = projectVM.queueForProjectReview.removeFirst()
+                    isShowScoringDetail = true
+                }
+            )}
+        .fullScreenCover(isPresented: $isShowScoringDetail) {
+            NavigationView {
+                ScoringView(project: projectPendingReview!, vm: profileVM, scoreVM: scoreVM, projectVM: projectVM)
+            }
+                
+            }
     }
+    
+    @State var isShowScoringDetail = false
 }
 
 struct BoardView_Previews: PreviewProvider {
