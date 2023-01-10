@@ -188,6 +188,17 @@ struct ProjectDetailView: View {
 
 struct ProgressBar: View{
     @Binding var progress: Float
+    var color: String{
+        if (progress <= 0.25) {
+            return String("brown_tone")
+        } else if (progress > 0.25 && progress <= 0.50){
+            return String("todo")
+        } else if (progress > 0.50 && progress <= 0.75){
+            return String("progressing")
+        } else{
+            return String("done")
+        }
+    }
     
     var body: some View{
         ZStack{
@@ -199,7 +210,7 @@ struct ProgressBar: View{
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(self.progress, 1.0)))
                 .stroke(style: StrokeStyle(lineWidth: 12.0, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color("brown_tone"))
+                .foregroundColor(Color("\(color)"))
                 .rotationEffect(Angle(degrees: 270))
                 .animation(.easeInOut(duration: 2.0))
         }

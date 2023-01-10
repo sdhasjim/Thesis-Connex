@@ -39,12 +39,21 @@ struct BoardView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var filteredProject: [Project]{
-            if searchText.isEmpty {
-                return projectVM.projects
-            } else {
-                return self.projectVM.projects.filter{$0.name.lowercased().contains(self.searchText.lowercased())}
-            }
+        if searchText.isEmpty {
+            return projectVM.projects
+        } else {
+            return self.projectVM.projects.filter{$0.name.lowercased().contains(self.searchText.lowercased())}
         }
+    }
+    
+    var totalScoring: Int{
+        
+        let task1 = taskVM.todoTasks.count
+        let task2 = taskVM.progressingTasks.count
+        let task3 = taskVM.doneTasks.count
+        
+        return task1+task2+task3
+    }
     @State private var searchText = ""
     
     @State var selectedTab = "board"
@@ -54,7 +63,7 @@ struct BoardView: View {
     @State var HUD = false
     @State var projectName = ""
     @State var projectDesc = ""
-    
+    @State var progressValue: Float = 0.85
     @ObservedObject var projectVM: ProjectViewModel
     @ObservedObject var taskVM: TaskViewModel
     @ObservedObject var profileVM: ProfileViewModel
@@ -152,7 +161,7 @@ struct BoardView: View {
                                             RoundedRectangle(cornerRadius: 25)
                                                 .foregroundColor(.white)
                                                 .shadow(radius: 1.5)
-                                                .frame(width: 350, height: 150)
+                                                .frame(width: 350, height: 160)
                                                 .foregroundColor(.black)
                                             VStack {
                                                 HStack {
@@ -172,13 +181,32 @@ struct BoardView: View {
                                                     .frame(width: 320, height: 80, alignment: .topLeading)
                                                     .multilineTextAlignment(.leading)
                                                 
+                                                HStack{
+                                                    Text("Progress: ")
+                                                        .font(.system(size: 12, weight: .semibold))
+                                                        .foregroundColor(Color("brown_tone"))
+                                                        .frame(width: 57, height: 10, alignment: .center)
+                                                        .offset(x:13)
+                                                    Text("\(totalScoring)")
+                                                        .font(.system(size: 12, weight: .semibold))
+                                                        .foregroundColor(Color("brown_tone"))
+                                                        .frame(width: 30, height: 10, alignment: .center)
+                                                        .offset(x: 13)
+                                                    ProjectProgressBar(progress: $progressValue)
+                                                        .frame(width: 200, height: 10, alignment: .center)
+                                                        .padding(20.0).onAppear(){
+                                                            self.progressValue = progressValue
+                                                        }
+                                                    
+                                                }.frame(width: 340, height: 10, alignment: .center )
+                                                
                                             }
                                             .padding()
                                         }
                                         .padding()
                                         
                                     }
-                                }.frame(height: 160)
+                                }.frame(height: 170)
                             }
                         }
                         .searchable(text: $searchText)
@@ -205,6 +233,35 @@ struct BoardView: View {
         .preferredColorScheme(.light)
         .toolbar(.visible, for: .tabBar)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
+struct ProjectProgressBar: View{
+    @Binding var progress: Float
+    var color: String{
+        if (progress <= 0.25) {
+            return String("brown_tone")
+        } else if (progress > 0.25 && progress <= 0.50){
+            return String("todo")
+        } else if (progress > 0.50 && progress <= 0.75){
+            return String("progressing")
+        } else{
+            return String("done")
+        }
+    }
+    
+    var body: some View{
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
+                    .opacity(0.3)
+                    .foregroundColor(Color(UIColor.systemTeal))
+                
+                Rectangle().frame(width: min(CGFloat(self.progress)*geometry.size.width, geometry.size.width), height: geometry.size.height)
+                    .foregroundColor(Color("\(color)"))
+                    .animation(.linear)
+            }.cornerRadius(45.0)
+        }
     }
 }
 

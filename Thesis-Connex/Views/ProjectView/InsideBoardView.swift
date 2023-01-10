@@ -285,7 +285,7 @@ struct TodoView: View{
                         }, label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)
-                                    .foregroundColor(Color("red_tone"))
+                                    .foregroundColor(Color("todo"))
                                     .shadow(radius: 1.5)
                                 VStack{
                                     HStack{
@@ -390,7 +390,7 @@ struct ProgressingView: View{
                         }, label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)
-                                    .foregroundColor(Color("progressing_tone"))
+                                    .foregroundColor(Color("progressing"))
                                     .shadow(radius: 1.5)
                                 VStack{
                                     HStack{
@@ -493,7 +493,7 @@ struct DoneView: View{
                         }, label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)
-                                    .foregroundColor(Color("green_tone"))
+                                    .foregroundColor(Color("done"))
                                     .shadow(radius: 1.5)
                                 VStack{
                                     HStack{

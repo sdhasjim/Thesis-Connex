@@ -13,6 +13,7 @@ class ProjectViewModel: ObservableObject {
     
     @Published var projects = [Project]()
     @Published var collabProjects = [Project]()
+    @Published var tasks = [Task]()
     
     func updateData(projectToUpdate: Project) {
         
@@ -170,7 +171,6 @@ class ProjectViewModel: ObservableObject {
             }
         }
     }
-
     
     func getDataFromUser(status: String) {
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
@@ -248,3 +248,5 @@ class ProjectViewModel: ObservableObject {
     }
     
 }
+
+
