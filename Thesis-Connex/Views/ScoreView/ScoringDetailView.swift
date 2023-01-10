@@ -12,19 +12,31 @@ struct ScoringDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
     
-    let user: User?
-    let project: Project?
+    let user: User
+    let project: Project
     
     @ObservedObject var scoreVM: ScoreViewModel
+
+    @State var userScore: Int
+    @State var userStart: String
+    @State var userStop: String
+    @State var userContinue: String
+    @State var isEmpty: Bool
     
-    @State var userScore = ""
-    @State var userStart = ""
-    @State var userStop = ""
-    @State var userContinue = ""
-    
-    @Binding var scoreStatus: Bool
-    
-//    @Binding var scoreStatus: Bool
+    init(user: User, project: Project, scoreVM: ScoreViewModel)
+    {
+        let score       = scoreVM.scores.first(where: { $0.toUserID == user.uid })
+        
+        self.user       = user
+        self.project    = project
+        self.scoreVM    = scoreVM
+        
+        _userScore      = State(initialValue: score?.score ?? 0)
+        _userStart      = State(initialValue: score?.userStart ?? "")
+        _userStop       = State(initialValue: score?.userStop ?? "")
+        _userContinue   = State(initialValue:score?.userContinue ?? "")
+        _isEmpty        = State(initialValue: score == nil)
+    }
     
     var scoreDetailNavBar : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -45,9 +57,9 @@ struct ScoringDetailView: View {
                 .frame(width: 275, alignment: .topLeading)
             
             Button {
-                scoreVM.addData(projectID: project!.id, userID: user!.id, score: userScore, userStart: userStart, userStop: userStop, userContinue: userContinue)
+                scoreVM.addData(projectID: project.id, userID: user.id, score: userScore, userStart: userStart, userStop: userStop, userContinue: userContinue)
                 self.presentationMode.wrappedValue.dismiss()
-                scoreStatus = true
+//                scoreStatus = true
             } label: {
                 Text("Save")
                     .font(.system(size: 18, weight: .bold))
@@ -65,7 +77,7 @@ struct ScoringDetailView: View {
             ScrollView {
                 VStack(alignment: .center, spacing: 20) {
                     
-                    WebImage(url: URL(string: user?.profileImageUrl ?? ""))
+                    WebImage(url: URL(string: user.profileImageUrl))
                         .resizable()
                         .scaledToFill()
                         .frame(width: 100, height: 100, alignment: .center)
@@ -75,22 +87,20 @@ struct ScoringDetailView: View {
                             .stroke(Color(.label), lineWidth: 1)
                         )
                         .shadow(radius: 5)
-                    Text(user?.username ?? "")
+                    Text(user.username)
                         .font(.system(size: 20, weight: .bold))
                         .frame(width: 360, alignment: .center)
-                    Text("In project: \(project!.name)")
+                    Text("In project: \(project.name)")
                         .font(.system(size: 16, weight: .semibold))
                     
                     VStack{
-                        Text(" Give Score")
+                        Text(" Give Score: \(userScore)")
                             .frame(width: 360, alignment: .leading)
-                        TextField("Score", text: $userScore)
-                            .padding(9)
-                            .foregroundColor(.black)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(10)
-                            .frame(width: 360, alignment: .leading)
-                            .keyboardType(.numberPad)
+                        Picker(selection: $userScore, label: Text("Select a number")) {
+                            ForEach(1..<101) {
+                                Text("\($0)").tag($0)
+                            }
+                        }.pickerStyle(.wheel)
                         
                         VStack{
                             Text(" Let's give feedback to your friends")

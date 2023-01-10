@@ -98,7 +98,7 @@ struct BoardDetailView: View {
                 // TODO: apabila tidak ada collaborator, lgsg selesai saja, dismiss ini
                 // kemudian buat view khusus di Profile untuk nampilin score apabila dia mengerjakan project
                 // sendiri (tanpa collaborator)
-                ScoringView(project: project!, vm: profileVM, scoreVM: scoreVM, projectVM: vm)
+                ScoringView(project: project!, profileVM: profileVM, scoreVM: scoreVM, projectVM: vm)
             } label: {
                 ZStack{
                     RoundedRectangle(cornerRadius: 25)

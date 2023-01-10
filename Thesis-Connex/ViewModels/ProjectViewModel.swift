@@ -17,6 +17,8 @@ class ProjectViewModel: ObservableObject {
     @Published var queueForProjectReview = Array<Project>()
     @Published var isQueueForProjectReviewPresented = false
     
+    private var scoreVM: ScoreViewModel?
+    
     func updateData(projectToUpdate: Project) {
         
         let db = FirebaseManager.shared.firestore
@@ -173,15 +175,21 @@ class ProjectViewModel: ObservableObject {
             else { return }
             // make sure this user already review all finished project
             self?.projects.forEach { [weak self] project in
-                guard project.status == "finished"
-                else { return }
-                let db = FirebaseManager.shared.firestore
-                let projectRef = db.collection("scores")
-                var query = projectRef.whereField("projectID", isEqualTo: project.id)
-                project.collaborator.count == 3
-                
+                self?.scoreVM = ScoreViewModel()
+                self?.scoreVM?.getOutcomingDataFromProjectID(projectID: project.id, completion: { scores in
+                    guard project.status == "finished"
+                    else { return }
+                    // excluding himself
+                    let reviewCountResponsibility = project.collaborator.count - 1
+                    let reviewCount = scores.count
+                    if reviewCount != reviewCountResponsibility {
+                        self?.queueForProjectReview.append(project)
+                        self?.isQueueForProjectReviewPresented = true
+                    }
+                })
             }
         })
+
     }
     
     // completion will return true if success, false otherwise

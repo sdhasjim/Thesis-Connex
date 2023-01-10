@@ -12,7 +12,7 @@ struct ScoringView: View {
     
     let project: Project
 //    let users: [User]
-    @ObservedObject var vm: ProfileViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var scoreVM: ScoreViewModel
     @ObservedObject var projectVM: ProjectViewModel
     @State var selectedTab = "task"
@@ -44,38 +44,48 @@ struct ScoringView: View {
             Color("yellow_tone").ignoresSafeArea()
             ScrollView(){
                 VStack{
-                    ForEach(vm.collabUsers) { item in
-                        VStack{
-                            NavigationLink{
-                                ScoringDetailView(user: item, project: project, scoreVM: scoreVM, scoreStatus: $scoreStatus)
-                            } label: {
-                                ZStack{
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .foregroundColor(.white)
-                                        .shadow(radius: 1.5)
-                                    VStack{
-                                        HStack{
-                                            WebImage(url: URL(string: item.profileImageUrl))
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 50, height: 50)
-                                                .clipped()
-                                                .cornerRadius(50)
-                                                .overlay(RoundedRectangle(cornerRadius: 50)
-                                                    .stroke(Color(.label), lineWidth: 1)
-                                                )
-                                            
-                                            Text(item.email)
-                                                .font(.system(size: 18, weight: .bold))
-                                                .foregroundColor(.black)
-                                                .frame(alignment: .leading)
-                                            Spacer()
-                                        }.padding()
+                    if profileVM.collabUsers.count != 0 {
+                        ForEach(profileVM.collabUsers) { item in
+                            VStack{
+                                NavigationLink{
+                                    ScoringDetailView(user: item, project: project, scoreVM: scoreVM)
+                                } label: {
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .foregroundColor(scoreVM.scores.contains(where: { $0.toUserID == item.uid }) ? .green : .white)
+                                            .shadow(radius: 1.5)
+                                        VStack{
+                                            HStack{
+                                                WebImage(url: URL(string: item.profileImageUrl))
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .frame(width: 50, height: 50)
+                                                    .clipped()
+                                                    .cornerRadius(50)
+                                                    .overlay(RoundedRectangle(cornerRadius: 50)
+                                                        .stroke(Color(.label), lineWidth: 1)
+                                                    )
+                                                
+                                                Text(item.email)
+                                                    .font(.system(size: 18, weight: .bold))
+                                                    .foregroundColor(.black)
+                                                    .frame(alignment: .leading)
+                                                Spacer()
+                                            }.padding()
+                                        }
                                     }
-                                }.frame(width: 340, height: 80).offset(y: 20)
+                                    .frame(width: 340, height: 80).offset(y: 20)
+                                }
                             }
                         }
                     }
+                    else {
+                        // TODO: Create UI if they finish the project alone
+                        VStack {
+                            Text("Congratulation! You have finished the project single-handedly!")
+                        }
+                    }
+
                 }
             }.frame(width: 360)
             .frame(maxHeight: .infinity)
@@ -95,8 +105,9 @@ struct ScoringView: View {
         .preferredColorScheme(.light)
         .onAppear {
             for collab in project.collaborator {
-                vm.fetchUserDataFromEmail(email: collab)
+                profileVM.fetchUserDataFromEmail(email: collab)
             }
+            scoreVM.getOutcomingDataFromProjectID(projectID: project.id)
         }
     }
 }

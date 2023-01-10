@@ -61,11 +61,7 @@ struct BoardView: View {
             let b = unfinishedProjects.filter {
                 $0.desc.localizedCaseInsensitiveContains(searchText)
             }
-            // filter dari owner
-            let c = unfinishedProjects.filter {
-                $0.owner.localizedCaseInsensitiveContains(searchText)
-            }
-            [a, b, c].forEach { $0.forEach { filtered.insert($0) } }
+            [a, b].forEach { $0.forEach { filtered.insert($0) } }
         }
         return Array(filtered)
     }
@@ -218,7 +214,7 @@ struct BoardView: View {
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onAppear(perform: {
-                projectVM.getDataFromUser()
+                projectVM.startupGetDataFromUser()
             })
         }
         .navigationViewStyle(.stack)
@@ -242,7 +238,7 @@ struct BoardView: View {
             )}
         .fullScreenCover(isPresented: $isShowScoringDetail) {
             NavigationView {
-                ScoringView(project: projectPendingReview!, vm: profileVM, scoreVM: scoreVM, projectVM: projectVM)
+                ScoringView(project: projectPendingReview!, profileVM: profileVM, scoreVM: scoreVM, projectVM: projectVM)
             }
                 
             }
