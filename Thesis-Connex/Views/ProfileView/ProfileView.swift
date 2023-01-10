@@ -14,7 +14,7 @@ struct ProfileView: View {
     @State var projectName = ""
     @State var projectDesc = ""
     @ObservedObject var projectVM: ProjectViewModel
-    @ObservedObject var vm: ProfileViewModel
+    @ObservedObject var profileVM: ProfileViewModel
     @ObservedObject var taskVM: TaskViewModel
     @ObservedObject var scoreVM: ScoreViewModel
 
@@ -37,7 +37,7 @@ struct ProfileView: View {
                                         .scaledToFill()
                                         .cornerRadius(64)
                                 } else {
-                                    WebImage(url: URL(string: vm.user?.profileImageUrl ?? ""))
+                                    WebImage(url: URL(string: profileVM.user?.profileImageUrl ?? ""))
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 100, height: 100)
@@ -52,12 +52,12 @@ struct ProfileView: View {
                             }
                             .overlay(RoundedRectangle(cornerRadius: 64).stroke(Color.black, lineWidth: 3))
                         }
-                        Text(vm.user?.username ?? "").foregroundColor(Color("brown_tone"))
-                        Text(vm.user?.email ?? "").foregroundColor(Color("brown_tone"))
+                        Text(profileVM.user?.username ?? "").foregroundColor(Color("brown_tone"))
+                        Text(profileVM.user?.email ?? "").foregroundColor(Color("brown_tone"))
                     }
                     
                     Button {
-                        vm.handleSignOut()
+                        profileVM.handleSignOut()
                     } label: {
                         HStack {
                             Spacer()
@@ -114,7 +114,7 @@ struct ProfileView: View {
                 .scrollIndicators(.hidden)
             })
             .onAppear {
-                vm.fetchCurrentUser()
+                profileVM.fetchCurrentUser()
                 projectVM.getDataFromUser(status: "finished")
             }
         }

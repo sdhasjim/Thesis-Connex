@@ -18,8 +18,7 @@ struct BoardDetailView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State private var displayPopupMessage: Bool = false
-    @State private var showingAlert = false
-    @State private var showingAlert2 = false
+    @State private var deleteProjectAlertToggle = false
     @State var showDetail: Bool = false
     @State var projectName = ""
     @State var projectDesc = ""
@@ -95,11 +94,12 @@ struct BoardDetailView: View {
     
     private var projectProperty: some View {
         VStack {
-            NavigationLink(destination: ScoringView(project: project!, collaborator: collaborator, vm: profileVM, scoreVM: scoreVM, projectVM: vm ), isActive: self.$showDetail) { EmptyView() }
-            Button {
-                showingAlert = true
+            NavigationLink {
+                // TODO: apabila tidak ada collaborator, lgsg selesai saja, dismiss ini
+                // kemudian buat view khusus di Profile untuk nampilin score apabila dia mengerjakan project
+                // sendiri (tanpa collaborator)
+                ScoringView(project: project!, profileVM: profileVM, scoreVM: scoreVM, projectVM: vm)
             } label: {
-
                 ZStack{
                     RoundedRectangle(cornerRadius: 25)
                         .foregroundColor(Color("green_tone"))
@@ -112,20 +112,11 @@ struct BoardDetailView: View {
                     }
                 }
             }
-            .alert(isPresented:$showingAlert) {
-                Alert(
-                    title: Text("Are you sure this project has been finish?"),
-                    message: Text("\nThis action can't be undo"),
-                    primaryButton: .destructive(Text("Finish")) {
-                        self.showDetail = true
-                    },
-                    secondaryButton: .cancel()
-                )}
-            
+        
             Spacer()
             
             Button {
-                showingAlert2 = true
+                deleteProjectAlertToggle = true
             } label: {
                 ZStack{
                     RoundedRectangle(cornerRadius: 25)
@@ -138,7 +129,7 @@ struct BoardDetailView: View {
                             .foregroundColor(.white)
                     }
                 }
-            }.alert(isPresented:$showingAlert2) {
+            }.alert(isPresented:$deleteProjectAlertToggle) {
                 Alert(
                     title: Text("Are you sure you want to delete project?"),
                     message: Text("\nThis project will delete permanently"),
