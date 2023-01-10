@@ -14,10 +14,16 @@ class TaskViewModel: ObservableObject {
     @Published var todoTasks = [Task]()
     @Published var progressingTasks = [Task]()
     @Published var doneTasks = [Task]()
+    @Published var task1 = 0
     
 //    init() {
 //        getData()
 //    }
+    
+    func scoringProject(){
+        task1 = tasks.count
+        print(task1)
+    }
     
     func updateExistingData(taskToUpdate: Task, name: String, assignee: String, desc: String, priority: String, dueDate: String) {
         

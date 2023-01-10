@@ -98,9 +98,9 @@
 			isa = PBXGroup;
 			children = (
 				3F0292A72950BE8D006B82FB /* ProjectViewModel.swift */,
+				3FCD69FC295C935E0029C930 /* ScoreViewModel.swift */,
 				3F1611A52951A9A400B38E9C /* ProfileViewModel.swift */,
 				3F6EA8722952CFDA00A737E0 /* TaskViewModel.swift */,
-				3FCD69FC295C935E0029C930 /* ScoreViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
