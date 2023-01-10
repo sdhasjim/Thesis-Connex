@@ -59,7 +59,6 @@ class ScoreViewModel: ObservableObject {
         var userScore = [Int]()
 
         for sc in scores {
-            print(sc.score)
             userScore.append(sc.score)
         }
         let sum = userScore.reduce(0, +)

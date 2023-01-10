@@ -16,40 +16,35 @@ struct ContentView: View {
     @StateObject var scoreVM = ScoreViewModel()
     
     var body: some View {
-        if currentPage > totalPages{
-            TabView{
-                BoardView(projectVM: boardVM, taskVM: taskVM, profileVM: profileVM, scoreVM: scoreVM)
-                    .tabItem{
-                        Label("Board", systemImage: "doc.circle")
-                    }
-                
-                TaskView(taskVM: taskVM)
-                    .tabItem{
-                        Label("Task", systemImage: "hourglass.circle")
-                    }
-                
-                NotificationView()
-                    .tabItem{
-                        Label("Notif", systemImage: "bell.circle")
-                    }
-                
-                ProfileView(projectVM: boardVM, profileVM: profileVM, taskVM: taskVM, scoreVM: scoreVM)
-                    .tabItem{
-                        Label("Profile", systemImage: "person.circle")
-                    }
-            }.accentColor(Color("brown_tone"))
-                .fullScreenCover(isPresented: $profileVM.isCurrentlyLoggedOut, onDismiss: nil) {
-                    LoginView(didCompleteLoginProcess: {
-                        self.profileVM.isCurrentlyLoggedOut = false
-                        self.profileVM.fetchCurrentUser()
-//                        self.boardVM.getDataFromUser(status: "unfinished")
-                        self.boardVM.getAllUserData()
-                    })
+        TabView{
+            BoardView(projectVM: boardVM, taskVM: taskVM, profileVM: profileVM, scoreVM: scoreVM)
+                .tabItem{
+                    Label("Board", systemImage: "doc.circle")
                 }
-        }
-        else{
-            WalkthroughScreen()
-        }
+            
+            TaskView(taskVM: taskVM)
+                .tabItem{
+                    Label("Task", systemImage: "hourglass.circle")
+                }
+            
+            NotificationView()
+                .tabItem{
+                    Label("Notif", systemImage: "bell.circle")
+                }
+            
+            ProfileView(projectVM: boardVM, profileVM: profileVM, taskVM: taskVM, scoreVM: scoreVM)
+                .tabItem{
+                    Label("Profile", systemImage: "person.circle")
+                }
+        }.accentColor(Color("brown_tone"))
+            .fullScreenCover(isPresented: $profileVM.isCurrentlyLoggedOut, onDismiss: nil) {
+                LoginView(didCompleteLoginProcess: {
+                    self.profileVM.isCurrentlyLoggedOut = false
+                    self.profileVM.fetchCurrentUser()
+//                        self.boardVM.getDataFromUser(status: "unfinished")
+                    self.boardVM.getAllUserData()
+                })
+            }
     }
 }
 
