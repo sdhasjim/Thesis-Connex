@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Project: Identifiable, Equatable {
+struct Project: Identifiable, Equatable, Hashable {
     
     var id: String
     var name: String
@@ -18,7 +18,11 @@ struct Project: Identifiable, Equatable {
     var owner: String
     
     static func == (lhs: Project, rhs: Project) -> Bool {
-            return lhs.id == rhs.id
-        }
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
     
 }

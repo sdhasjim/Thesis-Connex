@@ -33,7 +33,7 @@ struct ContentView: View {
                         Label("Notif", systemImage: "bell.circle")
                     }
                 
-                ProfileView(projectVM: boardVM, vm: profileVM, taskVM: taskVM, scoreVM: scoreVM)
+                ProfileView(projectVM: boardVM, profileVM: profileVM, taskVM: taskVM, scoreVM: scoreVM)
                     .tabItem{
                         Label("Profile", systemImage: "person.circle")
                     }
@@ -46,8 +46,6 @@ struct ContentView: View {
                         self.boardVM.getAllUserData()
                     })
                 }
-
-            
         }
         else{
             WalkthroughScreen()
