@@ -62,15 +62,11 @@ class ScoreViewModel: ObservableObject {
             print(sc.score)
             userScore.append(sc.score)
         }
-        print(userScore)
         let sum = userScore.reduce(0, +)
         finalScore = userScore.count == 0 ? 0 : sum / userScore.count
         
         progressValue = Float(finalScore)
         progressValue = progressValue / 100
-
-        print(finalScore)
-        print(progressValue)
     }
     
     // klalau di score, score VM minta seluruh nilai yang dikasih dari user yg login ke user lainnya
