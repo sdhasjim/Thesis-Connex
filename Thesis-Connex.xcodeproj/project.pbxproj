@@ -32,6 +32,7 @@
 		3FE502E0295446F400936401 /* InviteCollaborator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE502DF295446F400936401 /* InviteCollaborator.swift */; };
 		B20C90B6291A509E0037B929 /* NetworkMonitorConnex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */; };
 		B20C90B8291A52C00037B929 /* InsideBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20C90B7291A52C00037B929 /* InsideBoardView.swift */; };
+		B22B3533296E80BA00F0C552 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22B3532296E80BA00F0C552 /* SplashScreenView.swift */; };
 		B2616E0B2952CA6F00F19CED /* ScoringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2616E0A2952CA6F00F19CED /* ScoringView.swift */; };
 		B2616E0D2952D3EB00F19CED /* ScoringDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2616E0C2952D3EB00F19CED /* ScoringDetailView.swift */; };
 		B2823C4E2912BEA1001F3BF3 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */; };
@@ -42,6 +43,9 @@
 		B2C5EC662909712200672E71 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC652909712200672E71 /* LoginView.swift */; };
 		B2C5EC682909713600672E71 /* Signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C5EC672909713600672E71 /* Signup.swift */; };
 		B2E83E45295445F600CADC1C /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E83E44295445F600CADC1C /* ProjectDetailView.swift */; };
+		B2F4B382296EC82C0002747C /* GifImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F4B381296EC82C0002747C /* GifImage.swift */; };
+		B2F4B389296EC8800002747C /* gif1.gif in Resources */ = {isa = PBXBuildFile; fileRef = B2F4B387296EC87F0002747C /* gif1.gif */; };
+		B2F4B38A296EC8800002747C /* gif2.gif in Resources */ = {isa = PBXBuildFile; fileRef = B2F4B388296EC8800002747C /* gif2.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +71,7 @@
 		3FE502DF295446F400936401 /* InviteCollaborator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCollaborator.swift; sourceTree = "<group>"; };
 		B20C90B5291A509E0037B929 /* NetworkMonitorConnex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorConnex.swift; sourceTree = "<group>"; };
 		B20C90B7291A52C00037B929 /* InsideBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsideBoardView.swift; sourceTree = "<group>"; };
+		B22B3532296E80BA00F0C552 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		B2616E0A2952CA6F00F19CED /* ScoringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringView.swift; sourceTree = "<group>"; };
 		B2616E0C2952D3EB00F19CED /* ScoringDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringDetailView.swift; sourceTree = "<group>"; };
 		B2823C4D2912BEA1001F3BF3 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
@@ -77,6 +82,9 @@
 		B2C5EC652909712200672E71 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B2C5EC672909713600672E71 /* Signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup.swift; sourceTree = "<group>"; };
 		B2E83E44295445F600CADC1C /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
+		B2F4B381296EC82C0002747C /* GifImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifImage.swift; sourceTree = "<group>"; };
+		B2F4B387296EC87F0002747C /* gif1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif1.gif; sourceTree = "<group>"; };
+		B2F4B388296EC8800002747C /* gif2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif2.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +167,10 @@
 				3F6EA8752953557900A737E0 /* ProjectView */,
 				B2C5EC652909712200672E71 /* LoginView.swift */,
 				3FE502DF295446F400936401 /* InviteCollaborator.swift */,
+				B2F4B387296EC87F0002747C /* gif1.gif */,
+				B2F4B388296EC8800002747C /* gif2.gif */,
+				B22B3532296E80BA00F0C552 /* SplashScreenView.swift */,
+				B2F4B381296EC82C0002747C /* GifImage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -298,7 +310,9 @@
 			files = (
 				3F15BCCC29096F2600351530 /* Preview Assets.xcassets in Resources */,
 				3F9EFB4529195E0600E8DF17 /* GoogleService-Info.plist in Resources */,
+				B2F4B38A296EC8800002747C /* gif2.gif in Resources */,
 				3F15BCC929096F2600351530 /* Assets.xcassets in Resources */,
+				B2F4B389296EC8800002747C /* gif1.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,7 +339,9 @@
 				3F0292A62950BBDD006B82FB /* Project.swift in Sources */,
 				3FA6298C29658E4B00827690 /* AssignTask.swift in Sources */,
 				B297E6FF2911514900248982 /* BoardView.swift in Sources */,
+				B2F4B382296EC82C0002747C /* GifImage.swift in Sources */,
 				3F0633462946EC020046D7F3 /* TaskDetailView.swift in Sources */,
+				B22B3533296E80BA00F0C552 /* SplashScreenView.swift in Sources */,
 				3F6EA8732952CFDA00A737E0 /* TaskViewModel.swift in Sources */,
 				B20C90B8291A52C00037B929 /* InsideBoardView.swift in Sources */,
 				3F15BCC729096F2500351530 /* ContentView.swift in Sources */,

@@ -39,13 +39,16 @@ struct BoardView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    var totalScoring: Int{
-        
-        let task1 = taskVM.todoTasks.count
-        let task2 = taskVM.progressingTasks.count
-        let task3 = taskVM.doneTasks.count
-        
-        return task1+task2+task3
+    var totalScoring: Float{
+        let task1: Float = Float(taskVM.todoTasks.count)
+        let task2: Float = Float(taskVM.progressingTasks.count)
+        let task3: Float = Float(taskVM.doneTasks.count)
+        if (task1 == 0 && task2 == 0 && task3 == 0){
+            return 0
+        } else{
+            
+            return Float(task3 / (task1+task2+task3))
+        }
     }
 
     // project that is unfinished only to show in board view
@@ -211,15 +214,15 @@ struct BoardView: View {
                                                         .foregroundColor(Color("brown_tone"))
                                                         .frame(width: 57, height: 10, alignment: .center)
                                                         .offset(x:13)
-                                                    Text("\(totalScoring)")
+                                                    Text("\(totalScoring * 100, specifier: "%.0f")%")
                                                         .font(.system(size: 12, weight: .semibold))
                                                         .foregroundColor(Color("brown_tone"))
-                                                        .frame(width: 30, height: 10, alignment: .center)
+                                                        .frame(width: 40, height: 10, alignment: .center)
                                                         .offset(x: 13)
                                                     ProjectProgressBar(progress: $progressValue)
                                                         .frame(width: 200, height: 10, alignment: .center)
-                                                        .padding(20.0).onAppear(){
-                                                            self.progressValue = progressValue
+                                                        .padding(20.0).onAppear{
+                                                            self.progressValue = totalScoring
                                                         }
                                                     
                                                 }.frame(width: 340, height: 10, alignment: .center )

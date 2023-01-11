@@ -112,6 +112,7 @@ struct ProfileView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .scrollIndicators(.hidden)
+                Text("").frame(width: 360, height: 50)
             })
             .onAppear {
                 profileVM.fetchCurrentUser()

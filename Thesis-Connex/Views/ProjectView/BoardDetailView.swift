@@ -102,7 +102,7 @@ struct BoardDetailView: View {
             } label: {
                 ZStack{
                     RoundedRectangle(cornerRadius: 25)
-                        .foregroundColor(Color("green_tone"))
+                        .foregroundColor(Color("done"))
                         .shadow(radius: 1.5)
                         .frame(width: 200, height: 40)
                     VStack {
@@ -120,7 +120,7 @@ struct BoardDetailView: View {
             } label: {
                 ZStack{
                     RoundedRectangle(cornerRadius: 25)
-                        .foregroundColor(Color("red_tone"))
+                        .foregroundColor(Color("todo"))
                         .shadow(radius: 1.5)
                         .frame(width: 200, height: 40)
                     VStack {

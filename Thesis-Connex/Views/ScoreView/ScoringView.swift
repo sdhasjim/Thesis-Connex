@@ -80,10 +80,8 @@ struct ScoringView: View {
                         }
                     }
                     else {
-                        // TODO: Create UI if they finish the project alone
-                        VStack {
-                            Text("Congratulation! You have finished the project single-handedly!")
-                        }
+                        GifImage(name: "gif1").scaledToFit()
+                        Text("You did a great job!").font(.system(size: 30, weight: .bold)).foregroundColor(.black)
                     }
 
                 }
