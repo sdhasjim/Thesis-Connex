@@ -79,10 +79,11 @@ struct TaskView: View {
                             }.frame(width: 340, height: 100)
                         })
                     }
-
+                    Text("").frame(width: 360, height: 50)
                 }.offset(y: 20)
             }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scrollIndicators(.hidden)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
             taskVM.getData()

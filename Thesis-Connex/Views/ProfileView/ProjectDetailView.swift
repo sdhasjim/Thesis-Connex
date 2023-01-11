@@ -18,13 +18,6 @@ struct ProjectDetailView: View {
     @State var progressValue: Float = 0.0
     @State var projectName = ""
     @State var projectDesc = ""
-    @State var selectedTab = "profile"
-    @State var index = 1
-    @State var offset: CGFloat = 0
-    @State var taskName = ""
-    @State private var isExpanded1 = false
-    @State private var isExpanded2 = false
-    @State private var isExpanded3 = false
     @Environment(\.presentationMode) var presentationMode
     
     var projectDetailViewNavbar : some View { Button(action: {
@@ -59,111 +52,10 @@ struct ProjectDetailView: View {
             ScrollView(){
                 if project!.collaborator.count == 1 && project!.collaborator.contains(FirebaseManager.shared.auth.currentUser?.email ?? "") {
                     // TODO: Create UI if they finish the project alone
-                    Text("All Olone!")
+                    soloView()
                 }
                 else {
-                    VStack {
-                        Text("Overall Score")
-                            .font(.system(size: 35, weight: .semibold))
-                            .foregroundColor(Color("brown_tone"))
-                        
-                        ProgressBar(progress: $scoreVM.progressValue)
-                            .frame(width: 360, height: 200, alignment: .top)
-                            .padding(20.0).onAppear(){
-                                self.progressValue = scoreVM.progressValue
-                            }
-                        ZStack{
-                            Text("\(scoreVM.finalScore)")
-                                .font(.system(size: 60, weight: .semibold))
-                                .foregroundColor(Color("brown_tone"))
-                                .offset(y: -130)
-                                .frame(height: 0)
-                        }
-                        
-                        VStack{
-                            
-                            VStack{
-                                DisclosureGroup(isExpanded: $isExpanded1){
-                                    ForEach(scoreVM.scores) { item in
-                                        ZStack{
-                                            RoundedRectangle(cornerRadius: 25)
-                                                .foregroundColor(.white)
-                                                .shadow(radius: 1.5)
-                                                .frame(width: 340, height: 100)
-                                            VStack{
-                                                Text(item.userStart)
-                                                    .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
-                                                    .frame(width: 330, height: 80, alignment: .topLeading)
-                                                    .offset(y:5)
-                                            }.frame(width: 350, height: 80)
-                                        }
-                                    }.frame(height: 110)
-                                    Spacer()
-                                } label: {
-                                    HStack{
-                                        Text("What you need to start")
-                                    }.frame(width: 310, alignment: .leading)
-                                        .font(.system(size: 15, weight: .bold))
-                                        .foregroundColor(Color("brown_tone"))
-                                }.frame(width: 350, alignment: .top)
-                                    .accentColor(Color("brown_tone"))                        }.frame(width: 360)
-                            
-                            VStack{
-                                DisclosureGroup(isExpanded: $isExpanded2){
-                                    ForEach(scoreVM.scores) { item in
-                                        ZStack{
-                                            RoundedRectangle(cornerRadius: 25)
-                                                .foregroundColor(.white)
-                                                .shadow(radius: 1.5)
-                                                .frame(width: 340, height: 100)
-                                            VStack{
-                                                Text(item.userStop)
-                                                    .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
-                                                    .frame(width: 330, height: 80, alignment: .topLeading)
-                                                    .offset(y:5)
-                                            }.frame(width: 350, height: 80)
-                                        }
-                                    }.frame(height: 110)
-                                    Spacer()
-                                } label: {
-                                    HStack{
-                                        Text("What you need to stop")
-                                    }.frame(width: 310, alignment: .leading)
-                                        .font(.system(size: 15, weight: .bold))
-                                        .foregroundColor(Color("brown_tone"))
-                                }.frame(width: 350, alignment: .top)
-                                    .accentColor(Color("brown_tone"))
-                            }.frame(width: 360)
-                            
-                            VStack{
-                                DisclosureGroup(isExpanded: $isExpanded3){
-                                    ForEach(scoreVM.scores) { item in
-                                        ZStack{
-                                            RoundedRectangle(cornerRadius: 25)
-                                                .foregroundColor(.white)
-                                                .shadow(radius: 1.5)
-                                                .frame(width: 340, height: 100)
-                                            VStack{
-                                                Text(item.userContinue)
-                                                    .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
-                                                    .frame(width: 330, height: 80, alignment: .topLeading)
-                                                    .offset(y:5)
-                                            }.frame(width: 350, height: 80)
-                                        }
-                                    }.frame(height: 110)
-                                    Spacer()
-                                } label: {
-                                    HStack{
-                                        Text("What you need to continue")
-                                    }.frame(width: 310, alignment: .leading)
-                                        .font(.system(size: 15, weight: .bold))
-                                        .foregroundColor(Color("brown_tone"))
-                                }.frame(width: 350, alignment: .top)
-                                    .accentColor(Color("brown_tone"))
-                            }.frame(width: 360)
-                        }.frame(width: 360).frame(maxHeight: .infinity)
-                    }
-                    Text("").frame(height: 80)
+                    collabView(project: project, taskVM: taskVM, scoreVM: scoreVM)
                 }
 
             }
@@ -189,6 +81,137 @@ struct ProjectDetailView: View {
         .preferredColorScheme(.light)
     }
     
+}
+
+struct soloView: View{
+    var body: some View{
+        GifImage(name: "gif2").scaledToFit()
+        Text("You have done it!").font(.system(size: 30, weight: .bold)).foregroundColor(.black)
+            .offset(y: 20)
+    }
+}
+
+struct collabView: View{
+    let project: Project?
+//    let task: Task?
+    
+    @ObservedObject var taskVM: TaskViewModel
+    @ObservedObject var scoreVM: ScoreViewModel
+    
+    @State var progressValue: Float = 0.0
+    @State var projectName = ""
+    @State var projectDesc = ""
+    @State var selectedTab = "profile"
+    @State var index = 1
+    @State var offset: CGFloat = 0
+    @State var taskName = ""
+    @State private var isExpanded1 = false
+    @State private var isExpanded2 = false
+    @State private var isExpanded3 = false
+    var body: some View{
+        VStack {
+            Text("Overall Score")
+                .font(.system(size: 35, weight: .semibold))
+                .foregroundColor(Color("brown_tone"))
+            
+            ProgressBar(progress: $scoreVM.progressValue)
+                .frame(width: 360, height: 200, alignment: .top)
+                .padding(20.0).onAppear(){
+                    self.progressValue = scoreVM.progressValue
+                }
+            ZStack{
+                Text("\(scoreVM.finalScore)")
+                    .font(.system(size: 60, weight: .semibold))
+                    .foregroundColor(Color("brown_tone"))
+                    .offset(y: -130)
+                    .frame(height: 0)
+            }
+            
+            VStack{
+                
+                VStack{
+                    DisclosureGroup(isExpanded: $isExpanded1){
+                        ForEach(scoreVM.scores) { item in
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 25)
+                                    .foregroundColor(.white)
+                                    .shadow(radius: 1.5)
+                                    .frame(width: 340, height: 100)
+                                VStack{
+                                    Text(item.userStart)
+                                        .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
+                                        .frame(width: 330, height: 80, alignment: .topLeading)
+                                        .offset(y:5)
+                                }.frame(width: 350, height: 80)
+                            }
+                        }.frame(height: 110)
+                        Spacer()
+                    } label: {
+                        HStack{
+                            Text("What you need to start")
+                        }.frame(width: 310, alignment: .leading)
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(Color("brown_tone"))
+                    }.frame(width: 350, alignment: .top)
+                        .accentColor(Color("brown_tone"))                        }.frame(width: 360)
+                
+                VStack{
+                    DisclosureGroup(isExpanded: $isExpanded2){
+                        ForEach(scoreVM.scores) { item in
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 25)
+                                    .foregroundColor(.white)
+                                    .shadow(radius: 1.5)
+                                    .frame(width: 340, height: 100)
+                                VStack{
+                                    Text(item.userStop)
+                                        .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
+                                        .frame(width: 330, height: 80, alignment: .topLeading)
+                                        .offset(y:5)
+                                }.frame(width: 350, height: 80)
+                            }
+                        }.frame(height: 110)
+                        Spacer()
+                    } label: {
+                        HStack{
+                            Text("What you need to stop")
+                        }.frame(width: 310, alignment: .leading)
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(Color("brown_tone"))
+                    }.frame(width: 350, alignment: .top)
+                        .accentColor(Color("brown_tone"))
+                }.frame(width: 360)
+                
+                VStack{
+                    DisclosureGroup(isExpanded: $isExpanded3){
+                        ForEach(scoreVM.scores) { item in
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 25)
+                                    .foregroundColor(.white)
+                                    .shadow(radius: 1.5)
+                                    .frame(width: 340, height: 100)
+                                VStack{
+                                    Text(item.userContinue)
+                                        .font(.system(size: 12, weight: .semibold)).foregroundColor(Color("brown_tone"))
+                                        .frame(width: 330, height: 80, alignment: .topLeading)
+                                        .offset(y:5)
+                                }.frame(width: 350, height: 80)
+                            }
+                        }.frame(height: 110)
+                        Spacer()
+                    } label: {
+                        HStack{
+                            Text("What you need to continue")
+                        }.frame(width: 310, alignment: .leading)
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(Color("brown_tone"))
+                    }.frame(width: 350, alignment: .top)
+                        .accentColor(Color("brown_tone"))
+                }.frame(width: 360)
+            }.frame(width: 360).frame(maxHeight: .infinity)
+        }
+        Text("").frame(height: 80)
+    }
 }
 
 struct ProgressBar: View{
